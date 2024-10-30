@@ -56,7 +56,8 @@ dependencies:
   connectivity_plus: ^6.1.0
   smooth_page_indicator: ^1.2.0+3
   lottie: ^2.0.0
-  dropdown_search: ^2.0.0  # or the latest version available
+  dropdown_search: ^4.0.1
+  dio: ^5.0.0
 
 dev_dependencies:
   flutter_test:

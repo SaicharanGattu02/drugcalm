@@ -1,22 +1,24 @@
-import 'package:drugcalm/Screens/Spalsh.dart';
+
+import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => ThemeProvider(darkTheme),
+          create: (context) => ThemeProvider(AppTheme.device),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LanguageProvider(), // Add LanguageProvider here
         ),
       ],
       child: const MyApp(),
     ),
   );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -27,8 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-      home:  Splash() // Ensure Splash is the correct widget name
+      home:  SignIn()
     );
   }
 }
-

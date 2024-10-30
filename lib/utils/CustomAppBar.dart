@@ -16,17 +16,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xff8856F4),
       leading: InkWell(
         onTap: () {
           Navigator.pop(context);
         },
         child: const Icon(
           Icons.arrow_back,
-          color: Color(0xffffffff),
+          // color: Color(0xffffffff),
         ),
       ),
-      title:text(title, 20)
+      title:text(context,title, 20)
 
       // Text(
       //   title,

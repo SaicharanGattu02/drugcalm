@@ -53,7 +53,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyPermission()), // Replace with your main screen
+        MaterialPageRoute(builder: (context) => MyPermission()),
       );
     }
   }
@@ -82,23 +82,28 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-                margin: EdgeInsets.all(16),
-                height: h * 0.053,
-                width: w,
-                decoration: BoxDecoration(
-                    gradient: lineargradient,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Center(
-                    child: Text(
-                  'GET STARTED',
-                  style: TextStyle(
-                      color: Color(0xffFFFFFF),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      height: 21.78 / 18,
-                      letterSpacing: 1),
-                ))),
+            InkResponse(onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPermission()));
+            },
+              child:
+              Container(
+                  margin: EdgeInsets.all(16),
+                  height: h * 0.053,
+                  width: w,
+                  decoration: BoxDecoration(
+                      gradient: lineargradient,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                      child: Text(
+                    'GET STARTED',
+                    style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        height: 21.78 / 18,
+                        letterSpacing: 1),
+                  ))),
+            ),
             
             
             Container(
@@ -111,7 +116,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
                       onPressed: () {
                         _pageController.jumpToPage(0);
                       },
-                      child: text('SKIP', 16),
+                      child: text3('SKIP', 16),
                     ),
                   SmoothPageIndicator(
                     controller: _pageController,
@@ -120,7 +125,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
                   ),
                   TextButton(
                     onPressed: _nextPage,
-                    child: text(_currentIndex ==2
+                    child: text3(_currentIndex ==2
                         ? "Get Started"
                         : 'NEXT', 16),
                   ),
@@ -164,7 +169,7 @@ class OnboardingContent extends StatelessWidget {
               fit: BoxFit.contain,
             ),
 
-            text('${title}', 25),
+            text3('${title}', 25),
             SizedBox(height: h * 0.024),
             text1('${description}', 14),
             SizedBox(height: 20),

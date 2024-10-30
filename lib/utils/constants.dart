@@ -58,7 +58,8 @@ const String UNAUTHORIZED = "You are not authorized to access this resource.";
 
 /////////Colors
 var notification_val = 0;
-
+// var h = MediaQuery.of(BuildContext contex).size.height;
+// var w = MediaQuery.of(BuildContext context).size.width;
 // Define your themes
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -148,21 +149,30 @@ LinearGradient lineargradient = LinearGradient(
   ],
 );
 
+Text text(BuildContext context, String textContent, double fontsize,
+    {Color? color, FontWeight fontWeight = FontWeight.w600}) {
+  if (color == null) {
+    final theme = Theme.of(context);
+    color = theme.brightness == Brightness.dark
+        ? Colors.white
+        : const Color(0xff161531);
+  }
 
-Text text(String textContent, double fontsize,{Color color = const Color(0xff161531),FontWeight fontWeight = FontWeight.w600}) {
   return Text(
     textContent,
     style: TextStyle(
-      color:color , // Black color
+      color: color,
       fontSize: fontsize,
-      fontWeight:fontWeight,
+      fontWeight: fontWeight,
       fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
     ),
     textAlign: TextAlign.center,
   );
 }
 
-Text text1(String textContent, double fontsize, {Color color = const Color(0xff617C9D),FontWeight fontWeight = FontWeight.w400} ) {
+Text text1(String textContent, double fontsize,
+    {Color color = const Color(0xff617C9D),
+    FontWeight fontWeight = FontWeight.w400}) {
   return Text(
     textContent,
     style: TextStyle(
@@ -175,5 +185,121 @@ Text text1(String textContent, double fontsize, {Color color = const Color(0xff6
   );
 }
 
+Text text5(BuildContext context, String textContent, double fontsize,
+    {Color color = const Color(0xff617C9D),
+    FontWeight fontWeight = FontWeight.w600}) {
+  if (color == null) {
+    final theme = Theme.of(context);
+    color = theme.brightness == Brightness.dark
+        ? Colors.white
+        : const Color(0xff161531);
+  }
+  return Text(
+    textContent,
+    style: TextStyle(
+      color: color, // Black color
+      fontSize: fontsize,
+      fontWeight: fontWeight,
+      fontFamily: 'Inter',
+    ),
+    textAlign: TextAlign.center,
+  );
+}
 
-Color color=Color(0xffCDE2FB);
+Text text3(String textContent, double fontsize,
+    {Color color = const Color(0xff161531),
+    FontWeight fontWeight = FontWeight.w600}) {
+  return Text(
+    textContent,
+    style: TextStyle(
+      color: color,
+      fontSize: fontsize,
+      fontWeight: fontWeight,
+      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
+    ),
+    textAlign: TextAlign.center,
+  );
+}
+
+Text text4(BuildContext context, String textContent, double fontsize,
+    {Color? color, FontWeight fontWeight = FontWeight.w600}) {
+  if (color == null) {
+    final theme = Theme.of(context);
+    color = theme.brightness == Brightness.dark
+        ? Colors.white
+        : const Color(0xff161531);
+  }
+
+  return Text(
+    textContent,
+    style: TextStyle(
+      color: color,
+      fontSize: fontsize,
+      decoration: TextDecoration.underline,
+      decorationColor: color,
+      fontWeight: fontWeight,
+      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
+    ),
+    textAlign: TextAlign.center,
+  );
+}
+
+Color color = Color(0xffCDE2FB);
+Color getColorFromGradient(double t) {
+  // Ensure t is between 0 and 1 to interpolate between the two colors
+  t = t.clamp(0.0, 1.0);
+  int r = (linearGradient.colors[0].red +
+          t * (linearGradient.colors[1].red - linearGradient.colors[0].red))
+      .round();
+  int g = (linearGradient.colors[0].green +
+          t * (linearGradient.colors[1].green - linearGradient.colors[0].green))
+      .round();
+  int b = (linearGradient.colors[0].blue +
+          t * (linearGradient.colors[1].blue - linearGradient.colors[0].blue))
+      .round();
+
+  return Color.fromARGB(255, r, g, b);
+}
+
+Color color1 = getColorFromGradient(0.5);
+
+Widget containertext(BuildContext context, String buttonText,
+    {Function()? onTap}) {
+  var h = MediaQuery.of(context).size.height;
+  var w = MediaQuery.of(context).size.width;
+
+  return InkResponse(
+    onTap: onTap,
+    child: Container(
+      height: h * 0.053,
+      width: w,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF22C6BF), Color(0xFF04B4AC)],
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Center(
+        child: Text(
+          buttonText,
+          style: TextStyle(
+            color: Color(0xffFFFFFF),
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            height: 21.78 / 18,
+            letterSpacing: 1,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+LinearGradient linearGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    Color(0xFF22C6BF),
+    Color(0xFF04B4AC),
+  ],
+);

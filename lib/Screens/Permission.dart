@@ -3,29 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../Authentication/SignIn.dart';
 import '../utils/Preferances.dart';
 import '../utils/ThemeProvider.dart';
+import '../utils/constants.dart';
+
 class MyPermission extends StatefulWidget {
   const MyPermission({super.key});
   @override
   State<MyPermission> createState() => _MyPermissionState();
 }
+
 class _MyPermissionState extends State<MyPermission> {
   @override
   void initState() {
     super.initState();
     Fetchdetails();
   }
-  String token="";
+
+  String token = "";
 
   Fetchdetails() async {
-    var Token = (await PreferenceService().getString('token'))??"";
+    var Token = (await PreferenceService().getString('token')) ?? "";
     setState(() {
-      token=Token;
+      token = Token;
     });
     print("Token:${token}");
   }
-
 
   Future<void> _requestPermissions() async {
     Map<Permission, PermissionStatus> statuses = await [
@@ -41,7 +45,8 @@ class _MyPermissionState extends State<MyPermission> {
       print('$permission: $status');
     });
     // Handle permissions that are denied
-    if (statuses[Permission.sms]!.isDenied || statuses[Permission.notification]!.isDenied) {
+    if (statuses[Permission.sms]!.isDenied ||
+        statuses[Permission.notification]!.isDenied) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -58,25 +63,25 @@ class _MyPermissionState extends State<MyPermission> {
                     Permission.sms,
                     Permission.notification,
                   ].request();
-                  // Check the statuses again
+
                   if (await Permission.sms.isGranted &&
                       await Permission.notification.isGranted) {
-                    if(token!=""){
+                    if (token != "") {
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(builder: (context) => MyMainHome()),
                       // );
-                    }else{
+                    } else {
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(builder: (context) => MySignup()),
                       // );
                     }
-
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Please grant all permissions to proceed.'),
+                        content:
+                            Text('Please grant all permissions to proceed.'),
                       ),
                     );
                   }
@@ -93,12 +98,12 @@ class _MyPermissionState extends State<MyPermission> {
         },
       );
     } else if (statuses.values.every((status) => status.isGranted)) {
-      if(token!=""){
+      if (token != "") {
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => MyMainHome()),
         // );
-      }else{
+      } else {
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => MySignup()),
@@ -121,7 +126,8 @@ class _MyPermissionState extends State<MyPermission> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Permission Required'),
-          content: Text('Fincalis app needs all permissions mentioned above. Please grant the permission to proceed.'),
+          content: Text(
+              'Fincalis app needs all permissions mentioned above. Please grant the permission to proceed.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -141,16 +147,20 @@ class _MyPermissionState extends State<MyPermission> {
       },
     );
   }
+
   void _openAppSettings() async {
     await openAppSettings();
   }
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      appBar: CustomAppBar(title: 'APP PERMISSIONS',),
+      appBar: CustomAppBar(
+        title: 'APP PERMISSIONS',
+      ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -164,65 +174,25 @@ class _MyPermissionState extends State<MyPermission> {
                     icon: "assets/Location.png",
                     title: "Location",
                     description:
-                    "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non",
+                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non",
                   ),
                   _buildPermissionItem(
-                    icon: "assets/cam1.png",
+                    icon: "assets/camera.png",
                     title: "Camera",
                     description:
-                    "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem igitur",
+                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem igitur",
                   ),
                   _buildPermissionItem(
-                    icon: "assets/call.png",
+                    icon: "assets/gallery.png",
                     title: "Photo / Media / Files",
                     description:
-                    "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
+                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
                   ),
                   _buildPermissionItem(
-                    icon: "assets/mobile.png",
+                    icon: "assets/message.png",
                     title: "SMS",
                     description:
-                    "Our App Collects And Transmits To Fincalis Servers, Your SMS Data Which Helps Us In Identifying The Various Bank Accounts That You May Be Holding, Cash Flow Patterns, Description and amount of the transactions for the purpose of performing a credit risk assessment. This credit risk assessment enables us to perform a quicker loan disbursal. This data may be collected even when the app is closed or not in use.",
-                  ),
-                  // _buildPermissionItem(
-                  //   icon: "assets/cal.png",
-                  //   title: "Installed Applications",
-                  //   description:
-                  //   "Our app collects and transmits to Fincalis servers, your installed applications data which helps us in identifying the various apps you may be using for financial transactions, for the purpose of performing a credit risk assessment. This credit risk assessment enables us to perform a quicker loan disbursal.",
-                  // ),
-
-                  // _buildPermissionItem(
-                  //   icon: "assets/bell.png",
-                  //   title: "Notifications",
-                  //   description:
-                  //   "Our app requires permission to send you notifications to keep you updated on your loan application status and other important updates.",
-                  // ),
-                  GestureDetector(
-                    onTap: _requestPermissions,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(40),
-                        child: Container(
-                          width: 176,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFF2DB3FF),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Agree",
-                              style: TextStyle(
-                                color: Color(0xFFFFFFFF),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
                   ),
                 ],
               ),
@@ -230,8 +200,16 @@ class _MyPermissionState extends State<MyPermission> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 20, left: 16, right: 16),
+        child: containertext(context, 'GET STARTED', onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SignIn()));
+        }),
+      ),
     );
   }
+
   Widget _buildPermissionItem({
     required String icon,
     required String title,

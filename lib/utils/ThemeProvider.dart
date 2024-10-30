@@ -1,37 +1,54 @@
 import 'package:flutter/material.dart';
 
+enum AppTheme { device, light, dark }
+
 class ThemeProvider with ChangeNotifier {
-  ThemeData _themeData;
+  AppTheme _currentTheme;
 
-  ThemeProvider(this._themeData);
+  ThemeProvider(this._currentTheme);
 
-  ThemeData get themeData => _themeData;
-
-  void toggleTheme() {
-    if (_themeData == lightTheme) {
-      _themeData = darkTheme;
-    } else {
-      _themeData = lightTheme;
+  ThemeData get themeData  {
+    switch (_currentTheme) {
+      case AppTheme.light:
+        return lightTheme;
+      case AppTheme.dark:
+        return darkTheme;
+      case AppTheme.device:
+      default:
+        return WidgetsBinding.instance.window.platformBrightness == Brightness.dark ? darkTheme : lightTheme;
     }
+  }
+
+  void setTheme(AppTheme theme) {
+    _currentTheme = theme;
     notifyListeners();
   }
+
 }
 
-// Define your light and dark themes
 final lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.blue,
-  scaffoldBackgroundColor: Colors.white,
-  textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.black),
-  ),
 );
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.blue,
-  scaffoldBackgroundColor: Colors.transparent, // Will use the gradient
-  textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.white), // White text in dark mode
-  ),
 );
+
+
+
+
+
+
+class LanguageProvider with ChangeNotifier {
+  String _selectedLanguage = 'English';
+
+  String get selectedLanguage => _selectedLanguage;
+
+  void setLanguage(String language) {
+    _selectedLanguage = language;
+    notifyListeners(); // Notify listeners to rebuild UI
+  }
+}
+
