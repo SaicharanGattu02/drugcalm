@@ -245,6 +245,7 @@ Text text4(BuildContext context, String textContent, double fontsize,
 }
 
 Color color = Color(0xffCDE2FB);
+
 Color getColorFromGradient(double t) {
   // Ensure t is between 0 and 1 to interpolate between the two colors
   t = t.clamp(0.0, 1.0);
@@ -303,3 +304,6 @@ LinearGradient linearGradient = LinearGradient(
     Color(0xFF04B4AC),
   ],
 );
+
+Color color2=Color(0xff617C9D);
+

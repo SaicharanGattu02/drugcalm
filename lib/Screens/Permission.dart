@@ -171,7 +171,7 @@ class _MyPermissionState extends State<MyPermission> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildPermissionItem(
-                    icon: "assets/Location.png",
+                    icon: "assets/location.png",
                     title: "Location",
                     description:
                         "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non",

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../Screens/dashboard.dart';
 import '../utils/ShakeWidget.dart';
 
 class OtpVerify extends StatefulWidget {
@@ -179,7 +180,10 @@ class _OtpVerifyState extends State<OtpVerify> {
                 SizedBox(
                   height: 10,
                 ),
-                containertext(context, 'CONTINUE')
+                InkResponse(onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashbord()));
+                },
+                    child: containertext(context, 'CONTINUE'))
               ],
             ),
           )
