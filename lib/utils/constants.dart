@@ -264,8 +264,10 @@ Color getColorFromGradient(double t) {
 
 Color color1 = getColorFromGradient(0.5);
 
+
+
 Widget containertext(BuildContext context, String buttonText,
-    {Function()? onTap}) {
+    {Function()? onTap, double? width}) {
   var h = MediaQuery.of(context).size.height;
   var w = MediaQuery.of(context).size.width;
 
@@ -273,7 +275,7 @@ Widget containertext(BuildContext context, String buttonText,
     onTap: onTap,
     child: Container(
       height: h * 0.053,
-      width: w,
+      width: width ?? MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF22C6BF), Color(0xFF04B4AC)],

@@ -146,7 +146,8 @@ class _DashbordState extends State<Dashbord> {
                 decoration: BoxDecoration(
                     color: const Color(0xffffffff),
                     borderRadius: BorderRadius.circular(8)),
-                child: Row(
+                child:
+                Row(
                   children: [
                     Text(
                       "Search",

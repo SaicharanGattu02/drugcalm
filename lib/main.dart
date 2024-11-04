@@ -1,5 +1,6 @@
 
 import 'package:drugcalm/Authentication/SignIn.dart';
+import 'package:drugcalm/Screens/Home.dart';
 import 'package:drugcalm/Screens/Spalsh.dart';
 import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-      home:  Splash()
+      home:Dashbord()
     );
   }
 }
