@@ -149,8 +149,17 @@ LinearGradient lineargradient = LinearGradient(
   ],
 );
 
-Text text(BuildContext context, String textContent, double fontsize,
-    {Color? color, FontWeight fontWeight = FontWeight.w600}) {
+Text text(
+  BuildContext context,
+  String textContent,
+  double fontsize, {
+  Color? color,
+  Color? decorationcolor,
+      TextDecoration?textdecoration,
+
+  FontWeight fontWeight = FontWeight.w600,
+  TextAlign textAlign = TextAlign.center,
+}) {
   if (color == null) {
     final theme = Theme.of(context);
     color = theme.brightness == Brightness.dark
@@ -164,9 +173,11 @@ Text text(BuildContext context, String textContent, double fontsize,
       color: color,
       fontSize: fontsize,
       fontWeight: fontWeight,
+      decoration: textdecoration,
+      decorationColor: decorationcolor,
       fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
     ),
-    textAlign: TextAlign.center,
+    textAlign: textAlign,
   );
 }
 
@@ -244,7 +255,9 @@ Text text4(BuildContext context, String textContent, double fontsize,
   );
 }
 
-Color color = Color(0xffCDE2FB);
+Color color = Color(0xff617C9D);
+Color color3 = Color(0xffCDE2FB);
+Color color4 = Color(0xffffffff);
 
 Color getColorFromGradient(double t) {
   // Ensure t is between 0 and 1 to interpolate between the two colors
@@ -263,8 +276,7 @@ Color getColorFromGradient(double t) {
 }
 
 Color color1 = getColorFromGradient(0.5);
-
-
+Color color5 = Color(0xff01A744);
 
 Widget containertext(BuildContext context, String buttonText,
     {Function()? onTap, double? width}) {
@@ -307,5 +319,66 @@ LinearGradient linearGradient = LinearGradient(
   ],
 );
 
-Color color2=Color(0xff617C9D);
+Color color2 = Color(0xff617C9D);
 
+Container container(BuildContext context,
+    {required Widget child,
+    Color? color,
+    BorderRadius? borderRadius,
+    double? w,
+    h,
+      Border? border,
+
+      Color?colors,
+      EdgeInsets?padding,
+    EdgeInsets?margin}) {
+  return Container(
+    width: w,
+    height: h,
+    padding:padding,
+    margin: margin,
+    decoration:
+        BoxDecoration(color: colors, borderRadius: BorderRadius.circular(8),border:border),
+    child: child,
+  );
+}
+
+
+
+class RatingWidget extends StatefulWidget {
+  final double initialRating;
+
+  RatingWidget({
+    Key? key,
+    this.initialRating = 0.0,
+  }) : super(key: key);
+
+  @override
+  _RatingWidgetState createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  late double _currentRating;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentRating = widget.initialRating;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: List.generate(5, (index) {
+        return Icon(
+          _currentRating > index
+              ? Icons.star
+              : Icons.star_border, // Filled star or empty star
+          color: Color(0xffEA7204),
+          size: 18,
+        );
+      }),
+    );
+  }
+}
