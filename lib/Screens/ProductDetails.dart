@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import '../utils/CustomAppBar1.dart';
@@ -951,7 +950,8 @@ class _ProductdetailsState extends State<Productdetails> {
                   )),
               container(
                   w: w,
-                  margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  margin:
+                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
                   padding:
                       EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
                   borderRadius: BorderRadius.circular(8),
@@ -1278,17 +1278,366 @@ class _ProductdetailsState extends State<Productdetails> {
                       SizedBox(
                         height: h * 0.01,
                       ),
-
-
-                      container(
-                          padding: EdgeInsets.all(8),
-                          borderRadius: BorderRadius.circular(100),
-                          colors: color1,
-                          context,
-                          child: text(context, 'VS', 20,
-                              fontWeight: FontWeight.w800, color: color4))
+                      Stack(children: [
+                        Positioned(
+                          left: 0,
+                          top: h * 0.025,
+                          child: Dash(
+                              direction: Axis.horizontal,
+                              length: w * 0.8,
+                              dashLength: 2,
+                              dashColor: color17),
+                        ),
+                        Center(
+                          child: container(
+                              padding: EdgeInsets.all(6),
+                              borderRadius: BorderRadius.circular(100),
+                              colors: color1,
+                              context,
+                              child: text(context, 'VS', 20,
+                                  fontWeight: FontWeight.w800, color: color4)),
+                        ),
+                      ]),
+                      Stack(
+                        children: [
+                          container(context,
+                              colors: color12,
+                              borderRadius: BorderRadius.circular(8),
+                              w: w,
+                              h: h * 0.07,
+                              margin: EdgeInsets.only(top: 16, bottom: 16),
+                              child: Center(
+                                  child: Image.asset(
+                                'assets/add_circle_.png',
+                                fit: BoxFit.contain,
+                                width: w * 0.1,
+                              ))),
+                          Positioned(
+                              right: w * 0.02,
+                              top: h * 0.031,
+                              child: Image.asset(
+                                'assets/cancel.png',
+                                width: w * 0.04,
+                              ))
+                        ],
+                      ),
+                      container(context,
+                          margin: EdgeInsets.only(top: 16),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+                          colors: color4,
+                          border: Border.all(color: color1, width: 1),
+                          borderRadius: BorderRadius.circular(2),
+                          child: Center(
+                              child: text(context,
+                                  'COMPARE LEVIPIL VS LEVAZOSR75MG', 14,
+                                  color: color1)))
                     ],
-                  ))
+                  )),
+              Container(
+                width: w,
+                margin: EdgeInsets.only(left: 16, bottom: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    color: Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        text(context, 'Near expiry Products', 16),
+                        Spacer(),
+                        text4(context, 'SEE ALL', 16,
+                            color: color1, fontWeight: FontWeight.w400),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: color1,
+                          size: 18,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Container(
+                      // child: ListView.builder(
+                      //   scrollDirection: Axis.horizontal,
+                      //   itemCount: grid3.length,
+                      //   itemBuilder: (context, index) {
+                      //     return
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                            4,
+                            (index) {
+                              return Container(
+                                width: w * 0.8,
+                                padding: EdgeInsets.all(8),
+                                margin: EdgeInsets.only(right: 8),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: color1.withOpacity(0.2),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Center(
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomizeProductBar()));
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            child: Center(
+                                          child: Image.asset(
+                                            'assets/HCQS 200 Tablet.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        )),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        text(context, 'HCQS 200 Tablet', 14),
+                                        SizedBox(
+                                          height: h * 0.02,
+                                        ),
+                                        text1('15.0 tablets in 1 strip', 10,
+                                            color: color1),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Net Price:', 12,
+                                                color: color),
+                                            SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                            text(context, '₹ 93.81', 14),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            text(context, 'MRP:', 12,
+                                                color: color),
+                                            SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                            text(context, '₹ 106.8', 14,
+                                                color: color1),
+                                            SizedBox(
+                                              height: h * 0.01,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'MARGIN', 12,
+                                                fontWeight: FontWeight.w500),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            text(context, '12%', 14,
+                                                color: color1),
+                                            SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                            text(context, 'PTR', 12,
+                                                fontWeight: FontWeight.w500),
+                                            Icon(
+                                              Icons.info,
+                                              color: color1,
+                                              size: 18,
+                                            ),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            text(
+                                              context,
+                                              '₹ 106.8',
+                                              14,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: containertext(
+                                                  context, 'ADD TO CART',
+                                                  onTap: () {}),
+                                            ),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            Container(
+                                              height: h * 0.055,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: color2, width: 2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: Image.asset(
+                                                'assets/favrate.png',
+                                                color: color2,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                //   );
+                                // }
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              container(
+                  w: w,
+                  context,
+                  margin: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                  padding: const EdgeInsets.all(16),
+                  colors: color4,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      text(context, 'Other Information:', 20,
+                          color: color18, fontWeight: FontWeight.w400),
+                      text(
+                          context,
+                          'A Licensed Vendor Partner id dicis, vicimus. Paulum, cum regem Persem captum adduceret, eodem flumine invectio? Non enim quaero quid verum, sed quid cuique dicendum sit. Quid, quod homines infima fortuna, nulla spe rerum gerendarum, opifices denique delectantur historia? Omnes enim iucundum motum, quo sensus hilaretur.',
+                          13,
+                          color: color2,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      text(context, 'Manufacturer / Marketing Address', 16,
+                          color: color18,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      text(
+                          context,
+                          'Mediqex Healthcare Solutions Private Limited..,G-03, 2120 Webster Street Jersey City, New Jersey 0730',
+                          13,
+                          color: color2,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                    ],
+                  )),
+              container(
+                  w: w,
+                  context,
+                  margin: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                  padding: const EdgeInsets.all(16),
+                  colors: color4,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      text(context, 'Product Information:', 20,
+                          color: color18, fontWeight: FontWeight.w400),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      text(
+                          context,
+                          'Nutracitta Biotin Beauty Blend - Multivitamins Gummies- Vitamin A, B7, B12, C, E & Zinc ',
+                          13,
+                          color: color18,
+                          fontWeight: FontWeight.w700,
+                          textAlign: TextAlign.left),
+                      text(
+                          context,
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Si id dicis, vicimus. Paulum, cum regem Persem captum adduceret, eodem flumine invectio? Non enim quaero quid verum, sed quid cuique dicendum sit. Quid, quod homines infima fortuna, nulla spe rerum gerendarum, opifices denique delectantur historia? Omnes enim iucundum motum, quo sensus hilaretur. Phalereus Demetrius cum patria pulsus esset iniuria, ad Ptolomaeum se regem Alexandream contulit. Maximas vero virtutes iacere omnis necesse est voluptate dominante',
+                          13,
+                          color: color2,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      text(context, 'Manufacturer / Marketing Address', 16,
+                          color: color18,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                      text(
+                          context,
+                          'Mediqex Healthcare Solutions Private Limited..,G-03, 2120 Webster Street Jersey City, New Jersey 0730',
+                          13,
+                          color: color2,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.left),
+                      SizedBox(
+                        height: h * 0.01,
+                      ),
+                    ],
+                  )),
+              container(
+                w: w,
+                context,
+                padding: const EdgeInsets.all(16),
+                colors: color4,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            text(context, 'In Stock', 12,
+                                color: color18, fontWeight: FontWeight.w400),
+                            text(context, '990', 14,
+                                fontWeight: FontWeight.w500, color: color19),
+                          ],
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                    container(w: w,
+                        context,colors: color13,
+                        padding: EdgeInsets.symmetric(vertical: 6),
+                        child: Center(
+                            child: text(context,
+                                'Congratulations ! 5+1 scheme is applied', 10,
+                                color: color4)))
+                  ],
+                ),
+              )
             ],
           ),
         ),
