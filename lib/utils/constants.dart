@@ -153,7 +153,9 @@ Text text(
   BuildContext context,
   String textContent,
   double fontsize, {
+TextOverflow?overflow,
   Color? color,
+      int?maxLines,
   Color? decorationcolor,
       TextDecoration?textdecoration,
 
@@ -169,15 +171,18 @@ Text text(
 
   return Text(
     textContent,
+    maxLines: maxLines,
     style: TextStyle(
       color: color,
       fontSize: fontsize,
       fontWeight: fontWeight,
       decoration: textdecoration,
       decorationColor: decorationcolor,
+overflow: overflow,
       fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
+
   );
 }
 
@@ -255,9 +260,7 @@ Text text4(BuildContext context, String textContent, double fontsize,
   );
 }
 
-Color color = Color(0xff617C9D);
-Color color3 = Color(0xffCDE2FB);
-Color color4 = Color(0xffffffff);
+
 
 Color getColorFromGradient(double t) {
   // Ensure t is between 0 and 1 to interpolate between the two colors
@@ -275,8 +278,26 @@ Color getColorFromGradient(double t) {
   return Color.fromARGB(255, r, g, b);
 }
 
+
+Color color = Color(0xff617C9D);
+
 Color color1 = getColorFromGradient(0.5);
+Color color2 = Color(0xff617C9D);
+Color color3 = Color(0xffCDE2FB);
+Color color4 = Color(0xffffffff);
 Color color5 = Color(0xff01A744);
+Color color6 = Color(0xffFC4B6F);
+Color color7 = Color(0xffA5BECC);
+Color color8 = Color(0xff7E7E7E);
+Color color9 = Color(0xffDAEAF6);
+Color color10 = Color(0xff8E8D8D);
+Color color11 = Color(0xff000000);
+Color color12 = Color(0xffECF2F6);
+Color color13 = Color(0xff34C759);
+Color color14 = Color(0xffFEF6F5);
+Color color15 = Color(0xffD6E2F0);
+Color color16 = Color(0xffFF3B30);
+
 
 Widget containertext(BuildContext context, String buttonText,
     {Function()? onTap, double? width}) {
@@ -319,7 +340,6 @@ LinearGradient linearGradient = LinearGradient(
   ],
 );
 
-Color color2 = Color(0xff617C9D);
 
 Container container(BuildContext context,
     {required Widget child,
@@ -338,7 +358,7 @@ Container container(BuildContext context,
     padding:padding,
     margin: margin,
     decoration:
-        BoxDecoration(color: colors, borderRadius: BorderRadius.circular(8),border:border),
+        BoxDecoration(color: colors, borderRadius: borderRadius,border:border),
     child: child,
   );
 }

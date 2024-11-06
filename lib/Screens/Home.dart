@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'ProductDetails.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -126,7 +128,7 @@ class _HomeState extends State<Home> {
           // height: h,
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('assets/background.png'),
+            image: AssetImage('assets/Drug Clam Background.png'),
           )),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -231,7 +233,7 @@ class _HomeState extends State<Home> {
                             // Navigator.push(
                             //   context,
                             //   MaterialPageRoute(
-                            //     builder: (context) => Home(),
+                            //     builder: (context) => Productdetails(),
                             //   ),
                             // );
                           },
@@ -245,7 +247,7 @@ class _HomeState extends State<Home> {
                             child: Center(
                               child: InkWell(
                                 onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomizeProductBar()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Productdetails()));
                                 },
                                 child: Column(
                                   children: [
