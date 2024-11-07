@@ -153,7 +153,7 @@ Text text(
   BuildContext context,
   String textContent,
   double fontsize, {
-TextOverflow?overflow,
+TextOverflow?overflow,String?fontFamily,
   Color? color,
       int?maxLines,
   Color? decorationcolor,
@@ -179,7 +179,7 @@ TextOverflow?overflow,
       decoration: textdecoration,
       decorationColor: decorationcolor,
 overflow: overflow,
-      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
+      fontFamily: fontFamily, // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
 

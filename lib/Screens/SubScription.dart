@@ -32,6 +32,8 @@ class _SubscriptionState extends State<Subscription> {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CarouselSlider(
                 options: CarouselOptions(
@@ -56,10 +58,11 @@ class _SubscriptionState extends State<Subscription> {
                   colors: color4,
                   w: w,
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  borderRadius: BorderRadius.circular(8),
                   child: Row(
                     children: [
                       Container(
-                        width: w * 0.6,
+                        width: w * 0.5,
                         child: Column(
                           children: [
                             Row(
@@ -86,10 +89,67 @@ class _SubscriptionState extends State<Subscription> {
                           ],
                         ),
                       ),
-                      
-                      Container(child: Image.asset('assets/rupess.png',fit: BoxFit.contain,),)
+                      Container(
+                        width: w * 0.32,
+                        height: h * 0.12,
+                        child: Image.asset(
+                          'assets/rupess.png',
+                          fit: BoxFit.cover,
+                        ),
+                      )
                     ],
-                  ))
+                  )),
+              SizedBox(
+                height: h * 0.01,
+              ),
+              text(context, 'Health Packages', 20,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                  color: color18),
+              SizedBox(
+                height: h * 0.01,
+              ),
+              container(context,
+                  colors: color4,
+                  w: w,
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: w * 0.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            text(context, 'BASIC', 20,
+                                fontFamily: 'SFPD',
+                                fontWeight: FontWeight.w700,
+                                color: color11),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            text(
+                                context,
+                                '₹729.99/mo',
+                                fontFamily: 'SFPD',
+                                30,
+                                fontWeight: FontWeight.w700,
+                                color: color11,
+                                textAlign: TextAlign.left),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: w * 0.32,
+                        height: h * 0.12,
+                        child: Image.asset(
+                          'assets/healthpackages.png',
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
+                  )),
             ],
           ),
         ),
