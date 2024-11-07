@@ -87,7 +87,7 @@ class _SubscriptionState extends State<Subscription> {
                         ),
                       ),
                       
-                      Container(child: Image.asset('assets/rupess.png',fit: Boxfit.contain,),)
+                      Container(child: Image.asset('assets/rupess.png',fit: BoxFit.contain,),)
                     ],
                   ))
             ],

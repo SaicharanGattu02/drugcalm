@@ -8,6 +8,9 @@ import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'Screens/CartScreen.dart';
+import 'Screens/OrderScreen.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-      home:Dashbord()
+      home:Cartscreen()
     );
   }
 }
