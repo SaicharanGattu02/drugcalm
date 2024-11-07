@@ -1,4 +1,5 @@
 import 'package:drugcalm/Screens/Home.dart';
+import 'package:drugcalm/Screens/SubScription.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _DashbordState extends State<Dashbord> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [Home()];
+  final List<Widget> _screens = [Home(),Subscription()];
   final PageController _pageController = PageController();
 
   void onTabTapped(int index) {
