@@ -18,6 +18,8 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
     var w=MediaQuery.of(context).size.width;
     var h=MediaQuery.of(context).size.height;
     return AppBar(backgroundColor: color1,
+        leading: Container(),
+        leadingWidth: 0,
         title:Row(
           children: [
             InkWell(

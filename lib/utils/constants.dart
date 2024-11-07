@@ -300,6 +300,7 @@ Color color16 = Color(0xffFF3B30);
 Color color17 = Color(0xffD1D8DD);
 Color color18 = Color(0xff161531);
 Color color19 = Color(0xff0C2638);
+Color color20 = Color(0xff576B80);
 
 
 Widget containertext(BuildContext context, String buttonText,
