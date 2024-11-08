@@ -99,9 +99,9 @@ class _OrderscreenState extends State<Orderscreen> {
                 Container(
                   width: w * 0.12,
                   height: h * 0.04,
-                  margin: const EdgeInsets.all(16),
+                  margin:  EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color(0xffffffff),
+                    color:  Color(0xffffffff),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
@@ -118,11 +118,11 @@ class _OrderscreenState extends State<Orderscreen> {
             SizedBox(
               height: h * 0.01,
             ),
-            container(context,
+            container(
+                context,
                 colors: color4,
                 borderRadius: BorderRadius.circular(8),
-                margin: EdgeInsets.all(8),
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Row(
@@ -135,13 +135,13 @@ class _OrderscreenState extends State<Orderscreen> {
                         SizedBox(
                           width: w * 0.01,
                         ),
-                        text(context, 'Order ID', 12, color: color1,fontfamily: "Poppins",fontWeight: FontWeight.w400),
+                        text(context, 'Order ID', 11, color: color1,fontfamily: "Poppins",fontWeight: FontWeight.w400),
                         SizedBox(
                           width: w * 0.01,
                         ),
-                        text(context, ': FDH02386JN', 12, color: color11,fontWeight: FontWeight.w400,fontfamily:"Poppins"),
+                        text(context, ': FDH02386JN', 10, color: color11,fontWeight: FontWeight.w400,fontfamily:"Poppins"),
                         SizedBox(
-                          width: w * 0.05,
+                          width: w * 0.03,
                         ),
                         Image.asset(
                           'assets/calendar_month.png',
@@ -151,11 +151,11 @@ class _OrderscreenState extends State<Orderscreen> {
                         SizedBox(
                           width: w * 0.01,
                         ),
-                        text(context, 'Expected ', 12, color: color1),
+                        text(context, 'Expected ', 11, color: color1,fontfamily: "Poppins",fontWeight: FontWeight.w400),
                         SizedBox(
                           width: w * 0.01,
                         ),
-                        text(context, ': 20 Dec 2024', 12, color: color11),
+                        text(context, ': 20 Dec 2024', 10, color: color11,fontfamily: "Poppins",fontWeight: FontWeight.w400),
                       ],
                     ),
                     SizedBox(
@@ -203,7 +203,9 @@ class _OrderscreenState extends State<Orderscreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        text(context, ' Return :', 12,
+                                        text(context,
+                                            'Return :', 12,
+                                            fontfamily: "Poppins",
                                             color: color,
                                             fontWeight: FontWeight.w500,
                                             textAlign: TextAlign.right),
@@ -211,6 +213,7 @@ class _OrderscreenState extends State<Orderscreen> {
                                             context,
                                             'Eligible through 18 September 2024 ',
                                             11,
+                                            fontfamily: "Inter",
                                             color: color1,
                                             textAlign: TextAlign.right,
                                             fontWeight: FontWeight.w500),
@@ -220,8 +223,9 @@ class _OrderscreenState extends State<Orderscreen> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.start,
                                       children: [
-                                        text(context, '    ₹ 2,546    ', 18,
+                                        text(context, '₹ 2,546', 18,
                                             color: color11,
+                                            fontfamily: "Inter",
                                             textAlign: TextAlign.right,
                                             fontWeight: FontWeight.w500),
                                         SizedBox(

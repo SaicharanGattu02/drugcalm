@@ -8,7 +8,7 @@ class CustomSnackBar {
       SnackBar(
         content: Text(
           message,
-          style: TextStyle(color: Colors.white, fontfamily: "Inter"),
+          style: TextStyle(color: Colors.white, fontFamily: "Inter"),
         ),
         duration: Duration(seconds: 1),
         backgroundColor: Color(0xFF8856F4),
