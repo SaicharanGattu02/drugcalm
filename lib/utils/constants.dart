@@ -225,16 +225,19 @@ Color color17 = Color(0xffD1D8DD);
 Color color18 = Color(0xff161531);
 Color color19 = Color(0xff0C2638);
 Color color20 = Color(0xff576B80);
+Color color21 = Color(0xffE3FDFC);
+Color color22 = Color(0xffE1F4FF);
+Color color23 = Color(0xff242A37);
 
 Widget containertext(BuildContext context, String buttonText,
-    {Function()? onTap, double? width}) {
+    {Function()? onTap, double? width,height}) {
   var h = MediaQuery.of(context).size.height;
   var w = MediaQuery.of(context).size.width;
 
   return InkResponse(
     onTap: onTap,
     child: Container(
-      height: h * 0.053,
+      height: height??h * 0.053,
       width: width ?? MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
