@@ -153,7 +153,7 @@ Text text(
   BuildContext context,
   String textContent,
   double fontsize, {
-TextOverflow?overflow,
+TextOverflow?overflow,String?fontFamily,
   Color? color,
       int?maxLines,
   Color? decorationcolor,
@@ -179,7 +179,7 @@ TextOverflow?overflow,
       decoration: textdecoration,
       decorationColor: decorationcolor,
 overflow: overflow,
-      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
+      fontFamily: fontFamily, // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
 
@@ -300,9 +300,7 @@ Color color16 = Color(0xffFF3B30);
 Color color17 = Color(0xffD1D8DD);
 Color color18 = Color(0xff161531);
 Color color19 = Color(0xff0C2638);
-Color color20 = Color(0xFF22C6BF);
-
-
+Color color20 = Color(0xff576B80);
 
 
 Widget containertext(BuildContext context, String buttonText,

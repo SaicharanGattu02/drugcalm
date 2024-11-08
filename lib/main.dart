@@ -1,8 +1,6 @@
 
 import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Screens/Home.dart';
-import 'package:drugcalm/Screens/My%20Orders%20Screen.dart';
-import 'package:drugcalm/Screens/Order%20Screen3.dart';
 import 'package:drugcalm/Screens/ProductDetails.dart';
 import 'package:drugcalm/Screens/Spalsh.dart';
 import 'package:drugcalm/Screens/dashboard.dart';
@@ -10,7 +8,8 @@ import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'Screens/My Orders Screen2.dart';
+import 'Screens/CartScreen.dart';
+import 'Screens/OrderScreen.dart';
 
 void main() {
   runApp(
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-      home:ordersscreen3()
+      home:Cartscreen()
     );
   }
 }
