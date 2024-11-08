@@ -1,3 +1,4 @@
+import 'package:drugcalm/Screens/ApplyCoupon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -384,8 +385,8 @@ class _CartscreenState extends State<Cartscreen> {
                 fontfamily: 'Inter', fontWeight: FontWeight.w400),
             InkResponse(
               onTap: () {
-                // Navigator.push(context,
-                // MaterialPageRoute(builder: (context) => SaltComposition()));
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ApplyCoupon()));
               },
               child: container(
                   w: w,
@@ -623,7 +624,20 @@ class _CartscreenState extends State<Cartscreen> {
                     Divider(
                       height: 1,
                       color: color,
-                    )
+                    ),
+                    SizedBox(height: h*0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Total Amount', 12,
+                            color: color11,
+                            fontWeight: FontWeight.w500,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '₹37', 15,
+                            fontWeight: FontWeight.w500, color: color11)
+                      ],
+                    ),
                   ],
                 )),
             SizedBox(

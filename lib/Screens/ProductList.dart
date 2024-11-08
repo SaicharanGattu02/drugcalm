@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/material.dart';
 
@@ -560,23 +561,27 @@ class _ProductListState extends State<ProductList> {
                         ],
                       ),
                       Spacer(),
-                      container(context,
-                          borderRadius: BorderRadius.circular(4),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          colors: color1,
-                          child: Row(
-                            children: [
-                              text(context, 'CHECKOUT', 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: color4),
+                      InkResponse(onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Cartscreen()));
+                      },
+                        child: container(context,
+                            borderRadius: BorderRadius.circular(4),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            colors: color1,
+                            child: Row(
+                              children: [
+                                text(context, 'CHECKOUT', 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: color4),
 
-                              Icon(
-                                Icons.arrow_forward,
-                                color: color4,
-                              )
-                            ],
-                          ))
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: color4,
+                                )
+                              ],
+                            )),
+                      )
                     ],
                   ),
                 )
