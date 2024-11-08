@@ -74,7 +74,7 @@ class _ProductListState extends State<ProductList> {
                 height: h * 0.01,
               ),
               text(context, 'Available Medicine', 18,
-                  fontFamily: 'SFPD',
+                  fontfamily: 'SFPD',
                   fontWeight: FontWeight.w500,
                   color: color11),
               SizedBox(

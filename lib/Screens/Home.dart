@@ -203,7 +203,7 @@ class _HomeState extends State<Home> {
                   children: [
                     text(context, 'Shopping By Categories', 16),
                     Spacer(),
-                    text4(context, 'SEE ALL', 16,
+                    text(context, 'SEE ALL', 16,
                         color: color1, fontWeight: FontWeight.w400),
                     Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -282,7 +282,7 @@ class _HomeState extends State<Home> {
                   children: [
                     text(context, 'Shopping By Brands', 16),
                     Spacer(),
-                    text4(context, 'SEE ALL', 16,
+                    text(context, 'SEE ALL', 16,
                         color: color1, fontWeight: FontWeight.w400),
                     Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -436,7 +436,7 @@ class _HomeState extends State<Home> {
                         children: [
                           text(context, 'Near expiry Products', 16),
                           Spacer(),
-                          text4(context, 'SEE ALL', 16,
+                          text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -495,7 +495,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text1('15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -616,7 +616,7 @@ class _HomeState extends State<Home> {
                         children: [
                           text(context, 'Rental Items', 16),
                           Spacer(),
-                          text4(context, 'SEE ALL', 16,
+                          text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -675,7 +675,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text1('15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -796,7 +796,7 @@ class _HomeState extends State<Home> {
                         children: [
                           text(context, 'September Sell', 16),
                           Spacer(),
-                          text4(context, 'SEE ALL', 16,
+                          text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -855,7 +855,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text1('15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -976,7 +976,7 @@ class _HomeState extends State<Home> {
                         children: [
                           text(context, 'Pro For Services', 16),
                           Spacer(),
-                          text4(context, 'SEE ALL', 16,
+                          text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -1035,7 +1035,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text1('15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -1156,7 +1156,7 @@ class _HomeState extends State<Home> {
                         children: [
                           text(context, 'FMCG products', 16),
                           Spacer(),
-                          text4(context, 'SEE ALL', 16,
+                          text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -1215,7 +1215,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text1('15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -1708,7 +1708,7 @@ class _HomeState extends State<Home> {
                   children: [
                     text(context, 'Speciality Medicines', 16),
                     Spacer(),
-                    text4(context, 'SEE ALL', 16,
+                    text(context, 'SEE ALL', 16,
                         color: color1, fontWeight: FontWeight.w400),
                     Icon(
                       Icons.arrow_forward_ios_outlined,

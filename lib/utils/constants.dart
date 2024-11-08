@@ -30,7 +30,7 @@ var AppId = "ddeca623b5d548a486c0fcd062479880";
 
 double screenSpace = 10;
 
-const fontFamilyName = "Ubuntu";
+const fontfamilyName = "Ubuntu";
 const dreamBikeFont = "nasalization";
 const authorization = "Authorization";
 const imageQuality = 50;
@@ -153,12 +153,12 @@ Text text(
   BuildContext context,
   String textContent,
   double fontsize, {
-TextOverflow?overflow,String?fontFamily,
+  TextOverflow? overflow,
+  String? fontfamily,
   Color? color,
-      int?maxLines,
+  int? maxLines,
   Color? decorationcolor,
-      TextDecoration?textdecoration,
-
+  TextDecoration? textdecoration,
   FontWeight fontWeight = FontWeight.w600,
   TextAlign textAlign = TextAlign.center,
 }) {
@@ -178,85 +178,10 @@ TextOverflow?overflow,String?fontFamily,
       fontWeight: fontWeight,
       decoration: textdecoration,
       decorationColor: decorationcolor,
-overflow: overflow,
-      fontFamily: fontFamily, // Ensure the font is added in pubspec.yaml
+      overflow: overflow,
+      fontFamily: fontfamily, // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
-
-  );
-}
-
-Text text1(String textContent, double fontsize,
-    {Color color = const Color(0xff617C9D),
-    FontWeight fontWeight = FontWeight.w400}) {
-  return Text(
-    textContent,
-    style: TextStyle(
-      color: color, // Black color
-      fontSize: fontsize,
-      fontWeight: fontWeight,
-      fontFamily: 'Inter',
-    ),
-    textAlign: TextAlign.center,
-  );
-}
-
-Text text5(BuildContext context, String textContent, double fontsize,
-    {Color color = const Color(0xff617C9D),
-    FontWeight fontWeight = FontWeight.w600}) {
-  if (color == null) {
-    final theme = Theme.of(context);
-    color = theme.brightness == Brightness.dark
-        ? Colors.white
-        : const Color(0xff161531);
-  }
-  return Text(
-    textContent,
-    style: TextStyle(
-      color: color, // Black color
-      fontSize: fontsize,
-      fontWeight: fontWeight,
-      fontFamily: 'Inter',
-    ),
-    textAlign: TextAlign.center,
-  );
-}
-
-Text text3(String textContent, double fontsize,
-    {Color color = const Color(0xff161531),
-    FontWeight fontWeight = FontWeight.w600}) {
-  return Text(
-    textContent,
-    style: TextStyle(
-      color: color,
-      fontSize: fontsize,
-      fontWeight: fontWeight,
-      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
-    ),
-    textAlign: TextAlign.center,
-  );
-}
-
-Text text4(BuildContext context, String textContent, double fontsize,
-    {Color? color, FontWeight fontWeight = FontWeight.w600}) {
-  if (color == null) {
-    final theme = Theme.of(context);
-    color = theme.brightness == Brightness.dark
-        ? Colors.white
-        : const Color(0xff161531);
-  }
-
-  return Text(
-    textContent,
-    style: TextStyle(
-      color: color,
-      fontSize: fontsize,
-      decoration: TextDecoration.underline,
-      decorationColor: color,
-      fontWeight: fontWeight,
-      fontFamily: 'Inter', // Ensure the font is added in pubspec.yaml
-    ),
-    textAlign: TextAlign.center,
   );
 }
 
@@ -277,7 +202,6 @@ Color getColorFromGradient(double t) {
 
   return Color.fromARGB(255, r, g, b);
 }
-
 
 Color color = Color(0xff617C9D);
 
@@ -301,7 +225,6 @@ Color color17 = Color(0xffD1D8DD);
 Color color18 = Color(0xff161531);
 Color color19 = Color(0xff0C2638);
 Color color20 = Color(0xff576B80);
-
 
 Widget containertext(BuildContext context, String buttonText,
     {Function()? onTap, double? width}) {
@@ -344,30 +267,26 @@ LinearGradient linearGradient = LinearGradient(
   ],
 );
 
-
 Container container(BuildContext context,
     {required Widget child,
     Color? color,
     BorderRadius? borderRadius,
     double? w,
     h,
-      Border? border,
-
-      Color?colors,
-      EdgeInsets?padding,
-    EdgeInsets?margin}) {
+    Border? border,
+    Color? colors,
+    EdgeInsets? padding,
+    EdgeInsets? margin}) {
   return Container(
     width: w,
     height: h,
-    padding:padding,
+    padding: padding,
     margin: margin,
-    decoration:
-        BoxDecoration(color: colors, borderRadius: borderRadius,border:border),
+    decoration: BoxDecoration(
+        color: colors, borderRadius: borderRadius, border: border),
     child: child,
   );
 }
-
-
 
 class RatingWidget extends StatefulWidget {
   final double initialRating;

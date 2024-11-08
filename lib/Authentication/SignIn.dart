@@ -191,7 +191,7 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: h * 0.04,
                 ),
-                Center(child: text4(context, 'Sign In with Email', 16,color: color1)),
+                Center(child: text(context, 'Sign In with Email', 16,color: color1)),
 
                 SizedBox(
                   height: h * 0.02,
@@ -199,8 +199,8 @@ class _SignInState extends State<SignIn> {
                  Row(mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    text5(context,'Don’t have an account? ', 16),
-                    text5(context,'Sign up', 16,color: color1)
+                    text(context,'Don’t have an account? ', 16),
+                    text(context,'Sign up', 16,color: color1)
                   ],
                 ),
               ],

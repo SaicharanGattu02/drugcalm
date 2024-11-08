@@ -62,7 +62,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              text5(context, 'RESEND', 18, color: color1)
+                              text(context, 'RESEND', 18, color: color1)
                             ],
                           ),
                         ),

@@ -104,7 +104,7 @@ class _SubscriptionState extends State<Subscription> {
                   height: h * 0.01,
                 ),
                 text(context, 'Health Packages', 20,
-                    fontFamily: 'Inter',
+                    fontfamily: 'Inter',
                     fontWeight: FontWeight.w500,
                     color: color18),
                 SizedBox(
@@ -124,7 +124,7 @@ class _SubscriptionState extends State<Subscription> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               text(context, 'BASIC', 20,
-                                  fontFamily: 'SFPD',
+                                  fontfamily: 'SFPD',
                                   fontWeight: FontWeight.w700,
                                   color: color11),
                               SizedBox(
@@ -135,14 +135,14 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       '₹729.99',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       24,
                                       fontWeight: FontWeight.w700,
                                       color: color11,
                                       textAlign: TextAlign.left),text(
                                       context,
                                       '/mo',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       20,
                                       fontWeight: FontWeight.w500,
                                       color: color11,
@@ -159,7 +159,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'They provide access to medical care.',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -174,7 +174,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'You pay a monthly or yearly fee',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -188,7 +188,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'Telemedicine may be offered',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -227,7 +227,7 @@ class _SubscriptionState extends State<Subscription> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               text(context, 'Pro', 20,
-                                  fontFamily: 'SFPD',
+                                  fontfamily: 'SFPD',
                                   fontWeight: FontWeight.w700,
                                   color: color11),
                               SizedBox(
@@ -238,14 +238,14 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       '₹729.99',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       24,
                                       fontWeight: FontWeight.w700,
                                       color: color11,
                                       textAlign: TextAlign.left),text(
                                       context,
                                       '/mo',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       20,
                                       fontWeight: FontWeight.w500,
                                       color: color11,
@@ -262,7 +262,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'They provide access to medical care.',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -277,7 +277,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'You pay a monthly or yearly fee',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -291,7 +291,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'Telemedicine may be offered',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -329,7 +329,7 @@ class _SubscriptionState extends State<Subscription> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               text(context, 'Monthly', 20,
-                                  fontFamily: 'SFPD',
+                                  fontfamily: 'SFPD',
                                   fontWeight: FontWeight.w700,
                                   color: color11),
                               SizedBox(
@@ -340,14 +340,14 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       '₹729.99',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       24,
                                       fontWeight: FontWeight.w700,
                                       color: color11,
                                       textAlign: TextAlign.left),text(
                                       context,
                                       '/mo',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       20,
                                       fontWeight: FontWeight.w500,
                                       color: color11,
@@ -364,7 +364,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'They provide access to medical care.',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -379,7 +379,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'You pay a monthly or yearly fee',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,
@@ -393,7 +393,7 @@ class _SubscriptionState extends State<Subscription> {
                                   text(
                                       context,
                                       'Telemedicine may be offered',
-                                      fontFamily: 'SFPD',
+                                      fontfamily: 'SFPD',
                                       11,
                                       fontWeight: FontWeight.w400,
                                       color: color20,

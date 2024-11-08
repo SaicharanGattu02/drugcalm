@@ -116,7 +116,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
                       onPressed: () {
                         _pageController.jumpToPage(0);
                       },
-                      child: text3('SKIP', 16),
+                      child: text(context,'SKIP', 16),
                     ),
                   SmoothPageIndicator(
                     controller: _pageController,
@@ -125,7 +125,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
                   ),
                   TextButton(
                     onPressed: _nextPage,
-                    child: text3(_currentIndex ==2
+                    child: text(context,_currentIndex ==2
                         ? "Get Started"
                         : 'NEXT', 16),
                   ),
@@ -169,9 +169,9 @@ class OnboardingContent extends StatelessWidget {
               fit: BoxFit.contain,
             ),
 
-            text3('${title}', 25),
+            text(context,'${title}', 25),
             SizedBox(height: h * 0.024),
-            text1('${description}', 14),
+            text(context,'${description}', 14),
             SizedBox(height: 20),
           ],
         ),
