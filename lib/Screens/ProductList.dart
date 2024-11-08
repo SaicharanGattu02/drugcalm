@@ -395,7 +395,7 @@ class _ProductListState extends State<ProductList> {
                     ],
                   )
               ),
-              SizedBox(height: h*0.01,),
+
             ],
           ),
         ),
@@ -430,8 +430,8 @@ class _ProductListState extends State<ProductList> {
                       ),
                       Spacer(),
                       container(
-                        w: w * 0.08,
-                        h: h * 0.035,
+                        w: w * 0.04,
+                        h: h*0.035,
                         colors: color4,
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
@@ -451,8 +451,8 @@ class _ProductListState extends State<ProductList> {
                         width: w * 0.01,
                       ),
                       container(
-                          w: w * 0.08,
-                          h: h * 0.035,
+                          w: w * 0.04,
+                          h: h*0.035,
                           colors: color4,
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
@@ -463,8 +463,8 @@ class _ProductListState extends State<ProductList> {
                         width: w * 0.01,
                       ),
                       container(
-                        w: w * 0.08,
-                        h: h * 0.035,
+                        w: w * 0.04,
+                        h: h*0.035,
                         colors: color1,
                         borderRadius: BorderRadius.circular(4),
                         context,
@@ -519,7 +519,7 @@ class _ProductListState extends State<ProductList> {
                             children: [
                               Image.asset(
                                 'assets/Coin.png',
-                                width: w * 0.045,
+                                width: w * 0.03,
                               ),
                               SizedBox(
                                 width: w * 0.01,
@@ -541,8 +541,8 @@ class _ProductListState extends State<ProductList> {
                                   });
                                 },
                                 child: container(
-                                  w: w * 0.06,
-                                  h: h*0.028,
+                                  w: w * 0.03,
+                                  h: h*0.03,
                                   context,
                                   border:
                                   Border.all(color: color1, width: 2),
