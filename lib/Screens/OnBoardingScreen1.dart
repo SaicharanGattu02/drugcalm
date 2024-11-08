@@ -17,6 +17,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
   int _currentIndex = 0;
 
   final List<Map<String, String>> _onboardingData = [
+
     {
       "title": "Home Delivery of Medicines",
       "description":
