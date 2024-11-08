@@ -3,6 +3,7 @@ import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Screens/AddAddress.dart';
 import 'package:drugcalm/Screens/ApplyCoupon.dart';
 import 'package:drugcalm/Screens/Home.dart';
+import 'package:drugcalm/Screens/OrderSummary.dart';
 import 'package:drugcalm/Screens/ProductDetails.dart';
 import 'package:drugcalm/Screens/SelectAddress.dart';
 import 'package:drugcalm/Screens/Spalsh.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-        home:AddAddress()
+        home:OrderSummary()
     );
   }
 }
