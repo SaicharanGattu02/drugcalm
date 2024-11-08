@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/CustomAppBar1.dart';
 import '../utils/constants.dart';
+import 'SaltComposition.dart';
 
 class Cartscreen extends StatefulWidget {
   const Cartscreen({super.key});
@@ -12,6 +13,9 @@ class Cartscreen extends StatefulWidget {
 }
 
 class _CartscreenState extends State<Cartscreen> {
+  int _counter = 0;
+  bool _isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -32,6 +36,8 @@ class _CartscreenState extends State<Cartscreen> {
                 ),
                 fit: BoxFit.cover)),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: EdgeInsets.all(16),
@@ -62,7 +68,7 @@ class _CartscreenState extends State<Cartscreen> {
             ),
             container(
                 w: w,
-                padding: EdgeInsets.only(top: 16, bottom: 16),
+                padding: EdgeInsets.only(top: 16, bottom: 16, right: 10),
                 margin: EdgeInsets.only(top: 15, bottom: 15),
                 borderRadius: BorderRadius.circular(8),
                 colors: color4,
@@ -98,7 +104,7 @@ class _CartscreenState extends State<Cartscreen> {
                           ),
                         ),
                         Container(
-                          width: w * 0.32,
+                          width: w * 0.3,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,8 +261,6 @@ class _CartscreenState extends State<Cartscreen> {
                                       ],
                                     ),
                                   ),
-
-
                                   SizedBox(
                                     width: w * 0.02,
                                   ),
@@ -282,7 +286,8 @@ class _CartscreenState extends State<Cartscreen> {
                                     width: w * 0.02,
                                   ),
                                   container(
-                                    context,colors: color5.withOpacity(0.11),
+                                    context,
+                                    colors: color5.withOpacity(0.11),
                                     border: Border.all(color: color5, width: 1),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 6, vertical: 3),
@@ -300,11 +305,8 @@ class _CartscreenState extends State<Cartscreen> {
                                       ],
                                     ),
                                   ),
-
-
                                 ],
                               ),
-
                             ],
                           ),
                         )
@@ -338,9 +340,660 @@ class _CartscreenState extends State<Cartscreen> {
                     ),
                   ],
                 )),
+            InkResponse(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SaltComposition()));
+              },
+              child: container(
+                  w: w,
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                  border: Border.all(color: color1, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                  context,
+                  colors: color21,
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          text(context, 'SALT Composition', 16, color: color1),
+                          SizedBox(
+                            height: h * 0.01,
+                          ),
+                          text(context, 'Paracetamol 650MG', 16,
+                              color: color11,
+                              fontWeight: FontWeight.w500,
+                              fontfamily: 'Inter'),
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 18,
+                      )
+                    ],
+                  )),
+            ),
+            SizedBox(
+              height: h * 0.01,
+            ),
+            text(context, 'PROMO CODE:', 13,
+                fontfamily: 'Inter', fontWeight: FontWeight.w400),
+            InkResponse(
+              onTap: () {
+                // Navigator.push(context,
+                // MaterialPageRoute(builder: (context) => SaltComposition()));
+              },
+              child: container(
+                  w: w,
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  border: Border.all(color: color22, width: 1),
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                  borderRadius: BorderRadius.circular(8),
+                  context,
+                  colors: color4,
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/promocode.png',
+                        fit: BoxFit.contain,
+                        width: w * 0.04,
+                      ),
+                      SizedBox(
+                        width: w * 0.01,
+                      ),
+                      text(context, 'Apply Coupon', 18,
+                          color: color18,
+                          fontWeight: FontWeight.w400,
+                          fontfamily: 'Inter'),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 18,
+                      )
+                    ],
+                  )),
+            ),
+            text(context, 'Coupons Available for you', 16,
+                color: color11,
+                fontWeight: FontWeight.w500,
+                fontfamily: 'Inter'),
+            SizedBox(
+              height: h * 0.01,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/vochar.png',
+                    fit: BoxFit.contain,
+                    height: h * 0.12,
+                  ),
+                  SizedBox(
+                    width: w * 0.01,
+                  ),
+                  Image.asset(
+                    'assets/vochar (2).png',
+                    fit: BoxFit.contain,
+                    height: h * 0.12,
+                  ),
+                ],
+              ),
+            ),
+            InkResponse(
+              onTap: () {
+                // Navigator.push(context,
+                // MaterialPageRoute(builder: (context) => SaltComposition()));
+              },
+              child: container(
+                  w: w,
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  border: Border.all(color: color22, width: 1),
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                  borderRadius: BorderRadius.circular(8),
+                  context,
+                  colors: color4,
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          text(context, 'Mediqex Membership', 18,
+                              color: color18,
+                              fontWeight: FontWeight.w400,
+                              fontfamily: 'Inter'),
+                          SizedBox(
+                            width: w * 0.01,
+                          ),
+                          text(context,
+                              'Get flat 25% off from your Mediqex Wallet', 12,
+                              color: color,
+                              fontWeight: FontWeight.w400,
+                              fontfamily: 'Inter'),
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 18,
+                      )
+                    ],
+                  )),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isChecked = !_isChecked;
+                });
+              },
+              child: Row(
+                children: [
+                  container(
+                    w: w * 0.03,
+                    h: h * 0.03,
+                    context,
+                    border: Border.all(color: color1, width: 2),
+                    borderRadius: BorderRadius.circular(4),
+                    child: _isChecked
+                        ? Icon(
+                            Icons.check,
+                            color: color1,
+                            size: 20,
+                          )
+                        : Container(),
+                  ),
+                  SizedBox(
+                    width: w * 0.01,
+                  ),
+                  text(context, '₹1 Donate', 18,
+                      color: color18,
+                      fontWeight: FontWeight.w400,
+                      fontfamily: 'Inter'),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: h * 0.01,
+            ),
+            container(context,
+                colors: color4,
+                borderRadius: BorderRadius.circular(8),
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                w: w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    text(context, 'Payment Details', 13,
+                        color: color23, fontWeight: FontWeight.w400),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Total Cost:', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '₹29', 15,
+                            fontWeight: FontWeight.w400, color: color18)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Shipping Fee', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'SFPD'),
+                        Spacer(),
+                        text(context, '₹02', 15,
+                            fontWeight: FontWeight.w400, color: color18)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Delivery Charges', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '+₹40', 15,
+                            fontWeight: FontWeight.w400, color: color18)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Handling Charges', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '+₹4', 15,
+                            fontWeight: FontWeight.w400, color: color18)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'GST', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '₹12', 15,
+                            fontWeight: FontWeight.w400, color: color18)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        text(context, 'Additional Discount', 12,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                            fontfamily: 'Inter'),
+                        Spacer(),
+                        text(context, '- ₹12', 15,
+                            fontWeight: FontWeight.w400, color: color6)
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+                    Divider(
+                      height: 1,
+                      color: color,
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: h * 0.02,
+            ),
+            Container(
+              width: w,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      text(context, 'Similar Products Schemes', 16),
+                      Spacer(),
+                      text(context, 'SEE ALL', 16,
+                          color: color1, fontWeight: FontWeight.w400),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: color1,
+                        size: 18,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  Container(
+                    // child: ListView.builder(
+                    //   scrollDirection: Axis.horizontal,
+                    //   itemCount: grid3.length,
+                    //   itemBuilder: (context, index) {
+                    //     return
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                          4,
+                          (index) {
+                            return Container(
+                              width: w * 0.3,
+                              padding: EdgeInsets.all(8),
+                              margin: EdgeInsets.only(right: 8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: color1.withOpacity(0.2),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomizeProductBar()));
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          child: Center(
+                                        child: Image.asset(
+                                          'assets/HCQS 200 Tablet.png',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      text(context, 'HCQS 200 Tablet', 14),
+                                      SizedBox(
+                                        height: h * 0.02,
+                                      ),
+                                      text(context,'15.0 tablets in 1 strip', 10,
+                                          color: color1),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Net Price:', 12,
+                                              color: color),
+                                          SizedBox(
+                                            width: w * 0.01,
+                                          ),
+                                          text(context, '₹ 93.81', 14),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          text(context, 'MRP:', 12,
+                                              color: color),
+                                          SizedBox(
+                                            width: w * 0.01,
+                                          ),
+                                          text(context, '₹ 106.8', 14,
+                                              color: color1),
+                                          SizedBox(
+                                            height: h * 0.01,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'MARGIN', 12,
+                                              fontWeight: FontWeight.w500),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          text(context, '12%', 14,
+                                              color: color1),
+                                          SizedBox(
+                                            width: w * 0.01,
+                                          ),
+                                          text(context, 'PTR', 12,
+                                              fontWeight: FontWeight.w500),
+                                          Icon(
+                                            Icons.info,
+                                            color: color1,
+                                            size: 18,
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          text(
+                                            context,
+                                            '₹ 106.8',
+                                            14,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.02,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: containertext(
+                                                height: h * 0.045,
+                                                context,
+                                                'ADD TO CART',
+                                                onTap: () {}),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          Container(
+                                            height: h * 0.045,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: color2, width: 2),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Image.asset(
+                                              'assets/favrate.png',
+                                              color: color2,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              //   );
+                              // }
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       )),
+
+
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          container(
+            w: w,
+            context,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            colors: color4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          text(context, 'In Stock', 12,
+                              color: color18, fontWeight: FontWeight.w400),
+                          text(context, '990', 14,
+                              fontWeight: FontWeight.w500, color: color19),
+                        ],
+                      ),
+                      Spacer(),
+                      container(
+                        w: w * 0.04,
+                        h: h * 0.033,
+                        colors: color4,
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(
+                            color: color11.withOpacity(0.1), width: 1),
+                        context,
+                        child: IconButton(
+                          icon: Icon(Icons.remove,
+                              size: 12, color: color11), // color11
+                          onPressed: () {
+                            setState(() {
+                              if (_counter > 0) _counter--;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: w * 0.01,
+                      ),
+                      container(
+                          w: w * 0.04,
+                          h: h * 0.033,
+                          colors: color4,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                              color: color11.withOpacity(0.1), width: 1),
+                          context,
+                          child: text(context, '$_counter', 16)),
+                      SizedBox(
+                        width: w * 0.01,
+                      ),
+                      container(
+                        w: w * 0.04,
+                        h: h * 0.033,
+                        colors: color1,
+                        borderRadius: BorderRadius.circular(4),
+                        context,
+                        child: IconButton(
+                          icon: Icon(Icons.add,
+                              size: 14, color: color4), // color11
+                          onPressed: () {
+                            setState(() {
+                              _counter++;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                container(
+                    w: w,
+                    context,
+                    colors: color13,
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    child: Center(
+                        child: text(context,
+                            'Congratulations ! 5+1 scheme is applied', 10,
+                            color: color4))),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          text(
+                            context,
+                            'TO BE PAID',
+                            13,
+                            fontWeight: FontWeight.w400,
+                            color: color,
+                          ),
+                          text(
+                            context,
+                            '₹2,545',
+                            16,
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/Coin.png',
+                                width: w * 0.03,
+                              ),
+                              SizedBox(
+                                width: w * 0.01,
+                              ),
+                              text(
+                                context,
+                                'Redeem 30Coins',
+                                12,
+                                fontWeight: FontWeight.w400,
+                                color: color11,
+                              ),
+                              SizedBox(
+                                width: w * 0.02,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isChecked = !_isChecked;
+                                  });
+                                },
+                                child: container(
+                                  w: w * 0.03,
+                                  h: h * 0.03,
+                                  context,
+                                  border: Border.all(color: color1, width: 2),
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: _isChecked
+                                      ? Icon(
+                                          Icons.check,
+                                          color: color1,
+                                          size: 20,
+                                        )
+                                      : Container(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      container(context,
+                          borderRadius: BorderRadius.circular(4),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          colors: color1,
+                          child: Row(
+                            children: [
+                              text(context, 'CHECKOUT', 13,
+                                  fontWeight: FontWeight.w400, color: color4),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: color4,
+                              )
+                            ],
+                          ))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
