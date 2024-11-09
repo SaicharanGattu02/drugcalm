@@ -22,7 +22,7 @@ class _SelectAddressState extends State<SelectAddress> {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar1(title: 'SELECT ADDRESS', actions: []),
       body: Container(

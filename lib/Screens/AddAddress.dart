@@ -26,7 +26,7 @@ class _AddAddressState extends State<AddAddress> {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: CustomAppBar1(title: 'ADD ADDRESS', actions: []),
         body: Column(

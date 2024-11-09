@@ -18,7 +18,7 @@ class _OrderSummaryState extends State<OrderSummary> {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar1(title: 'ORDER SUMMARY', actions: []),
       body: SingleChildScrollView(

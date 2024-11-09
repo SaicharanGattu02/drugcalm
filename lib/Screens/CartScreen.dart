@@ -20,7 +20,7 @@ class _CartscreenState extends State<Cartscreen> {
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
-    var w = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppBar1(
         title: 'CART',
