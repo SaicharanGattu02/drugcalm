@@ -4,22 +4,23 @@ import 'package:gif/gif.dart';
 
 import '../utils/constants.dart';
 
-class Forgotpasswordscreen extends StatefulWidget {
-  const Forgotpasswordscreen({super.key});
+class SetnewpasswordScreen extends StatefulWidget {
+  const SetnewpasswordScreen({super.key});
 
   @override
-  State<Forgotpasswordscreen> createState() => _ForgotpasswordscreenState();
+  State<SetnewpasswordScreen> createState() => _SetnewpasswordScreenState();
 }
 
-class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
-    with TickerProviderStateMixin {
-  late GifController _controller;
-  final TextEditingController email = TextEditingController();
+class _SetnewpasswordScreenState extends State<SetnewpasswordScreen> {
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmpassword = TextEditingController();
+
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
   @override
   void initState() {
     super.initState();
-    _controller = GifController(
-        vsync: this); // Now `this` refers to a valid TickerProvider
   }
 
   @override
@@ -41,8 +42,8 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
             margin: EdgeInsets.only(top: 30),
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: color4,
-              borderRadius: BorderRadius.all(Radius.circular(8))
+                color: color4,
+                borderRadius: BorderRadius.all(Radius.circular(8))
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,16 +57,16 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
                     SizedBox(
                       width: 15,
                     ),
-                    text(context, 'FORGOT PASSWORD', 18,
+                    text(context, 'SET NEW PASSWORD', 18,
                         color: color11,
                         fontfamily: "Inter",
                         fontWeight: FontWeight.w700),
                   ],
                 ),
                 SizedBox(
-                  height: 45,
+                  height: 35,
                 ),
-                text(context, 'Please enter your email to reset the password', 14,
+                text(context, 'Create a new password. Ensure it differs from previous ones for security', 14,
                     color: color2,
                     textAlign: TextAlign.start,
                     fontfamily: "Inter",
@@ -74,9 +75,10 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
                 Container(
                   height:54,
                   child: TextField(
-                    controller: email,
+                    controller: password,
+                    obscureText: true,
                     decoration: InputDecoration(
-                      hintText: "Mobile Number or Email",
+                      hintText: "Enter Your New Password",
                       hintStyle: TextStyle(
                         fontSize: 14,
                         letterSpacing: 0,
@@ -99,21 +101,41 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
                   ),
                 ),
                 SizedBox(
-                  height: w*0.2,
+                  height: w*0.07,
                 ),
-                Center(
-                  child: Image.asset(
-                    "assets/forgotpassword.png",
-                    width: 280,
-                    height: 250,
+                Container(
+                  height:54,
+                  child: TextField(
+                    controller: confirmpassword,
+                    decoration: InputDecoration(
+                      hintText: "Re-Enter Your Password",
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        letterSpacing: 0,
+                        height: 1.2,
+                        color: color,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      filled: true,
+                      fillColor: Color(0xffFCFAFF),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(width: 1, color: color7),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(width: 1, color:color7),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  height: w*0.3,
+                  height: w*1,
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotOTPscreen(),));
+
                   },
                   child: Center(
                     child: Container(
@@ -126,7 +148,7 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen>
                           color: color1
                       ),
                       child: Center(
-                        child: text(context, 'RESET PASSWORD', 16,
+                        child: text(context, 'UPDATE PASSWORD', 16,
                             color: color4,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),

@@ -1,23 +1,17 @@
 
-import 'package:drugcalm/Authentication/SignIn.dart';
-import 'package:drugcalm/Screens/AddAddress.dart';
-import 'package:drugcalm/Screens/ApplyCoupon.dart';
-import 'package:drugcalm/Screens/Home.dart';
-import 'package:drugcalm/Screens/OrderSummary.dart';
-import 'package:drugcalm/Screens/ProductDetails.dart';
-import 'package:drugcalm/Screens/SelectAddress.dart';
-import 'package:drugcalm/Screens/Spalsh.dart';
-import 'package:drugcalm/Screens/dashboard.dart';
+import 'package:drugcalm/Authentication/ForgotPasswordScreen.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'Authentication/SignIn.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => ThemeProvider(AppTheme.device),
+          create: (context) => ThemeProvider(AppTheme.light),
         ),
         ChangeNotifierProvider(
           create: (context) => LanguageProvider(), // Add LanguageProvider here
@@ -37,7 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Drug Calm',
       theme: themeProvider.themeData,
-        home:OrderSummary()
+        home:SignIn()
     );
   }
 }
