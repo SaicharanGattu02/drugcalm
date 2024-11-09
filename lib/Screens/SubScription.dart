@@ -20,10 +20,10 @@ class _SubscriptionState extends State<Subscription> {
     var h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // appBar: CustomAppBar1(
-      //   title: 'SUBSCRIPTION',
-      //   actions: [],
-      // ),
+      appBar: CustomAppBar1(
+        title: 'SUBSCRIPTION',
+        actions: [Container()],
+      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(

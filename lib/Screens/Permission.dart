@@ -161,43 +161,52 @@ class _MyPermissionState extends State<MyPermission> {
       appBar: CustomAppBar(
         title: 'APP PERMISSIONS',
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildPermissionItem(
-                    icon: "assets/location.png",
-                    title: "Location",
-                    description:
-                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non",
-                  ),
-                  _buildPermissionItem(
-                    icon: "assets/camera.png",
-                    title: "Camera",
-                    description:
-                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem igitur",
-                  ),
-                  _buildPermissionItem(
-                    icon: "assets/gallery.png",
-                    title: "Photo / Media / Files",
-                    description:
-                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
-                  ),
-                  _buildPermissionItem(
-                    icon: "assets/message.png",
-                    title: "SMS",
-                    description:
-                        "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
-                  ),
-                ],
+      body: Container(
+        width: w,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/Drug Clam Background.png',
+                ),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildPermissionItem(
+                      icon: "assets/location.png",
+                      title: "Location",
+                      description:
+                          "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non",
+                    ),
+                    _buildPermissionItem(
+                      icon: "assets/camera.png",
+                      title: "Camera",
+                      description:
+                          "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem igitur",
+                    ),
+                    _buildPermissionItem(
+                      icon: "assets/gallery.png",
+                      title: "Photo / Media / Files",
+                      description:
+                          "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
+                    ),
+                    _buildPermissionItem(
+                      icon: "assets/message.png",
+                      title: "SMS",
+                      description:
+                          "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Container(
@@ -215,54 +224,61 @@ class _MyPermissionState extends State<MyPermission> {
     required String title,
     required String description,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Color(0xFFCDE2FB),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(6),
-                child: Center(
-                  child: Image.asset(
-                    icon,
-                    width: 18,
-                    height: 18,
+    return container(
+      context,
+      colors: color4,
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Color(0xFFCDE2FB),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Center(
+                    child: Image.asset(
+                      icon,
+                      color: color11,
+                      width: 18,
+                      height: 18,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 17,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 7, left: 40),
-          child: Text(
-            description,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w300,
-              fontSize: 14,
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 7,),
+            child: Text(
+              description,
+              style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w300,
+                  fontSize: 13,
+                  color: color
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

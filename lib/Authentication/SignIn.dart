@@ -1,7 +1,9 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:drugcalm/Authentication/OtpVerify.dart';
 import 'package:drugcalm/utils/ColorConstrants.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:drugcalm/utils/constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +38,8 @@ class _SignInState extends State<SignIn> {
           CustomAppBar(title: 'SIGN IN TO CONTINUE'),
           Lottie.asset(
             'assets/animations/signin.json',
-            height: h * 0.35,
-            width: w * 0.5,
+            height: h * 0.37,
+            width: w * 0.65,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -49,55 +51,71 @@ class _SignInState extends State<SignIn> {
                   children: [
                     Container(
                       width: w * 0.72,
-                      height: h * 0.055,
-                      child: DropdownButtonFormField<String>(
-                        value:
-                            context.watch<LanguageProvider>().selectedLanguage,
-                        onChanged: (String? newValue) {
-                          context
-                              .read<LanguageProvider>()
-                              .setLanguage(newValue!);
-                        },
-                        items: _languages
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: "Inter",
-                                fontWeight: FontWeight.w400,
+                      child:DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          // Ensure selectedLanguage is null or empty initially so that the hint appears
+                          value: context.watch<LanguageProvider>().selectedLanguage.isEmpty
+                              ? null  // Show the hint if the value is null or empty
+                              : context.watch<LanguageProvider>().selectedLanguage,
+                          hint: text(context, "Select language", 16),
+                          items: _languages.map((String language) {
+                            return DropdownMenuItem<String>(
+                              value: language,
+                              child: Text(
+                                language,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "Inter",
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              context.read<LanguageProvider>().setLanguage(newValue);
+                            }
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 45,
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: Color(0xffE9F7FF),
+                              border:Border.all(color: color7)
                             ),
-                          );
-                        }).toList(),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Select language",
-                          hintStyle: TextStyle(
-                            fontSize: 15,
-                            letterSpacing: 0,
-                            height: 1.2,
-                            color: Color(0xffAFAFAF),
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
                           ),
-                          filled: true,
-                          fillColor: Color(0xffFCFAFF),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide:
-                                BorderSide(width: 1, color: Color(0xffD0CBDB)),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 25,
+                            ),
+                            iconSize: 14,
+                            iconEnabledColor: Colors.black,
+                            iconDisabledColor: Colors.black,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7.0),
-                            borderSide:
-                                BorderSide(width: 1, color: Color(0xffD0CBDB)),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.white,
+                            ),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
                           ),
                         ),
-                      ),
+                      )
+
+
                     ),
                     SizedBox(
                       width: w * 0.02,
@@ -116,7 +134,7 @@ class _SignInState extends State<SignIn> {
                     )
                   ],
                 ),
-                SizedBox(height: h * 0.02),
+                SizedBox(height: h * 0.03),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.055,
                   child: TextFormField(
@@ -183,7 +201,7 @@ class _SignInState extends State<SignIn> {
                   SizedBox(height: 15),
                 ],
                 SizedBox(
-                  height: h * 0.04,
+                  height: h * 0.02,
                 ),
                 containertext(context, 'GET VERIFICATION CODE', onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpVerify(num: _mobileController.text,)));
@@ -191,17 +209,42 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: h * 0.04,
                 ),
-                Center(child: text(context, 'Sign In with Email', 16,color: color1)),
+                Center(child: text(context, 'Sign In with Email', 15,color: color1,fontWeight: FontWeight.w400,textdecoration:TextDecoration.underline,decorationcolor: color1)),
 
                 SizedBox(
                   height: h * 0.02,
                 ),
-                 Row(mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    text(context,'Don’t have an account? ', 16),
-                    text(context,'Sign up', 16,color: color1)
-                  ],
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black, // Default text color
+                      ),
+                      children: <TextSpan>[
+                        // Regular text
+                        TextSpan(
+                          text: "Don’t have an account? ",
+                          style: TextStyle(
+                            color: Color(0xff989898),
+                            fontFamily: "Inter",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Sign up",
+                          style: TextStyle(
+                            color: color1,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Inter",
+                          ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            print("Resend email clicked");
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

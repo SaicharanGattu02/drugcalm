@@ -1,7 +1,12 @@
+import 'package:drugcalm/Screens/CategoriesScreen.dart';
+import 'package:drugcalm/Screens/Community.dart';
 import 'package:drugcalm/Screens/Home.dart';
+import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:drugcalm/Screens/SubScription.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
+
+import 'WishListScreen.dart';
 
 class Dashbord extends StatefulWidget {
   const Dashbord({super.key});
@@ -14,7 +19,15 @@ class _DashbordState extends State<Dashbord> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [Home(),Subscription()];
+  // Ensure each index corresponds to a unique screen
+  final List<Widget> _screens = [
+    Home(),
+    Wishlistscreen(),
+    Subscription(),
+    Community(),
+    CategoriesScreen()
+  ];
+
   final PageController _pageController = PageController();
 
   void onTabTapped(int index) {
@@ -32,8 +45,7 @@ class _DashbordState extends State<Dashbord> {
 
   @override
   void dispose() {
-    _pageController
-        .dispose(); // Clean up the controller when the widget is disposed
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -44,148 +56,6 @@ class _DashbordState extends State<Dashbord> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: null,
-        actions: <Widget>[Container()],
-        toolbarHeight: h * 0.17,
-        backgroundColor: color1,
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  InkResponse(
-                    onTap: () {
-                      _scaffoldKey.currentState?.openDrawer();
-                    },
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/dclogo1.png",
-                          width: w * 0.1,
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(width: 12),
-                        Image.asset(
-                          "assets/dc1.png",
-                          width: w * 0.25,
-                          fit: BoxFit.contain,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/notifications.png",
-                          width: 28,
-                          height: 28,
-                          color: Color(0xffffffff),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      SizedBox(
-                        width: w * 0.02,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/cart.png",
-                          width: 28,
-                          height: 28,
-                          color: Color(0xffffffff),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      SizedBox(
-                        width: w * 0.02,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: ClipOval(
-                          child: CircleAvatar(
-                            radius: w * 0.038,
-                            child: Image.asset(
-                              "assets/profile.png",
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/location.png",
-                    width: w * 0.08,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              Container(
-                width: w,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                    color: const Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(8)),
-                child:
-                Row(
-                  children: [
-                    Text(
-                      "Search",
-                      style: TextStyle(
-                          color: Color(0xff9E7BCA),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          fontFamily: "Nunito"),
-                    ),
-                    Spacer(),
-                    Image.asset(
-                      "assets/search.png",
-                      width: 22,
-                      height: 22,
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(width: w * 0.02),
-                    Image.asset(
-                      "assets/filter.png",
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(width: w * 0.02),
-                    Image.asset(
-                      "assets/mic.png",
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.contain,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
@@ -231,7 +101,7 @@ class _DashbordState extends State<Dashbord> {
                   width: w * .08,
                   height: h * 0.03,
                   color: _selectedIndex == 1 ? color1 : color2),
-              label: 'CART',
+              label: 'WHISHLIST',
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/pro.png',
@@ -256,9 +126,10 @@ class _DashbordState extends State<Dashbord> {
             ),
           ],
           currentIndex: _selectedIndex,
-          onTap: onTabTapped, // Change the selected tab
+          onTap: onTabTapped,
         ),
       ),
     );
   }
 }
+

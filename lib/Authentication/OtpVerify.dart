@@ -53,22 +53,23 @@ class _OtpVerifyState extends State<OtpVerify> {
                             children: [
                               text(context, 'A 06 Digit Code has been sent to:',
                                   16,
+                                  textAlign: TextAlign.start,
                                   fontWeight: FontWeight.w400),
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              text(context, '+91 ${widget.num}', 16,
+                              text(context, '+91 9874563210', 16,
                                   fontWeight: FontWeight.w500),
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              text(context, 'RESEND', 18, color: color1)
+                              text(context, 'RESEND', 16, color: color1,fontWeight: FontWeight.w500)
                             ],
                           ),
                         ),
                         Container(
                           width: w * 0.35,
-                          height: h * 0.25,
+                          height: h * 0.2,
                           child: Lottie.asset(
                             'assets/animations/onboarding3.json',
                             fit: BoxFit.contain,

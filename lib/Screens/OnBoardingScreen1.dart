@@ -122,13 +122,16 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
                   SmoothPageIndicator(
                     controller: _pageController,
                     count: _onboardingData.length,
-                    effect: WormEffect(),
+                    effect: WormEffect(
+                      activeDotColor: color1,
+                      radius: 10,
+                      dotWidth: 12,
+                      dotHeight: 12
+                    ),
                   ),
                   TextButton(
                     onPressed: _nextPage,
-                    child: text(context,_currentIndex ==2
-                        ? "Get Started"
-                        : 'NEXT', 16),
+                    child: text(context, 'NEXT', 16),
                   ),
                 ],
               ),
@@ -170,9 +173,9 @@ class OnboardingContent extends StatelessWidget {
               fit: BoxFit.contain,
             ),
 
-            text(context,'${title}', 25),
+            text(context,'${title}', 25,fontWeight: FontWeight.w600,color: color11),
             SizedBox(height: h * 0.024),
-            text(context,'${description}', 14),
+            text(context,'${description}', 14,color: color,fontWeight: FontWeight.w400),
             SizedBox(height: 20),
           ],
         ),

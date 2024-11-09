@@ -179,7 +179,7 @@ Text text(
       decoration: textdecoration,
       decorationColor: decorationcolor,
       overflow: overflow,
-      fontFamily: fontfamily, // Ensure the font is added in pubspec.yaml
+      fontFamily: fontfamily??"Inter", // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
   );
@@ -238,7 +238,7 @@ Widget containertext(BuildContext context, String buttonText,
   return InkResponse(
     onTap: onTap,
     child: Container(
-      height: height??h * 0.053,
+      height: 50,
       width: width ?? MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -255,6 +255,40 @@ Widget containertext(BuildContext context, String buttonText,
             fontSize: 18,
             height: 21.78 / 18,
             letterSpacing: 1,
+            fontFamily: "Inter"
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget  containertext1(BuildContext context, String buttonText,
+    {Function()? onTap, double? width,height}) {
+  var h = MediaQuery.of(context).size.height;
+  var w = MediaQuery.of(context).size.width;
+
+  return InkResponse(
+    onTap: onTap,
+    child: Container(
+      height: 40,
+      width: width ?? MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF22C6BF), Color(0xFF04B4AC)],
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Center(
+        child: Text(
+          buttonText,
+          style: TextStyle(
+              color: Color(0xffFFFFFF),
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+              height: 21.78 / 18,
+              letterSpacing: 1,
+              fontFamily: "Inter"
           ),
         ),
       ),
@@ -273,7 +307,6 @@ LinearGradient linearGradient = LinearGradient(
 
 Container container(BuildContext context,
     {required Widget child,
-    Color? color,
     BorderRadius? borderRadius,
     double? w,
     h,
@@ -284,10 +317,10 @@ Container container(BuildContext context,
   return Container(
     width: w,
     height: h,
-    padding: padding,
+    padding: padding?? EdgeInsets.all(16),
     margin: margin,
     decoration: BoxDecoration(
-        color: colors, borderRadius: borderRadius, border: border),
+        color: colors, borderRadius: borderRadius??BorderRadius.circular(8), border: border),
     child: child,
   );
 }

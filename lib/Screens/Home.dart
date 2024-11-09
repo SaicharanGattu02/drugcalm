@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drugcalm/Screens/Brands.dart';
+import 'package:drugcalm/Screens/CategoriesScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,7 @@ class _HomeState extends State<Home> {
     {'image': 'assets/img2.png', 'title': 'Spaciality'},
     {'image': 'assets/img2.png', 'title': 'Company List'},
     {'image': 'assets/img2.png', 'title': 'Cosmotic'},
+
   ];
   List<Map<String, String>> grid2 = [
     {'image': 'assets/Antiboitics.png', 'title': 'Antibiotics'},
@@ -123,6 +126,152 @@ class _HomeState extends State<Home> {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: null,
+        actions: <Widget>[Container()],
+        toolbarHeight: h * 0.17,
+        backgroundColor: color1,
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkResponse(
+                    onTap: () {
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/dclogo1.png",
+                          width: w * 0.1,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(width: 12),
+                        Image.asset(
+                          "assets/dc1.png",
+                          width: w * 0.25,
+                          fit: BoxFit.contain,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/notifications.png",
+                          width: 28,
+                          height: 28,
+                          color: Color(0xffffffff),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(
+                        width: w * 0.02,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          "assets/cart.png",
+                          width: 28,
+                          height: 28,
+                          color: Color(0xffffffff),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(
+                        width: w * 0.02,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: ClipOval(
+                          child: CircleAvatar(
+                            radius: w * 0.038,
+                            child: Image.asset(
+                              "assets/profile.png",
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: h * 0.01,
+              ),
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/location.png",
+                    width: w * 0.08,
+                    fit: BoxFit.contain,
+                  ),
+                  text(context, 'Hyderabad', 15,
+                      color: color4,
+                      fontWeight: FontWeight.w400,
+                      fontfamily: "Poppins"),
+                  Icon(Icons.arrow_drop_down,color: color4,)
+                ],
+              ),
+              SizedBox(
+                height: h * 0.01,
+              ),
+              Container(
+                width: w,
+                padding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                    color: const Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(8)),
+                child:
+                Row(
+                  children: [
+                    Text(
+                      "Search by molicule",
+                      style: TextStyle(
+                          color: color,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: "Nunito"),
+                    ),
+                    Spacer(),
+                    Image.asset(
+                      "assets/search.png",
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(width: w * 0.02),
+                    Image.asset(
+                      "assets/filter.png",
+                      width: 24,
+                      height: 24,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(width: w * 0.02),
+                    Image.asset(
+                      "assets/mic.png",
+                      width: 24,
+                      height: 24,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           // height: h,
@@ -203,8 +352,13 @@ class _HomeState extends State<Home> {
                   children: [
                     text(context, 'Shopping By Categories', 16),
                     Spacer(),
-                    text(context, 'SEE ALL', 16,
-                        color: color1, fontWeight: FontWeight.w400),
+                    InkResponse(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesScreen(),));
+                      },
+                      child: text(context, 'SEE ALL', 16,
+                          color: color1, fontWeight: FontWeight.w400),
+                    ),
                     Icon(
                       Icons.arrow_forward_ios_outlined,
                       color: color1,
@@ -282,8 +436,13 @@ class _HomeState extends State<Home> {
                   children: [
                     text(context, 'Shopping By Brands', 16),
                     Spacer(),
-                    text(context, 'SEE ALL', 16,
-                        color: color1, fontWeight: FontWeight.w400),
+                    InkResponse(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Brands(),));
+                      },
+                      child: text(context, 'SEE ALL', 16,
+                          color: color1, fontWeight: FontWeight.w400),
+                    ),
                     Icon(
                       Icons.arrow_forward_ios_outlined,
                       color: color1,
@@ -383,16 +542,16 @@ class _HomeState extends State<Home> {
                 ),
                 Container(
                     width: w,
-                    padding: const EdgeInsets.all(16),
+                    padding:  EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
+                        color: Color(0xffffffff),
                         borderRadius: BorderRadius.circular(8)),
                     child: Row(
                       children: [
                         Image.asset(
                           "assets/WhatsApp svg.png",
-                          width: 30,
-                          height: 30,
+                          width: 40,
+                          height: 40,
                           fit: BoxFit.contain,
                         ),
                         SizedBox(
@@ -402,15 +561,16 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            text(context, 'Call Our Health Adviser to Book', 14,
+                            text(context, 'Call Our Health Adviser to Book', 13,
                                 fontWeight: FontWeight.w400),
                             SizedBox(
-                              height: h * 0.02,
+                              height: h * 0.005,
                             ),
                             text(
                               context,
                               'Our Team of Experts will guide You',
-                              14,
+                              fontWeight: FontWeight.w600,
+                              11,
                             ),
                           ],
                         ),
@@ -434,7 +594,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Row(
                         children: [
-                          text(context, 'Near expiry Products', 16),
+                          text(context, 'Near expiry Products', 16,fontWeight: FontWeight.w500),
                           Spacer(),
                           text(context, 'SEE ALL', 16,
                               color: color1, fontWeight: FontWeight.w400),
@@ -461,7 +621,7 @@ class _HomeState extends State<Home> {
                               4,
                               (index) {
                                 return Container(
-                                  width: w * 0.8,
+                                  width: w * 0.6,
                                   padding: EdgeInsets.all(8),
                                   margin: EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
@@ -495,14 +655,20 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text(context,'15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,fontWeight: FontWeight.w500,
                                               color: color1),
                                           SizedBox(
-                                            height: h * 0.01,
+                                            height: h * 0.005,
+                                          ),
+                                          RatingWidget(
+                                            initialRating: 4.0,
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.005,
                                           ),
                                           Row(
                                             children: [
-                                              text(context, 'Net Price:', 12,
+                                              text(context, 'Net Price:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
@@ -511,12 +677,12 @@ class _HomeState extends State<Home> {
                                               SizedBox(
                                                 width: w * 0.02,
                                               ),
-                                              text(context, 'MRP:', 12,
+                                              text(context, 'MRP:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
                                               ),
-                                              text(context, '₹ 106.8', 14,
+                                              text(context, '₹ 106.8', 12,fontWeight: FontWeight.w400,
                                                   color: color1),
                                               SizedBox(
                                                 height: h * 0.01,
@@ -531,12 +697,12 @@ class _HomeState extends State<Home> {
                                               text(context, 'MARGIN', 12,
                                                   fontWeight: FontWeight.w500),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.01,
                                               ),
                                               text(context, '12%', 14,
                                                   color: color1),
                                               SizedBox(
-                                                width: w * 0.01,
+                                                width: w * 0.04,
                                               ),
                                               text(context, 'PTR', 12,
                                                   fontWeight: FontWeight.w500),
@@ -546,12 +712,12 @@ class _HomeState extends State<Home> {
                                                 size: 18,
                                               ),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.001,
                                               ),
                                               text(
                                                 context,
-                                                '₹ 106.8',
-                                                14,
+                                                '₹ 106.8',fontWeight: FontWeight.w700,
+                                                11,
                                               ),
                                             ],
                                           ),
@@ -561,7 +727,7 @@ class _HomeState extends State<Home> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: containertext(
+                                                child: containertext1(
                                                     context, 'ADD TO CART',
                                                     onTap: () {}),
                                               ),
@@ -569,16 +735,19 @@ class _HomeState extends State<Home> {
                                                 width: w * 0.02,
                                               ),
                                               Container(
-                                                height: h * 0.055,
+                                                height:40,
+                                                padding:EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: color2,
+                                                        color: color11,
                                                         width: 2),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8)),
                                                 child: Image.asset(
-                                                  'assets/fav.png',
+                                                  'assets/favoutline.png',
+                                                  width: 20,
+                                                  height: 18,
                                                   color: color2,
                                                   fit: BoxFit.contain,
                                                 ),
@@ -639,9 +808,9 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: List.generate(
                               4,
-                              (index) {
+                                  (index) {
                                 return Container(
-                                  width: w * 0.8,
+                                  width: w * 0.6,
                                   padding: EdgeInsets.all(8),
                                   margin: EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
@@ -657,17 +826,17 @@ class _HomeState extends State<Home> {
                                       },
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                               child: Center(
-                                            child: Image.asset(
-                                              'assets/HCQS 200 Tablet.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          )),
+                                                child: Image.asset(
+                                                  'assets/HCQS 200 Tablet.png',
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              )),
                                           SizedBox(
                                             height: h * 0.01,
                                           ),
@@ -675,14 +844,20 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text(context,'15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,fontWeight: FontWeight.w500,
                                               color: color1),
                                           SizedBox(
-                                            height: h * 0.01,
+                                            height: h * 0.005,
+                                          ),
+                                          RatingWidget(
+                                            initialRating: 4.0,
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.005,
                                           ),
                                           Row(
                                             children: [
-                                              text(context, 'Net Price:', 12,
+                                              text(context, 'Net Price:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
@@ -691,12 +866,12 @@ class _HomeState extends State<Home> {
                                               SizedBox(
                                                 width: w * 0.02,
                                               ),
-                                              text(context, 'MRP:', 12,
+                                              text(context, 'MRP:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
                                               ),
-                                              text(context, '₹ 106.8', 14,
+                                              text(context, '₹ 106.8', 12,fontWeight: FontWeight.w400,
                                                   color: color1),
                                               SizedBox(
                                                 height: h * 0.01,
@@ -711,12 +886,12 @@ class _HomeState extends State<Home> {
                                               text(context, 'MARGIN', 12,
                                                   fontWeight: FontWeight.w500),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.01,
                                               ),
                                               text(context, '12%', 14,
                                                   color: color1),
                                               SizedBox(
-                                                width: w * 0.01,
+                                                width: w * 0.04,
                                               ),
                                               text(context, 'PTR', 12,
                                                   fontWeight: FontWeight.w500),
@@ -726,12 +901,12 @@ class _HomeState extends State<Home> {
                                                 size: 18,
                                               ),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.001,
                                               ),
                                               text(
                                                 context,
-                                                '₹ 106.8',
-                                                14,
+                                                '₹ 106.8',fontWeight: FontWeight.w700,
+                                                11,
                                               ),
                                             ],
                                           ),
@@ -741,7 +916,7 @@ class _HomeState extends State<Home> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: containertext(
+                                                child: containertext1(
                                                     context, 'ADD TO CART',
                                                     onTap: () {}),
                                               ),
@@ -749,16 +924,19 @@ class _HomeState extends State<Home> {
                                                 width: w * 0.02,
                                               ),
                                               Container(
-                                                height: h * 0.055,
+                                                height:40,
+                                                padding:EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: color2,
+                                                        color: color11,
                                                         width: 2),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
+                                                    BorderRadius.circular(
+                                                        8)),
                                                 child: Image.asset(
-                                                  'assets/fav.png',
+                                                  'assets/favoutline.png',
+                                                  width: 20,
+                                                  height: 18,
                                                   color: color2,
                                                   fit: BoxFit.contain,
                                                 ),
@@ -819,9 +997,9 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: List.generate(
                               4,
-                              (index) {
+                                  (index) {
                                 return Container(
-                                  width: w * 0.8,
+                                  width: w * 0.6,
                                   padding: EdgeInsets.all(8),
                                   margin: EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
@@ -837,17 +1015,17 @@ class _HomeState extends State<Home> {
                                       },
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                               child: Center(
-                                            child: Image.asset(
-                                              'assets/HCQS 200 Tablet.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          )),
+                                                child: Image.asset(
+                                                  'assets/HCQS 200 Tablet.png',
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              )),
                                           SizedBox(
                                             height: h * 0.01,
                                           ),
@@ -855,14 +1033,20 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text(context,'15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,fontWeight: FontWeight.w500,
                                               color: color1),
                                           SizedBox(
-                                            height: h * 0.01,
+                                            height: h * 0.005,
+                                          ),
+                                          RatingWidget(
+                                            initialRating: 4.0,
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.005,
                                           ),
                                           Row(
                                             children: [
-                                              text(context, 'Net Price:', 12,
+                                              text(context, 'Net Price:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
@@ -871,12 +1055,12 @@ class _HomeState extends State<Home> {
                                               SizedBox(
                                                 width: w * 0.02,
                                               ),
-                                              text(context, 'MRP:', 12,
+                                              text(context, 'MRP:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
                                               ),
-                                              text(context, '₹ 106.8', 14,
+                                              text(context, '₹ 106.8', 12,fontWeight: FontWeight.w400,
                                                   color: color1),
                                               SizedBox(
                                                 height: h * 0.01,
@@ -891,12 +1075,12 @@ class _HomeState extends State<Home> {
                                               text(context, 'MARGIN', 12,
                                                   fontWeight: FontWeight.w500),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.01,
                                               ),
                                               text(context, '12%', 14,
                                                   color: color1),
                                               SizedBox(
-                                                width: w * 0.01,
+                                                width: w * 0.04,
                                               ),
                                               text(context, 'PTR', 12,
                                                   fontWeight: FontWeight.w500),
@@ -906,12 +1090,12 @@ class _HomeState extends State<Home> {
                                                 size: 18,
                                               ),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.001,
                                               ),
                                               text(
                                                 context,
-                                                '₹ 106.8',
-                                                14,
+                                                '₹ 106.8',fontWeight: FontWeight.w700,
+                                                11,
                                               ),
                                             ],
                                           ),
@@ -921,7 +1105,7 @@ class _HomeState extends State<Home> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: containertext(
+                                                child: containertext1(
                                                     context, 'ADD TO CART',
                                                     onTap: () {}),
                                               ),
@@ -929,16 +1113,19 @@ class _HomeState extends State<Home> {
                                                 width: w * 0.02,
                                               ),
                                               Container(
-                                                height: h * 0.055,
+                                                height:40,
+                                                padding:EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: color2,
+                                                        color: color11,
                                                         width: 2),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
+                                                    BorderRadius.circular(
+                                                        8)),
                                                 child: Image.asset(
-                                                  'assets/fav.png',
+                                                  'assets/favoutline.png',
+                                                  width: 20,
+                                                  height: 18,
                                                   color: color2,
                                                   fit: BoxFit.contain,
                                                 ),
@@ -999,9 +1186,9 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: List.generate(
                               4,
-                              (index) {
+                                  (index) {
                                 return Container(
-                                  width: w * 0.8,
+                                  width: w * 0.6,
                                   padding: EdgeInsets.all(8),
                                   margin: EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
@@ -1017,17 +1204,17 @@ class _HomeState extends State<Home> {
                                       },
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                               child: Center(
-                                            child: Image.asset(
-                                              'assets/HCQS 200 Tablet.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          )),
+                                                child: Image.asset(
+                                                  'assets/HCQS 200 Tablet.png',
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              )),
                                           SizedBox(
                                             height: h * 0.01,
                                           ),
@@ -1035,14 +1222,20 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text(context,'15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,fontWeight: FontWeight.w500,
                                               color: color1),
                                           SizedBox(
-                                            height: h * 0.01,
+                                            height: h * 0.005,
+                                          ),
+                                          RatingWidget(
+                                            initialRating: 4.0,
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.005,
                                           ),
                                           Row(
                                             children: [
-                                              text(context, 'Net Price:', 12,
+                                              text(context, 'Net Price:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
@@ -1051,12 +1244,12 @@ class _HomeState extends State<Home> {
                                               SizedBox(
                                                 width: w * 0.02,
                                               ),
-                                              text(context, 'MRP:', 12,
+                                              text(context, 'MRP:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
                                               ),
-                                              text(context, '₹ 106.8', 14,
+                                              text(context, '₹ 106.8', 12,fontWeight: FontWeight.w400,
                                                   color: color1),
                                               SizedBox(
                                                 height: h * 0.01,
@@ -1071,12 +1264,12 @@ class _HomeState extends State<Home> {
                                               text(context, 'MARGIN', 12,
                                                   fontWeight: FontWeight.w500),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.01,
                                               ),
                                               text(context, '12%', 14,
                                                   color: color1),
                                               SizedBox(
-                                                width: w * 0.01,
+                                                width: w * 0.04,
                                               ),
                                               text(context, 'PTR', 12,
                                                   fontWeight: FontWeight.w500),
@@ -1086,12 +1279,12 @@ class _HomeState extends State<Home> {
                                                 size: 18,
                                               ),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.001,
                                               ),
                                               text(
                                                 context,
-                                                '₹ 106.8',
-                                                14,
+                                                '₹ 106.8',fontWeight: FontWeight.w700,
+                                                11,
                                               ),
                                             ],
                                           ),
@@ -1101,7 +1294,7 @@ class _HomeState extends State<Home> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: containertext(
+                                                child: containertext1(
                                                     context, 'ADD TO CART',
                                                     onTap: () {}),
                                               ),
@@ -1109,16 +1302,19 @@ class _HomeState extends State<Home> {
                                                 width: w * 0.02,
                                               ),
                                               Container(
-                                                height: h * 0.055,
+                                                height:40,
+                                                padding:EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: color2,
+                                                        color: color11,
                                                         width: 2),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
+                                                    BorderRadius.circular(
+                                                        8)),
                                                 child: Image.asset(
-                                                  'assets/fav.png',
+                                                  'assets/favoutline.png',
+                                                  width: 20,
+                                                  height: 18,
                                                   color: color2,
                                                   fit: BoxFit.contain,
                                                 ),
@@ -1179,9 +1375,9 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: List.generate(
                               4,
-                              (index) {
+                                  (index) {
                                 return Container(
-                                  width: w * 0.8,
+                                  width: w * 0.6,
                                   padding: EdgeInsets.all(8),
                                   margin: EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
@@ -1197,17 +1393,17 @@ class _HomeState extends State<Home> {
                                       },
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                               child: Center(
-                                            child: Image.asset(
-                                              'assets/HCQS 200 Tablet.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          )),
+                                                child: Image.asset(
+                                                  'assets/HCQS 200 Tablet.png',
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              )),
                                           SizedBox(
                                             height: h * 0.01,
                                           ),
@@ -1215,14 +1411,20 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             height: h * 0.02,
                                           ),
-                                          text(context,'15.0 tablets in 1 strip', 10,
+                                          text(context,'15.0 tablets in 1 strip', 10,fontWeight: FontWeight.w500,
                                               color: color1),
                                           SizedBox(
-                                            height: h * 0.01,
+                                            height: h * 0.005,
+                                          ),
+                                          RatingWidget(
+                                            initialRating: 4.0,
+                                          ),
+                                          SizedBox(
+                                            height: h * 0.005,
                                           ),
                                           Row(
                                             children: [
-                                              text(context, 'Net Price:', 12,
+                                              text(context, 'Net Price:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
@@ -1231,12 +1433,12 @@ class _HomeState extends State<Home> {
                                               SizedBox(
                                                 width: w * 0.02,
                                               ),
-                                              text(context, 'MRP:', 12,
+                                              text(context, 'MRP:', 12,fontWeight: FontWeight.w400,
                                                   color: color),
                                               SizedBox(
                                                 width: w * 0.01,
                                               ),
-                                              text(context, '₹ 106.8', 14,
+                                              text(context, '₹ 106.8', 12,fontWeight: FontWeight.w400,
                                                   color: color1),
                                               SizedBox(
                                                 height: h * 0.01,
@@ -1251,12 +1453,12 @@ class _HomeState extends State<Home> {
                                               text(context, 'MARGIN', 12,
                                                   fontWeight: FontWeight.w500),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.01,
                                               ),
                                               text(context, '12%', 14,
                                                   color: color1),
                                               SizedBox(
-                                                width: w * 0.01,
+                                                width: w * 0.04,
                                               ),
                                               text(context, 'PTR', 12,
                                                   fontWeight: FontWeight.w500),
@@ -1266,12 +1468,12 @@ class _HomeState extends State<Home> {
                                                 size: 18,
                                               ),
                                               SizedBox(
-                                                width: w * 0.02,
+                                                width: w * 0.001,
                                               ),
                                               text(
                                                 context,
-                                                '₹ 106.8',
-                                                14,
+                                                '₹ 106.8',fontWeight: FontWeight.w700,
+                                                11,
                                               ),
                                             ],
                                           ),
@@ -1281,7 +1483,7 @@ class _HomeState extends State<Home> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: containertext(
+                                                child: containertext1(
                                                     context, 'ADD TO CART',
                                                     onTap: () {}),
                                               ),
@@ -1289,16 +1491,19 @@ class _HomeState extends State<Home> {
                                                 width: w * 0.02,
                                               ),
                                               Container(
-                                                height: h * 0.055,
+                                                height:40,
+                                                padding:EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                     border: Border.all(
-                                                        color: color2,
+                                                        color: color11,
                                                         width: 2),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
+                                                    BorderRadius.circular(
+                                                        8)),
                                                 child: Image.asset(
-                                                  'assets/fav.png',
+                                                  'assets/favoutline.png',
+                                                  width: 20,
+                                                  height: 18,
                                                   color: color2,
                                                   fit: BoxFit.contain,
                                                 ),
@@ -1399,7 +1604,7 @@ class _HomeState extends State<Home> {
                         ),
                         Container(
                           width: w * 0.55,
-                          padding: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.only(left: 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,

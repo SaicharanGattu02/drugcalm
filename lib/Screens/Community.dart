@@ -228,7 +228,7 @@ class _CommunityState extends State<Community> {
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(top: 15),
-                  padding: EdgeInsets.only(top: 10,left: 10,right: 10),
+                  padding: EdgeInsets.only(top: 10,left: 5,right: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     color: color4,
