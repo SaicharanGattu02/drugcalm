@@ -228,6 +228,7 @@ Color color20 = Color(0xff576B80);
 Color color21 = Color(0xffE3FDFC);
 Color color22 = Color(0xffE1F4FF);
 Color color23 = Color(0xff242A37);
+Color color24 = Color(0xff22C6BF);
 
 Widget containertext(BuildContext context, String buttonText,
     {Function()? onTap, double? width,height}) {
