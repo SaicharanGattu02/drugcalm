@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:drugcalm/Registration/BasicInformation.dart';
 import 'package:drugcalm/utils/constants.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/ShakeWidget.dart';
@@ -20,6 +21,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
   String validateexpiry ="";
 
 
+
   String selectedOption = "Allopathy/Pharmaceutical";
   final List<String> dropdownOptions = ["Allopathy/Pharmaceutical", "Ayurvedic/Herbal", "Veterinary","OTC General","Surgical"];
 
@@ -35,6 +37,10 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
     }
   }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -1377,7 +1383,8 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           ] else ...[
                             SizedBox(height: 15),
                           ],
-                    
+
+
                     
                     
                         ],
@@ -1425,7 +1432,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
             Spacer(),
             InkResponse(
               onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicInformaion()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicInformation()));
               },
               child: Container(
                 height: 40,
@@ -1465,7 +1472,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * 0.28,
 
           child: TextField(
             controller: controller,

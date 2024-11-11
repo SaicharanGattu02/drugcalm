@@ -1760,7 +1760,7 @@ class _ProductdetailsState extends State<Productdetails> {
                                   });
                                 },
                                 child: container(
-                                  w: w * 0.06,
+                                  w: w * 0.08,
                                   h: h*0.028,
                                   context,
                                   border:
