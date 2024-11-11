@@ -1,6 +1,7 @@
 import 'package:drugcalm/Screens/AddAddress.dart';
 import 'package:drugcalm/Screens/My%20Orders%20Screen.dart';
 import 'package:drugcalm/Screens/My%20Profile.dart';
+import 'package:drugcalm/Screens/SavingsScreen.dart';
 import 'package:drugcalm/Screens/WishListScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -102,50 +103,32 @@ class _ProfilescreenState extends State<Profilescreen> {
                 ],
               )),
           SizedBox(height: 10,),
-          container(context,colors: color4,
-            child:Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    border: Border.all(color: Color(0xffD4DDEB))
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Dashboard', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Savingsscreen(),));
+            },
+            child: container(context,colors: color4,
+              child:Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       border: Border.all(color: Color(0xffD4DDEB))
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        text(context, 'Dashboard', 16,
+                            color: color11,
+                            fontfamily: "Inter",
+                            fontWeight: FontWeight.w500),
+                        Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Short Book', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                InkResponse(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MedicineRequest(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -154,7 +137,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'Request New', 16,
+                        text(context, 'Short Book', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -162,31 +145,31 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
+                  SizedBox(height: 10,),
+                  InkResponse(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MedicineRequest(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'Request New', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Pay Dues', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                InkResponse(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyProfile(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -195,7 +178,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'My Profile', 16,
+                        text(context, 'Pay Dues', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -203,13 +186,123 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                InkResponse(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddressListScreen(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  InkResponse(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyProfile(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'My Profile', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  InkResponse(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddressListScreen(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'Address List', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  InkResponse(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersScreen(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'Orders', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  InkResponse(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Wishlistscreen(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'Wishlist', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Blocklistscreen(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'Block List', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -218,7 +311,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'Address List', 16,
+                        text(context, 'Wallet', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -226,13 +319,8 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                InkResponse(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersScreen(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -241,7 +329,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'Orders', 16,
+                        text(context, 'Earn For Refer', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -249,13 +337,8 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                InkResponse(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Wishlistscreen(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -264,7 +347,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'Wishlist', 16,
+                        text(context, 'Become a Seller', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -272,13 +355,8 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Blocklistscreen(),));
-                  },
-                  child: Container(
+                  SizedBox(height: 10,),
+                  Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -287,7 +365,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        text(context, 'Block List', 16,
+                        text(context, 'Settings', 16,
                             color: color11,
                             fontfamily: "Inter",
                             fontWeight: FontWeight.w500),
@@ -295,100 +373,28 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
+                  SizedBox(height: 10,),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(color: Color(0xffD4DDEB))
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        text(context, 'Help', 16,
+                            color: color11,
+                            fontfamily: "Inter",
+                            fontWeight: FontWeight.w500),
+                        Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Wallet', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Earn For Refer', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Become a Seller', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Settings', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(color: Color(0xffD4DDEB))
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      text(context, 'Help', 16,
-                          color: color11,
-                          fontfamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
-                    ],
-                  ),
-                ),
-                
-              ],
-            )
+
+                ],
+              )
+            ),
           ),
             ],
           ),

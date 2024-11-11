@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
               SizedBox(
-                height: h * 0.01,
+                height: h * 0.001,
               ),
               Row(
                 children: [
