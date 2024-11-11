@@ -292,7 +292,7 @@ class _ProductdetailsState extends State<Productdetails> {
                       ),
                       Row(
                         children: [
-                          text(context, 'Free Delivery By', 14,
+                          text(context, 'Free Delivery By', 12,
                               fontWeight: FontWeight.w400),
                           SizedBox(
                             width: w * 0.01,
@@ -305,7 +305,7 @@ class _ProductdetailsState extends State<Productdetails> {
                           SizedBox(
                             width: w * 0.01,
                           ),
-                          text(context, 'Today, 2:45 pm', 14,
+                          text(context, 'Today, 2:45 pm', 12,
                               fontWeight: FontWeight.w400),
                           Spacer(),
                           Row(
@@ -706,11 +706,13 @@ class _ProductdetailsState extends State<Productdetails> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text(
-                                context,
-                                'Fevago DS Suspension',
-                                14,
-                                color: color11,
+                              container(context,w: w*0.5,padding: EdgeInsets.all(0),
+                                child: text(
+                                  context,
+                                  'Fevago DS Suspension',textAlign: TextAlign.start,
+                                  14,
+                                  color: color11,
+                                ),
                               ),
                               text(context, 'Cipla Ltd', 13,
                                   color: color,
@@ -754,11 +756,13 @@ class _ProductdetailsState extends State<Productdetails> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text(
-                                context,
-                                'Dolopar 250 Suspension',
-                                14,
-                                color: color11,
+                              container(context,w: w*0.5,padding: EdgeInsets.all(0),
+                                child: text(
+                                  context,
+                                  'Dolopar 250 Suspension',textAlign: TextAlign.start,
+                                  14,
+                                  color: color11,
+                                ),
                               ),
                               text(context, 'Micro Labs Ltd', 13,
                                   color: color,
@@ -798,21 +802,23 @@ class _ProductdetailsState extends State<Productdetails> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              text(
-                                context,
-                                'Pacimol DS Oral Suspension',
-                                14,
-                                color: color11,
-                              ),
-                              text(context, 'Ipca Laboratories Ltd', 13,
-                                  color: color,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.left),
-                            ],
+                          container(context,w: w*0.5,padding: EdgeInsets.all(0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                text(
+                                  context,
+                                  'Pacimol DS Oral Suspension',textAlign: TextAlign.start,
+                                  14,
+                                  color: color11,
+                                ),
+                                text(context, 'Ipca Laboratories Ltd', 13,
+                                    color: color,
+                                    fontWeight: FontWeight.w400,
+                                    textAlign: TextAlign.left),
+                              ],
+                            ),
                           ),
                           Spacer(),
                           Column(
@@ -1649,16 +1655,17 @@ class _ProductdetailsState extends State<Productdetails> {
                       ),
                       Spacer(),
                       container(
-                        w: w * 0.08,
-                        h: h * 0.035,
+                        w: w * 0.07,
+                        h: h*0.033,
                         colors: color4,
+                        padding: EdgeInsets.all(0),
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
                             color: color11.withOpacity(0.1), width: 1),
                         context,
-                        child: IconButton(
+                        child: IconButton( padding: EdgeInsets.all(0),
                           icon: Icon(Icons.remove,
-                              size: 14, color: color11), // color11
+                              size: 18, color: color11), // color11
                           onPressed: () {
                             setState(() {
                               if (_counter > 0) _counter--;
@@ -1670,26 +1677,27 @@ class _ProductdetailsState extends State<Productdetails> {
                         width: w * 0.01,
                       ),
                       container(
-                          w: w * 0.08,
-                          h: h * 0.035,
-                          colors: color4,
+                          w: w * 0.07,
+                          h: h*0.033,
+                          colors: color4,  padding: EdgeInsets.all(0),
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
                               color: color11.withOpacity(0.1), width: 1),
                           context,
-                          child: text(context, '$_counter', 16)),
+                          child: Center(child: text(context, '$_counter', 14))),
                       SizedBox(
                         width: w * 0.01,
                       ),
                       container(
-                        w: w * 0.08,
-                        h: h * 0.035,
+                        w: w * 0.07,
+                        h: h*0.033,
+
                         colors: color1,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(4),  padding: EdgeInsets.all(0),
                         context,
-                        child: IconButton(
+                        child: IconButton( padding: EdgeInsets.all(0),
                           icon: Icon(Icons.add,
-                              size: 14, color: color4), // color11
+                              size: 18, color: color4), // color11
                           onPressed: () {
                             setState(() {
                               _counter++;
@@ -1697,6 +1705,7 @@ class _ProductdetailsState extends State<Productdetails> {
                           },
                         ),
                       ),
+
                     ],
                   ),
                 ),
@@ -1750,30 +1759,19 @@ class _ProductdetailsState extends State<Productdetails> {
                                 fontWeight: FontWeight.w400,
                                 color: color11,
                               ),
-                              SizedBox(
-                                width: w * 0.02,
-                              ),
+
                               InkWell(
                                 onTap: () {
                                   setState(() {
                                     _isChecked = !_isChecked;
                                   });
                                 },
-                                child: container(
-                                  w: w * 0.08,
-                                  h: h*0.028,
-                                  context,
-                                  border:
-                                  Border.all(color: color1, width: 2),
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: _isChecked
-                                      ? Icon(
-                                    Icons.check,
-                                    color: color1,
-                                    size: 20,
-                                  )
-                                      : Container(),
-                                ),
+                                child: Checkbox(activeColor: color1,side: BorderSide(color: color11.withOpacity(0.25)),splashRadius: 30,
+                                    value: _isChecked, onChanged: (bool? newvalue){
+                                  setState(() {
+                                    _isChecked=!_isChecked;
+                                  });
+                                })
                               )
                             ],
                           ),
@@ -1781,7 +1779,7 @@ class _ProductdetailsState extends State<Productdetails> {
                       ),
                       Spacer(),
                       container(context,
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(8),
                           padding: EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
                           colors: color1,

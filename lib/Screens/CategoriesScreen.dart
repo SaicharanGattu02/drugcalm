@@ -1,3 +1,4 @@
+import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/CustomAppBar1.dart';
@@ -76,7 +77,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                     child: Center(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductList()));
+                        },
                         child: Column(
                           children: [
                             Container(
