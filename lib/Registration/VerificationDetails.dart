@@ -1,3 +1,5 @@
+import 'package:drugcalm/Authentication/SignInWithEmail.dart';
+import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -1076,6 +1078,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                               ),
 
                               containertext1(context, 'CONTINUE',onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInWithEmail()));
 
                               })
 

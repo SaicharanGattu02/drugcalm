@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drugcalm/Registration/Registration.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                   height: 10,
                 ),
                 InkResponse(onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashbord()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegistraionTypes()));
                 },
                     child: containertext(context, 'CONTINUE'))
               ],

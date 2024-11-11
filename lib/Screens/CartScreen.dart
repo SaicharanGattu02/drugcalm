@@ -105,7 +105,7 @@ class _CartscreenState extends State<Cartscreen> {
                           ),
                         ),
                         Container(
-                          width: w * 0.3,
+                          width: w * 0.6,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -676,7 +676,7 @@ class _CartscreenState extends State<Cartscreen> {
                           4,
                           (index) {
                             return Container(
-                              width: w * 0.3,
+                              width: w * 0.6,
                               padding: EdgeInsets.all(8),
                               margin: EdgeInsets.only(right: 8),
                               decoration: BoxDecoration(
@@ -831,8 +831,8 @@ class _CartscreenState extends State<Cartscreen> {
           ],
         ),
       )),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar:
+      Column(mainAxisSize: MainAxisSize.min,
         children: [
           container(
             w: w,
@@ -861,16 +861,17 @@ class _CartscreenState extends State<Cartscreen> {
                       ),
                       Spacer(),
                       container(
-                        w: w * 0.04,
-                        h: h * 0.033,
+                        w: w * 0.07,
+                        h: h*0.033,
                         colors: color4,
+                        padding: EdgeInsets.all(0),
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
                             color: color11.withOpacity(0.1), width: 1),
                         context,
-                        child: IconButton(
+                        child: IconButton( padding: EdgeInsets.all(0),
                           icon: Icon(Icons.remove,
-                              size: 12, color: color11), // color11
+                              size: 18, color: color11), // color11
                           onPressed: () {
                             setState(() {
                               if (_counter > 0) _counter--;
@@ -882,26 +883,27 @@ class _CartscreenState extends State<Cartscreen> {
                         width: w * 0.01,
                       ),
                       container(
-                          w: w * 0.04,
-                          h: h * 0.033,
-                          colors: color4,
+                          w: w * 0.07,
+                          h: h*0.033,
+                          colors: color4,  padding: EdgeInsets.all(0),
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
                               color: color11.withOpacity(0.1), width: 1),
                           context,
-                          child: text(context, '$_counter', 16)),
+                          child: Center(child: text(context, '$_counter', 14))),
                       SizedBox(
                         width: w * 0.01,
                       ),
                       container(
-                        w: w * 0.04,
-                        h: h * 0.033,
+                        w: w * 0.07,
+                        h: h*0.033,
+
                         colors: color1,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(4),  padding: EdgeInsets.all(0),
                         context,
-                        child: IconButton(
+                        child: IconButton( padding: EdgeInsets.all(0),
                           icon: Icon(Icons.add,
-                              size: 14, color: color4), // color11
+                              size: 18, color: color4), // color11
                           onPressed: () {
                             setState(() {
                               _counter++;
@@ -909,6 +911,7 @@ class _CartscreenState extends State<Cartscreen> {
                           },
                         ),
                       ),
+
                     ],
                   ),
                 ),
@@ -931,8 +934,7 @@ class _CartscreenState extends State<Cartscreen> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Column(mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           text(
@@ -951,7 +953,7 @@ class _CartscreenState extends State<Cartscreen> {
                             children: [
                               Image.asset(
                                 'assets/Coin.png',
-                                width: w * 0.03,
+                                width: w * 0.045,
                               ),
                               SizedBox(
                                 width: w * 0.01,
@@ -963,29 +965,19 @@ class _CartscreenState extends State<Cartscreen> {
                                 fontWeight: FontWeight.w400,
                                 color: color11,
                               ),
-                              SizedBox(
-                                width: w * 0.02,
-                              ),
+
                               InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isChecked = !_isChecked;
-                                  });
-                                },
-                                child: container(
-                                  w: w * 0.03,
-                                  h: h * 0.03,
-                                  context,
-                                  border: Border.all(color: color1, width: 2),
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: _isChecked
-                                      ? Icon(
-                                          Icons.check,
-                                          color: color1,
-                                          size: 20,
-                                        )
-                                      : Container(),
-                                ),
+                                  onTap: () {
+                                    setState(() {
+                                      _isChecked = !_isChecked;
+                                    });
+                                  },
+                                  child: Checkbox(activeColor: color1,side: BorderSide(color: color11.withOpacity(0.25)),splashRadius: 30,
+                                      value: _isChecked, onChanged: (bool? newvalue){
+                                        setState(() {
+                                          _isChecked=!_isChecked;
+                                        });
+                                      })
                               )
                             ],
                           ),
@@ -993,14 +985,16 @@ class _CartscreenState extends State<Cartscreen> {
                       ),
                       Spacer(),
                       container(context,
-                          borderRadius: BorderRadius.circular(4),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          borderRadius: BorderRadius.circular(8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           colors: color1,
                           child: Row(
                             children: [
                               text(context, 'CHECKOUT', 13,
-                                  fontWeight: FontWeight.w400, color: color4),
+                                  fontWeight: FontWeight.w400,
+                                  color: color4),
+
                               Icon(
                                 Icons.arrow_forward,
                                 color: color4,

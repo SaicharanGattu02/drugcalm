@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/Screens/Brands.dart';
 import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/CategoriesScreen.dart';
+import 'package:drugcalm/Screens/Lab%20And%20Diagnosticlist.dart';
 import 'package:drugcalm/Screens/Notifications.dart';
+import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:drugcalm/Screens/ProfileScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -390,14 +392,18 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            container(context,w: w*0.3,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
+                            InkResponse(onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LabDiognistic()));
+                  },
+                              child: container(context,w: w*0.3,
+                                child: Column(
+                                  children: [
+                                    container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                                        colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
+                                    SizedBox(height: h*0.01,),
+                                    text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                                  ],
+                                ),
                               ),
                             ),
                             container(context,w: w*0.3 ,
@@ -552,7 +558,7 @@ class _HomeState extends State<Home> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Productdetails()));
+                                              ProductList()));
                                 },
                                 child: Column(
                                   children: [
