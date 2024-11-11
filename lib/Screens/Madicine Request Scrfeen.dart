@@ -6,14 +6,14 @@ import '../utils/CustomAppBar1.dart';
 import '../utils/constants.dart';
 
 
-class MadicineRequest extends StatefulWidget {
-  const MadicineRequest({super.key});
+class MedicineRequest extends StatefulWidget {
+  const MedicineRequest({super.key});
 
   @override
-  State<MadicineRequest> createState() => _MadicineRequest();
+  State<MedicineRequest> createState() => _MedicineRequest();
 }
 
-class _MadicineRequest extends State<MadicineRequest> {
+class _MedicineRequest extends State<MedicineRequest> {
   String? selectedGender;
   final TextEditingController dateOfBirthController = TextEditingController();
 
@@ -25,7 +25,7 @@ class _MadicineRequest extends State<MadicineRequest> {
 
       appBar: CustomAppBar1(
         title: 'MEDICINE REQUEST',
-        actions: [],
+        actions: [Container()],
       ),
 
 

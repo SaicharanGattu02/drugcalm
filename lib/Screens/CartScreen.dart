@@ -172,8 +172,8 @@ class _CartscreenState extends State<Cartscreen> {
                               Row(
                                 children: [
                                   container(
-                                      // padding:
-                                      // EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                      padding:
+                                      EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                                       colors: Color(0xffEDF2F5),
                                       borderRadius: BorderRadius.circular(4),
                                       context,
@@ -186,8 +186,8 @@ class _CartscreenState extends State<Cartscreen> {
                                             width: w * 0.01,
                                           ),
                                           container(
-                                              // padding: EdgeInsets.symmetric(
-                                              //     vertical: 2, horizontal: 4),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 2, horizontal: 4),
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                               border: Border.all(
@@ -263,7 +263,7 @@ class _CartscreenState extends State<Cartscreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: w * 0.02,
+                                    width: w * 0.01,
                                   ),
                                   Row(
                                     children: [
@@ -284,7 +284,7 @@ class _CartscreenState extends State<Cartscreen> {
                                     ],
                                   ),
                                   SizedBox(
-                                    width: w * 0.02,
+                                    width: w * 0.01,
                                   ),
                                   container(
                                     context,
@@ -349,7 +349,7 @@ class _CartscreenState extends State<Cartscreen> {
               child: container(
                   w: w,
                   padding:
-                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                      EdgeInsets.symmetric(horizontal: 16,vertical: 8),
                   border: Border.all(color: color1, width: 1),
                   borderRadius: BorderRadius.circular(8),
                   context,
@@ -360,11 +360,11 @@ class _CartscreenState extends State<Cartscreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          text(context, 'SALT Composition', 16, color: color1),
+                          text(context, 'SALT Composition', 16, color: color1,fontWeight: FontWeight.w500,fontfamily: "Inter"),
                           SizedBox(
-                            height: h * 0.01,
+                            height: h * 0.005,
                           ),
-                          text(context, 'Paracetamol 650MG', 16,
+                          text(context, 'Paracetamol 650MG', 14,
                               color: color11,
                               fontWeight: FontWeight.w500,
                               fontfamily: 'Inter'),
@@ -373,7 +373,7 @@ class _CartscreenState extends State<Cartscreen> {
                       Spacer(),
                       Icon(
                         Icons.arrow_forward_ios_outlined,
-                        size: 18,
+                        size: 16,
                       )
                     ],
                   )),
@@ -386,14 +386,14 @@ class _CartscreenState extends State<Cartscreen> {
             InkResponse(
               onTap: () {
                 Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ApplyCoupon()));
+                    MaterialPageRoute(builder: (context) => ApplyCoupon()));
               },
               child: container(
                   w: w,
                   margin: EdgeInsets.symmetric(vertical: 8),
                   border: Border.all(color: color22, width: 1),
                   padding:
-                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                  EdgeInsets.symmetric(horizontal: 16,vertical: 8),
                   borderRadius: BorderRadius.circular(8),
                   context,
                   colors: color4,
@@ -407,14 +407,14 @@ class _CartscreenState extends State<Cartscreen> {
                       SizedBox(
                         width: w * 0.01,
                       ),
-                      text(context, 'Apply Coupon', 18,
+                      text(context, 'Apply Coupon', 16,
                           color: color18,
                           fontWeight: FontWeight.w400,
                           fontfamily: 'Inter'),
                       Spacer(),
                       Icon(
                         Icons.arrow_forward_ios_outlined,
-                        size: 18,
+                        size: 16,
                       )
                     ],
                   )),
@@ -625,7 +625,8 @@ class _CartscreenState extends State<Cartscreen> {
                       height: 1,
                       color: color,
                     ),
-                    SizedBox(height: h*0.01,
+                    SizedBox(
+                      height: h * 0.01,
                     ),
                     Row(
                       children: [
@@ -653,26 +654,21 @@ class _CartscreenState extends State<Cartscreen> {
                 children: [
                   Row(
                     children: [
-                      text(context, 'Similar Products Schemes', 16),
-                      Spacer(),
-                      text(context, 'SEE ALL', 16,
-                          color: color1, fontWeight: FontWeight.w400),
-                      Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: color1,
-                        size: 18,
-                      )
+                      text(context, 'Similar Products Schemes', 16,fontfamily: "Inter",fontWeight: FontWeight.w500),
+                      // Spacer(),
+                      // text(context, 'SEE ALL', 16,
+                      //     color: color1, fontWeight: FontWeight.w400),
+                      // Icon(
+                      //   Icons.arrow_forward_ios_outlined,
+                      //   color: color1,
+                      //   size: 18,
+                      // )
                     ],
                   ),
                   SizedBox(
                     height: h * 0.01,
                   ),
                   Container(
-                    // child: ListView.builder(
-                    //   scrollDirection: Axis.horizontal,
-                    //   itemCount: grid3.length,
-                    //   itemBuilder: (context, index) {
-                    //     return
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -713,14 +709,23 @@ class _CartscreenState extends State<Cartscreen> {
                                       SizedBox(
                                         height: h * 0.02,
                                       ),
-                                      text(context,'15.0 tablets in 1 strip', 10,
+                                      text(context, '15.0 tablets in 1 strip',
+                                          10,
+                                          fontWeight: FontWeight.w500,
                                           color: color1),
                                       SizedBox(
-                                        height: h * 0.01,
+                                        height: h * 0.005,
+                                      ),
+                                      RatingWidget(
+                                        initialRating: 4.0,
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.005,
                                       ),
                                       Row(
                                         children: [
                                           text(context, 'Net Price:', 12,
+                                              fontWeight: FontWeight.w400,
                                               color: color),
                                           SizedBox(
                                             width: w * 0.01,
@@ -730,11 +735,13 @@ class _CartscreenState extends State<Cartscreen> {
                                             width: w * 0.02,
                                           ),
                                           text(context, 'MRP:', 12,
+                                              fontWeight: FontWeight.w400,
                                               color: color),
                                           SizedBox(
                                             width: w * 0.01,
                                           ),
-                                          text(context, '₹ 106.8', 14,
+                                          text(context, '₹ 106.8', 12,
+                                              fontWeight: FontWeight.w400,
                                               color: color1),
                                           SizedBox(
                                             height: h * 0.01,
@@ -749,12 +756,12 @@ class _CartscreenState extends State<Cartscreen> {
                                           text(context, 'MARGIN', 12,
                                               fontWeight: FontWeight.w500),
                                           SizedBox(
-                                            width: w * 0.02,
+                                            width: w * 0.01,
                                           ),
                                           text(context, '12%', 14,
                                               color: color1),
                                           SizedBox(
-                                            width: w * 0.01,
+                                            width: w * 0.04,
                                           ),
                                           text(context, 'PTR', 12,
                                               fontWeight: FontWeight.w500),
@@ -764,12 +771,13 @@ class _CartscreenState extends State<Cartscreen> {
                                             size: 18,
                                           ),
                                           SizedBox(
-                                            width: w * 0.02,
+                                            width: w * 0.001,
                                           ),
                                           text(
                                             context,
                                             '₹ 106.8',
-                                            14,
+                                            fontWeight: FontWeight.w700,
+                                            11,
                                           ),
                                         ],
                                       ),
@@ -779,24 +787,25 @@ class _CartscreenState extends State<Cartscreen> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: containertext(
-                                                height: h * 0.045,
-                                                context,
-                                                'ADD TO CART',
+                                            child: containertext1(
+                                                context, 'ADD TO CART',
                                                 onTap: () {}),
                                           ),
                                           SizedBox(
                                             width: w * 0.02,
                                           ),
                                           Container(
-                                            height: h * 0.045,
+                                            height: 40,
+                                            padding: EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                                 border: Border.all(
-                                                    color: color2, width: 2),
+                                                    color: color11, width: 2),
                                                 borderRadius:
                                                     BorderRadius.circular(8)),
                                             child: Image.asset(
-                                              'assets/favrate.png',
+                                              'assets/favoutline.png',
+                                              width: 20,
+                                              height: 18,
                                               color: color2,
                                               fit: BoxFit.contain,
                                             ),
@@ -822,8 +831,6 @@ class _CartscreenState extends State<Cartscreen> {
           ],
         ),
       )),
-
-
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

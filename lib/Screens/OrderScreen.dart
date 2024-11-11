@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/constants.dart';
 
-class Orderscreen extends StatefulWidget {
-  const Orderscreen({super.key});
+class OrdersScreen extends StatefulWidget {
+  const OrdersScreen({super.key});
 
   @override
-  State<Orderscreen> createState() => _OrderscreenState();
+  State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrderscreenState extends State<Orderscreen> {
+class _OrdersScreenState extends State<OrdersScreen> {
   String selectedOption = "All";
   final List<String> dropdownOptions = ["All", "Live Orders", "Past Orders"];
   @override

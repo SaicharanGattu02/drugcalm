@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/Screens/Brands.dart';
+import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/CategoriesScreen.dart';
+import 'package:drugcalm/Screens/Notifications.dart';
+import 'package:drugcalm/Screens/ProfileScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -164,40 +167,50 @@ class _HomeState extends State<Home> {
                   Spacer(),
                   Row(
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/notifications.png",
-                          width: 28,
-                          height: 28,
-                          color: Color(0xffffffff),
-                          fit: BoxFit.contain,
+                      IconButton(
+                        padding: EdgeInsets.all(5),
+                        icon: Image.asset(
+                          "assets/notifications.png",  // Your image asset
+                          width: 25,
+                          height: 25,
+                          color: Color(0xffffffff),  // Set color filter on the image (optional)
+                          fit: BoxFit.contain,  // Ensure the image is contained properly
                         ),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Notifications(),));
+                        },
                       ),
                       SizedBox(
-                        width: w * 0.02,
+                        width: w * 0.005,
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/cart.png",
-                          width: 28,
-                          height: 28,
-                          color: Color(0xffffffff),
-                          fit: BoxFit.contain,
+                      IconButton(
+                        padding: EdgeInsets.all(5),
+                        icon: Icon(
+                          Icons.shopping_cart,  // Use the shopping cart icon from the material icons
+                          color: Color(0xffffffff),  // Set the icon color to white
+                          size: 20,  // Set the icon size
                         ),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Cartscreen(),));
+                        },
                       ),
                       SizedBox(
-                        width: w * 0.02,
+                        width: w * 0.005,
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: ClipOval(
-                          child: CircleAvatar(
-                            radius: w * 0.038,
-                            child: Image.asset(
-                              "assets/profile.png",
-                              fit: BoxFit.contain,
+                      InkResponse(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Profilescreen(),));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(5),
+                          child: ClipOval(
+                            child: CircleAvatar(
+                              radius: w * 0.038,
+                              child: Image.asset(
+                                "assets/profile.png",
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ),

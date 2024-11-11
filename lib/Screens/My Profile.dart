@@ -2,14 +2,14 @@ import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class MyProfile extends StatefulWidget {
+  const MyProfile({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<MyProfile> createState() => _MyProfileState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _MyProfileState extends State<MyProfile> {
   String? selectedGender;
   final TextEditingController dateOfBirthController = TextEditingController();
 
@@ -18,6 +18,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: color1,
+        leading: Container(),
+        leadingWidth: 0,
+        toolbarHeight: h * 0.2, // Responsive toolbar height
+        title: Column(
+          children: [
+            // Title Row
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: color4,
+                  ),
+                ),
+                SizedBox(width: w * 0.02), // Space between icon and title
+                Text(
+                  "EDIT PROFILE",
+                  style: TextStyle(
+                    color: color4,
+                    fontSize: w * 0.05, // Responsive font size based on screen width
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: h * 0.015), // Adjusts spacing for smaller screens
+
+            // Profile Row (Avatar and Info)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Profile Picture with Camera Icon
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius:50, // Responsive size based on screen width
+                      backgroundColor: Colors.grey,
+                      backgroundImage: AssetImage('assets/profile.png'),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          // Implement camera icon tap functionality
+                        },
+                        child: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: color1,
+                            size: w * 0.05, // Responsive size for icon
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: w * 0.05), // Space between avatar and user info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Chary’s Medical & General Stores",
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: color4,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16, // Responsive font size based on screen width
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(height: h * 0.01), // Vertical space between text fields
+                      Text(
+                        "chary@gmail.com",
+                        style: TextStyle(
+                          color: color4,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          height: 16.21 / 14,
+                          letterSpacing: 0.14,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(height: h * 0.01), // Vertical space between text fields
+                      Text(
+                        "DrugCalm ID : 64240",
+                        style: TextStyle(
+                          color: color4,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14, // Responsive font size
+                          letterSpacing: 0.14,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: w * 0.05), // Space between user info and edit icon
+                // Edit Icon
+                InkWell(
+                  onTap: () {
+                    // Implement edit icon tap functionality
+                  },
+                  child: Image.asset(
+                    "assets/edit.png",
+                    width: 25, // Responsive width
+                    height:25, // Responsive height
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: h * 0.02), // Additional spacing at the bottom
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -47,6 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextField(
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                           hintText: "Name",
                           hintStyle: TextStyle(
                             fontSize: 15,
@@ -103,6 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       TextField(
                         controller: dateOfBirthController,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                           hintText: "DD/MM/YYYY",
                           hintStyle: TextStyle(
                             fontSize: 15,
@@ -143,8 +269,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 5,
                       ),
                       TextField(
-
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                             hintText: "Phone Number",
                             hintStyle: TextStyle(
                               fontSize: 15,
@@ -183,8 +309,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       // Email ID Field
                       TextField(
-
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                           hintText: "Email ID",
                           hintStyle: TextStyle(
                             fontSize: 15,
@@ -254,15 +380,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: h * 0.01,
                             ),
                             Container(
-                              width: w * 0.425,
-
-
-
-
-
+                              width: w * 0.42,
                               child:  TextField(
-
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                                   hintText: "Age",
                                   hintStyle: TextStyle(
                                     fontSize: 15,
@@ -312,10 +433,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: h * 0.01,
                             ),
                             Container(
-                              width: w * 0.425,
+                              width: w * 0.42,
                               child:  TextField(
-
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                                   hintText: "Blood Group",
                                   hintStyle: TextStyle(
                                     fontSize: 15,
@@ -369,10 +490,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: h * 0.01,
                             ),
                             Container(
-                              width: w * 0.425,
+                              width: w * 0.42,
                               child:   TextField(
-
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                                   hintText: "Ex:150CM",
                                   hintStyle: TextStyle(
                                     fontSize: 15,
@@ -421,10 +542,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: h * 0.01,
                             ),
                             Container(
-                              width: w * 0.425,
+                              width: w * 0.42,
                               child:  TextField(
-
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
                                   hintText: "Ex:72KG",
                                   hintStyle: TextStyle(
                                     fontSize: 15,
@@ -470,11 +591,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle profile update
+
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Colors.blue, // Make button background transparent
+                    backgroundColor: color1, // Make button background transparent
                     shadowColor:
                         Colors.transparent, // Remove default button shadow
                     padding:
@@ -484,11 +604,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   child: Text(
-                    'Update Profile',
+                    'UPDATE PROFILE',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
+                        fontFamily: "Inter",
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
