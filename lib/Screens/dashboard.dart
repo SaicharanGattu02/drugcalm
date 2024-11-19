@@ -1,7 +1,6 @@
 import 'package:drugcalm/Screens/CategoriesScreen.dart';
 import 'package:drugcalm/Screens/Community.dart';
 import 'package:drugcalm/Screens/Home.dart';
-import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:drugcalm/Screens/SubScription.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
