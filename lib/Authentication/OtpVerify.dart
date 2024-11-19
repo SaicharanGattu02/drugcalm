@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Registration/Registration.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:drugcalm/utils/constants.dart';
@@ -9,6 +10,9 @@ import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Screens/dashboard.dart';
+import '../Services/UserApi.dart';
+
+import '../utils/Preferances.dart';
 import '../utils/ShakeWidget.dart';
 
 class OtpVerify extends StatefulWidget {
@@ -25,6 +29,72 @@ class _OtpVerifyState extends State<OtpVerify> {
   bool _isLoading = false;
   String _verifyMessage = "";
   bool recieving = false;
+
+  void _validateFields() {
+    setState(() {
+      _isLoading = true;
+      _verifyMessage =
+          (otpController.text.length < 6 || otpController.text.isEmpty)
+              ? "Please enter a valid 6-digit OTP"
+              : "";
+    });
+    if (_verifyMessage == "") {
+      VerifyOtp();
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> LoginOtp() async {
+    await Userapi.PostOtp(widget.num).then((data) => {
+          if (data != null)
+            {
+              setState(() {
+                if (data.settings?.success == 1) {
+                  _isLoading = false;
+                } else {
+                  _isLoading = false;
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      data.settings?.message ?? "",
+                      style: TextStyle(color: Color(0xff000000)),
+                    ),
+                    duration: Duration(seconds: 1),
+                    backgroundColor: color1,
+                  ));
+                }
+              })
+            }
+        });
+  }
+
+  Future<void> VerifyOtp() async {
+    var res = await Userapi.VerifyOtp(widget.num, otpController.text);
+    if (res != null) {
+      setState(() {
+        if (res.settings?.success == 1) {
+          _isLoading = false;
+          PreferenceService().saveString('token', res.data?.access ?? "");
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Dashbord()));
+        } else {
+          _isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              res.settings?.message ?? "",
+              style:
+                  TextStyle(color: Color(0xffffffff), fontFamily: "RozhaOne"),
+            ),
+            duration: Duration(seconds: 1),
+            backgroundColor: Color(0xFF000000),
+          ));
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -59,12 +129,42 @@ class _OtpVerifyState extends State<OtpVerify> {
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              text(context, '+91 9874563210', 16,
-                                  fontWeight: FontWeight.w500),
+                              Row(
+                                children: [
+                                  text(context, '+91 ${widget.num}', 16,
+                                      fontWeight: FontWeight.w500),
+                                  SizedBox(
+                                      width:
+                                          5), // Small space between the number and image
+                                  InkResponse(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SignIn()));
+                                    },
+                                    child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: Image.asset(
+                                        "assets/edit.png",
+                                        fit: BoxFit.contain,
+                                        color: color1,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               SizedBox(
                                 height: h * 0.02,
                               ),
-                              text(context, 'RESEND', 16, color: color1,fontWeight: FontWeight.w500)
+                              InkResponse(
+                                  onTap: () {
+                                    LoginOtp();
+                                  },
+                                  child: text(context, 'RESEND', 16,
+                                      color: color1,
+                                      fontWeight: FontWeight.w500))
                             ],
                           ),
                         ),
@@ -113,8 +213,8 @@ class _OtpVerifyState extends State<OtpVerify> {
                       pinTheme: PinTheme(
                           shape: PinCodeFieldShape.box,
                           borderRadius: BorderRadius.circular(5),
-                          fieldHeight: h*0.06,
-                          fieldWidth: w*0.11,
+                          fieldHeight: h * 0.06,
+                          fieldWidth: w * 0.11,
                           fieldOuterPadding: EdgeInsets.only(left: 0, right: 3),
                           activeFillColor: Color(0xFFF4F4F4),
                           activeColor: Color(0xff110B0F),
@@ -182,10 +282,16 @@ class _OtpVerifyState extends State<OtpVerify> {
                 SizedBox(
                   height: 10,
                 ),
-                InkResponse(onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegistraionTypes()));
-                },
-                    child: containertext(context, 'CONTINUE'))
+                InkResponse(
+                    onTap: () {
+                    _validateFields();
+                    },
+                    child: containertext(
+                      context,
+                      'CONTINUE',
+                      isLoading: _isLoading,
+
+                    ))
               ],
             ),
           )

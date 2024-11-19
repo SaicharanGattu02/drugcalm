@@ -57,6 +57,7 @@ class _DashbordState extends State<Dashbord> {
     return Scaffold(
       key: _scaffoldKey,
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: _screens,

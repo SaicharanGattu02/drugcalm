@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'CustomSnackBar.dart';
+
 const defaultPadding = 10.0;
 const defaultMargin = 10.0;
 const defaultHeight = 10.0;
@@ -179,13 +181,12 @@ Text text(
       decoration: textdecoration,
       decorationColor: decorationcolor,
       overflow: overflow,
-      fontFamily: fontfamily??"Inter", // Ensure the font is added in pubspec.yaml
+      fontFamily:
+          fontfamily ?? "Inter", // Ensure the font is added in pubspec.yaml
     ),
     textAlign: textAlign,
   );
 }
-
-
 
 Color getColorFromGradient(double t) {
   // Ensure t is between 0 and 1 to interpolate between the two colors
@@ -232,42 +233,43 @@ Color color24 = Color(0xff22C6BF);
 Color color25 = Color(0xff262422);
 Color color26 = Color(0xffABABAB);
 Color color27 = Color(0xffEFF4F8);
+final spinkits=Spinkits();
 
 Widget containertext(BuildContext context, String buttonText,
-    {Function()? onTap, double? width,height}) {
+    {Function()? onTap, double? width, height, bool isLoading = false}) {
   var h = MediaQuery.of(context).size.height;
   var w = MediaQuery.of(context).size.width;
 
   return InkResponse(
-    onTap: onTap,
-    child: Container(
-      height: 50,
-      width: width ?? MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF22C6BF), Color(0xFF04B4AC)],
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            color: Color(0xffFFFFFF),
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            height: 21.78 / 18,
-            letterSpacing: 1,
-            fontFamily: "Inter"
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        width: width ?? MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF22C6BF), Color(0xFF04B4AC)],
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
-      ),
-    ),
-  );
+        child: Center(
+          child: isLoading?spinkits.getFadingCircleSpinner(color: color4):
+          Text(
+                  buttonText,
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    height: 21.78 / 18,
+                    letterSpacing: 1,
+                    fontFamily: "Inter",
+                  ),
+                ),
+        ),
+      ));
 }
 
-Widget  containertext1(BuildContext context, String buttonText,
-    {Function()? onTap, double? width,height}) {
+Widget containertext1(BuildContext context, String buttonText,
+    {Function()? onTap, double? width, height}) {
   var h = MediaQuery.of(context).size.height;
   var w = MediaQuery.of(context).size.width;
 
@@ -291,8 +293,7 @@ Widget  containertext1(BuildContext context, String buttonText,
               fontSize: 13,
               height: 21.78 / 18,
               letterSpacing: 1,
-              fontFamily: "Inter"
-          ),
+              fontFamily: "Inter"),
         ),
       ),
     ),
@@ -320,10 +321,12 @@ Container container(BuildContext context,
   return Container(
     width: w,
     height: h,
-    padding: padding?? EdgeInsets.all(16),
+    padding: padding ?? EdgeInsets.all(16),
     margin: margin,
     decoration: BoxDecoration(
-        color: colors, borderRadius: borderRadius??BorderRadius.circular(8), border: border),
+        color: colors,
+        borderRadius: borderRadius ?? BorderRadius.circular(8),
+        border: border),
     child: child,
   );
 }

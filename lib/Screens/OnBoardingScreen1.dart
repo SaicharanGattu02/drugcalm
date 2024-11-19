@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../utils/Preferances.dart';
 import '../utils/constants.dart';
 import 'Permission.dart';
 
@@ -15,6 +16,16 @@ class OnboardingPageView extends StatefulWidget {
 class _OnboardingPageViewState extends State<OnboardingPageView> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    PreferenceService().saveString("onboard_status","1");
+  }
+
+
 
   final List<Map<String, String>> _onboardingData = [
 
