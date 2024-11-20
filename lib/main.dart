@@ -3,6 +3,7 @@ import 'package:drugcalm/Authentication/ForgotPasswordScreen.dart';
 import 'package:drugcalm/Registration/BasicInformation.dart';
 import 'package:drugcalm/Registration/BusinessDetails.dart';
 import 'package:drugcalm/Registration/Registration.dart';
+import 'package:drugcalm/providers/ConnectivityProviders.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => ConnectivityProviders(),
+        ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(AppTheme.light),
         ),

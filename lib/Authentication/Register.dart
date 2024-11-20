@@ -1,6 +1,8 @@
 import 'package:drugcalm/Authentication/SignIn.dart';
+import 'package:drugcalm/providers/ConnectivityProviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../Services/UserApi.dart';
 import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
@@ -38,39 +40,48 @@ class _RegisterState extends State<Register> {
   String _validatePwd = "";
 
   bool _loading = false;
-  final spinkits=Spinkits();
+  final spinkits = Spinkits();
 
   void _validateFields() {
     setState(() {
-      _loading=true;
+      _loading = true;
       _validateFullName =
           _fullNameController.text.isEmpty ? "Please enter a fullName" : "";
       _validateemail =
-      !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").hasMatch(_emailController.text) ? "Please enter a valid email" : "";
+          !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                  .hasMatch(_emailController.text)
+              ? "Please enter a valid email"
+              : "";
       _validatePhone =
-          _phoneController.text.isEmpty || _phoneController.text.length<10 ? "Please enter a valid phonenumber" : "";
+          _phoneController.text.isEmpty || _phoneController.text.length < 10
+              ? "Please enter a valid phonenumber"
+              : "";
       _validatePwd =
           _pwdController.text.isEmpty ? "Please enter a password" : "";
-      _validateGender =
-      _gender.isEmpty ? "Please select a gender" : "";
-    if (_validateFullName.isEmpty &&
-        _validateemail.isEmpty &&
-        _validatePhone.isEmpty &&
-        _validatePwd.isEmpty &&
-        _validateGender.isEmpty) {
-      RegisterApi();
-    }else{
-      _loading=false;
-    }
+      _validateGender = _gender.isEmpty ? "Please select a gender" : "";
+      if (_validateFullName.isEmpty &&
+          _validateemail.isEmpty &&
+          _validatePhone.isEmpty &&
+          _validatePwd.isEmpty &&
+          _validateGender.isEmpty) {
+        RegisterApi();
+      } else {
+        _loading = false;
+      }
     });
   }
 
   @override
   void initState() {
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    Provider.of<ConnectivityProviders>(context, listen: false)
+        .initConnectivity();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context, listen: false).dispose();
+    super.dispose();
   }
 
   Future<void> RegisterApi() async {
@@ -86,7 +97,7 @@ class _RegisterState extends State<Register> {
           _loading = false;
           CustomSnackBar.show(context, "${data.settings?.message}");
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) =>SignIn()));
+              context, MaterialPageRoute(builder: (context) => SignIn()));
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) =>LogInScreen()));
         } else {
@@ -100,643 +111,607 @@ class _RegisterState extends State<Register> {
     }
   }
 
-
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-
-  var isDeviceConnected = "";
-
-  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
-  final Connectivity _connectivity = Connectivity();
-
-  Future<void> initConnectivity() async {
-    List<ConnectivityResult> result;
-    try {
-
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      developer.log('Couldn\'t check connectivity status', error: e);
-      return;
-    }
-
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    setState(() {
-      _connectionStatus = result;
-      for (int i = 0; i < _connectionStatus.length; i++) {
-        setState(() {
-          isDeviceConnected = _connectionStatus[i].toString();
-          print("isDeviceConnected:${isDeviceConnected}");
-        });
-      }
-    });
-    print('Connectivity changed: $_connectionStatus');
-  }
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-
-    return
-      (isDeviceConnected == "ConnectivityResult.wifi" ||
-          isDeviceConnected == "ConnectivityResult.mobile")
-          ?
-
-      Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: w,
-          height: h,
-          padding: EdgeInsets.only(top: 30, left: 20, right: 20),
-          decoration: BoxDecoration(
-            color: const Color(0xffE7C6A0),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-
-              SizedBox(height: 30),
-              Text("Register",
-                  style: TextStyle(
-                      color: Color(0xff110B0F),
-                      fontFamily: 'RozhaOne',
-                      fontSize: 24,
-                      height: 21.3 / 15,
-                      fontWeight: FontWeight.w400)),
-              SizedBox(
-                height: h * 0.03,
-              ),
-              Container(
+    var connectivityStatus =
+        Provider.of<ConnectivityProviders>(context);
+    return (connectivityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+            connectivityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+        ? Scaffold(
+            body: SingleChildScrollView(
+              child: Container(
+                width: w,
+                height: h,
+                padding: EdgeInsets.only(top: 30, left: 20, right: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xffE7C6A0),
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Label(text: 'Name'),
-                    SizedBox(height: 4),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      child: TextFormField(
-                        controller: _fullNameController,
-                        focusNode: _focusNodeFullName,
-                        keyboardType: TextInputType.text,
-                        cursorColor: Color(0xffCAA16C),
-                        onTap: () {
-                          setState(() {
-                            _validateFullName = "";
-                          });
-                        },
-                        onChanged: (v) {
-                          setState(() {
-                            _validateFullName = "";
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Enter Name",
-                          hintStyle: const TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            height: 25.73 / 14,
-                            color: Color(0xffCAA16C),
-                            fontFamily: 'RozhaOne',
-                            fontWeight: FontWeight.w400,
-                          ),
-
-                          filled: true,
-                          fillColor: const Color(0xffFCFAFF),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                        ),
+                    SizedBox(height: 30),
+                    Text("Register",
                         style: TextStyle(
-                          fontSize: 14, // Ensure font size fits within height
-                          overflow: TextOverflow
-                              .ellipsis,
-                          fontFamily: 'RozhaOne',
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                    ),
-                    if (_validateFullName.isNotEmpty) ...[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: ShakeWidget(
-                          key: Key("value"),
-                          duration: Duration(milliseconds: 700),
-                          child: Text(
-                            _validateFullName,
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      SizedBox(height: 8),
-                    ],
-                    Label(text: 'Mobile Number'),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.050,
-                      child: TextFormField(
-                        controller: _phoneController,
-                        focusNode: _focusNodePhone,
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: [
-                          FilteringTextInputFormatter
-                              .digitsOnly, // Only allow digits
-                          LengthLimitingTextInputFormatter(
-                              10), // Limit input to 10 digits
-                        ],
-                        cursorColor: Color(0xffCAA16C),
-                        onTap: () {
-                          setState(() {
-                            _validatePhone = "";
-                          });
-                        },
-                        onChanged: (v) {
-                          setState(() {
-                            _validatePhone = "";
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Enter Mobile Number",
-                          hintStyle: const TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            height: 25.73 / 14,
-                            color: Color(0xffCAA16C),
+                            color: Color(0xff110B0F),
                             fontFamily: 'RozhaOne',
-                            fontWeight: FontWeight.w400,
-                          ),
-
-                          filled: true,
-                          fillColor: const Color(0xffFCFAFF),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                        ),
-                        style: TextStyle(
-                          fontSize: 14, // Ensure font size fits within height
-                          overflow: TextOverflow
-                              .ellipsis,
-                          fontFamily: 'RozhaOne',
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                    ),
-                    if (_validatePhone.isNotEmpty) ...[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: ShakeWidget(
-                          key: Key("value"),
-                          duration: Duration(milliseconds: 700),
-                          child: Text(
-                            _validatePhone,
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      SizedBox(height: 8),
-                    ],
-                    Label(text: 'Email'),
+                            fontSize: 24,
+                            height: 21.3 / 15,
+                            fontWeight: FontWeight.w400)),
                     SizedBox(
-                      height: 4,
+                      height: h * 0.03,
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.050,
-                      child: TextFormField(
-                        controller: _emailController,
-                        focusNode: _focusNodeEmail,
-                        keyboardType: TextInputType.emailAddress,
-                        cursorColor: Color(0xffCAA16C),
-                        maxLines: 1,
-                        onTap: () {
-                          setState(() {
-                            _validateemail = "";
-                          });
-                        },
-                        onChanged: (v) {
-                          setState(() {
-                            _validateemail = "";
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Enter Email Address",
-                          hintStyle: const TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            height: 25.73 / 14,
-                            color: Color(0xffCAA16C),
-                            fontFamily: 'RozhaOne',
-                            fontWeight: FontWeight.w400,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Label(text: 'Name'),
+                          SizedBox(height: 4),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            child: TextFormField(
+                              controller: _fullNameController,
+                              focusNode: _focusNodeFullName,
+                              keyboardType: TextInputType.text,
+                              cursorColor: Color(0xffCAA16C),
+                              onTap: () {
+                                setState(() {
+                                  _validateFullName = "";
+                                });
+                              },
+                              onChanged: (v) {
+                                setState(() {
+                                  _validateFullName = "";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Enter Name",
+                                hintStyle: const TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 25.73 / 14,
+                                  color: Color(0xffCAA16C),
+                                  fontFamily: 'RozhaOne',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize:
+                                    14, // Ensure font size fits within height
+                                overflow: TextOverflow.ellipsis,
+                                fontFamily: 'RozhaOne',
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
                           ),
-
-                          filled: true,
-                          fillColor: const Color(0xffFCFAFF),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
+                          if (_validateFullName.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  _validateFullName,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 8),
+                          ],
+                          Label(text: 'Mobile Number'),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              controller: _phoneController,
+                              focusNode: _focusNodePhone,
+                              keyboardType: TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter
+                                    .digitsOnly, // Only allow digits
+                                LengthLimitingTextInputFormatter(
+                                    10), // Limit input to 10 digits
+                              ],
+                              cursorColor: Color(0xffCAA16C),
+                              onTap: () {
+                                setState(() {
+                                  _validatePhone = "";
+                                });
+                              },
+                              onChanged: (v) {
+                                setState(() {
+                                  _validatePhone = "";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Enter Mobile Number",
+                                hintStyle: const TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 25.73 / 14,
+                                  color: Color(0xffCAA16C),
+                                  fontFamily: 'RozhaOne',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize:
+                                    14, // Ensure font size fits within height
+                                overflow: TextOverflow.ellipsis,
+                                fontFamily: 'RozhaOne',
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
+                          if (_validatePhone.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  _validatePhone,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 8),
+                          ],
+                          Label(text: 'Email'),
+                          SizedBox(
+                            height: 4,
                           ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              controller: _emailController,
+                              focusNode: _focusNodeEmail,
+                              keyboardType: TextInputType.emailAddress,
+                              cursorColor: Color(0xffCAA16C),
+                              maxLines: 1,
+                              onTap: () {
+                                setState(() {
+                                  _validateemail = "";
+                                });
+                              },
+                              onChanged: (v) {
+                                setState(() {
+                                  _validateemail = "";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Enter Email Address",
+                                hintStyle: const TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 25.73 / 14,
+                                  color: Color(0xffCAA16C),
+                                  fontFamily: 'RozhaOne',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize: 14,
+                                overflow: TextOverflow.ellipsis,
+                                fontFamily: 'RozhaOne',
+                              ),
+                              textAlignVertical: TextAlignVertical
+                                  .center, // Vertically center the text
+                            ),
                           ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
+                          if (_validateemail.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  _validateemail,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 8),
+                          ],
+                          Label(text: 'Password'),
+                          SizedBox(height: 4),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              obscureText: _obscureText,
+                              controller: _pwdController,
+                              focusNode: _focusNodePassword,
+                              keyboardType: TextInputType.text,
+                              cursorColor: Color(0xffCAA16C),
+                              onTap: () {
+                                setState(() {
+                                  _validatePwd = "";
+                                });
+                              },
+                              onChanged: (v) {
+                                setState(() {
+                                  _validatePwd = "";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Enter Password",
+                                hintStyle: const TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 0,
+                                  height: 25.73 / 15,
+                                  color: Color(0xffCAA16C),
+                                  fontFamily: 'RozhaOne',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    size: 20,
+                                    _obscureText
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Color(0xffCAA16C),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText =
+                                          !_obscureText; // Toggle the visibility
+                                    });
+                                  },
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffCAA16C)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide: const BorderSide(
+                                      width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'RozhaOne',
+                                overflow: TextOverflow
+                                    .ellipsis, // Add ellipsis for long text
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
                           ),
-                        ),
-                        style: TextStyle(
-                          fontSize: 14,
-                          overflow: TextOverflow
-                              .ellipsis,
-                          fontFamily: 'RozhaOne',
-                        ),
-                        textAlignVertical: TextAlignVertical
-                            .center, // Vertically center the text
+                          if (_validatePwd.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  _validatePwd,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 8),
+                          ],
+                          SizedBox(height: 12),
+                          Label(text: 'Gender', textalign: TextAlign.left),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Transform.scale(
+                                    scale:
+                                        0.9, // Adjust the scale to decrease the size
+                                    child: Radio<String>(
+                                      value: 'Male',
+                                      groupValue: _gender,
+                                      activeColor: Color(
+                                          0xffCAA16C), // Change the active color
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                          _validateGender = "";
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  // Decrease the space between the Radio and the Text
+                                  const Text('Male',
+                                      style: TextStyle(
+                                          color: Color(0xff110B0F),
+                                          fontFamily: 'RozhaOne',
+                                          fontSize: 15,
+                                          height: 21.3 / 15,
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 0.9,
+                                    child: Radio<String>(
+                                      value: 'Female',
+                                      groupValue: _gender,
+                                      activeColor: Color(
+                                          0xffCAA16C), // Change the active color
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                          _validateGender = "";
+                                        });
+                                      },
+                                    ),
+                                  ), // Decrease the space between the Radio and the Text
+                                  Text('Female',
+                                      style: TextStyle(
+                                          color: Color(0xff110B0F),
+                                          fontFamily: 'RozhaOne',
+                                          fontSize: 15,
+                                          height: 21.3 / 15,
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Transform.scale(
+                                    scale:
+                                        0.9, // Adjust the scale to decrease the size
+                                    child: Radio<String>(
+                                      value: 'Others',
+                                      groupValue: _gender,
+                                      activeColor: Color(
+                                          0xffCAA16C), // Change the active color
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                          _validateGender = "";
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  // Decrease the space between the Radio and the Text
+                                  const Text('Others',
+                                      style: TextStyle(
+                                          color: Color(0xff110B0F),
+                                          fontFamily: 'RozhaOne',
+                                          fontSize: 15,
+                                          height: 21.3 / 15,
+                                          fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ],
+                          ),
+                          if (_validateGender.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  _validateGender,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 8),
+                          ],
+                        ],
                       ),
                     ),
-                    if (_validateemail.isNotEmpty) ...[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                        child: ShakeWidget(
-                          key: Key("value"),
-                          duration: Duration(milliseconds: 700),
-                          child: Text(
-                            _validateemail,
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                    const SizedBox(height: 12),
+                    InkResponse(
+                      onTap: () {
+                        if (_loading) {
+                        } else {
+                          _validateFields();
+                        }
+                      },
+                      child: Container(
+                        width: w,
+                        height: MediaQuery.of(context).size.height * 0.050,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff110B0F),
+                          borderRadius: BorderRadius.circular(7),
                         ),
-                      ),
-                    ] else ...[
-                      SizedBox(height: 8),
-                    ],
-                    Label(text: 'Password'),
-                    SizedBox(height: 4),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.050,
-                      child: TextFormField(
-                        obscureText: _obscureText,
-                        controller: _pwdController,
-                        focusNode: _focusNodePassword,
-                        keyboardType: TextInputType.text,
-                        cursorColor: Color(0xffCAA16C),
-                        onTap: () {
-                          setState(() {
-                            _validatePwd = "";
-                          });
-                        },
-                        onChanged: (v) {
-                          setState(() {
-                            _validatePwd = "";
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Enter Password",
-                          hintStyle: const TextStyle(
-                            fontSize: 15,
-                            letterSpacing: 0,
-                            height: 25.73 / 15,
-                            color: Color(0xffCAA16C),
-                            fontFamily: 'RozhaOne',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              size: 20,
-                              _obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Color(0xffCAA16C),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscureText =
-                                    !_obscureText; // Toggle the visibility
-                              });
-                            },
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xffFCFAFF),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffCAA16C)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffd0cbdb)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffd0cbdb)),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            borderSide: const BorderSide(
-                                width: 1, color: Color(0xffd0cbdb)),
-                          ),
+                        child: Center(
+                          child: _loading
+                              ? spinkits.getFadingCircleSpinner(
+                                  color: Color(0xffE7C6A0))
+                              : Text(
+                                  "REGISTER",
+                                  style: TextStyle(
+                                    color: Color(0xffCAA16C),
+                                    fontFamily: "RozhaOne",
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    height: 21 / 16,
+                                  ),
+                                ),
                         ),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'RozhaOne',
-                          overflow: TextOverflow
-                              .ellipsis, // Add ellipsis for long text
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
                       ),
                     ),
-                    if (_validatePwd.isNotEmpty) ...[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: ShakeWidget(
-                          key: Key("value"),
-                          duration: Duration(milliseconds: 700),
-                          child: Text(
-                            _validatePwd,
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      SizedBox(height: 8),
-                    ],
-                    SizedBox(height: 12),
-                    Label(text: 'Gender',textalign: TextAlign.left),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Transform.scale(
-                              scale: 0.9, // Adjust the scale to decrease the size
-                              child: Radio<String>(
-                                value: 'Male',
-                                groupValue: _gender,
-                                activeColor:
-                                Color(0xffCAA16C), // Change the active color
-                                onChanged: (value) {
-                                  setState(() {
-                                    _gender = value!;
-                                    _validateGender="";
-                                  });
-                                },
-                              ),
+                        const Text(
+                          "Already have an account?",
+                          style: TextStyle(
+                            fontFamily: 'RozhaOne',
+                            fontSize: 14,
+                            color: Color(0xff6C7278),
+                            fontWeight: FontWeight.w400,
+                            height: 19.6 / 14,
+                            letterSpacing: -0.01,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignIn()));
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontFamily: 'RozhaOne',
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Color(0xff110B0F),
+                              color: Color(0xff110B0F),
+                              fontWeight: FontWeight.w400,
+                              height: 19.6 / 14,
+                              letterSpacing: -0.01,
                             ),
-                            // Decrease the space between the Radio and the Text
-                            const Text('Male',
-                                style: TextStyle(
-                                    color: Color(0xff110B0F),
-                                    fontFamily: 'RozhaOne',
-                                    fontSize: 15,
-                                    height: 21.3 / 15,
-                                    fontWeight: FontWeight.w400)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Transform.scale(
-                              scale: 0.9,
-                              child: Radio<String>(
-                                value: 'Female',
-                                groupValue: _gender,
-                                activeColor:
-                                Color(0xffCAA16C), // Change the active color
-                                onChanged: (value) {
-                                  setState(() {
-                                    _gender = value!;
-                                    _validateGender="";
-                                  });
-                                },
-                              ),
-                            ), // Decrease the space between the Radio and the Text
-                            Text('Female',
-                                style: TextStyle(
-                                    color: Color(0xff110B0F),
-                                    fontFamily: 'RozhaOne',
-                                    fontSize: 15,
-                                    height: 21.3 / 15,
-                                    fontWeight: FontWeight.w400)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Transform.scale(
-                              scale: 0.9, // Adjust the scale to decrease the size
-                              child: Radio<String>(
-                                value: 'Others',
-                                groupValue: _gender,
-                                activeColor:
-                                Color(0xffCAA16C), // Change the active color
-                                onChanged: (value) {
-                                  setState(() {
-                                    _gender = value!;
-                                    _validateGender="";
-                                  });
-                                },
-                              ),
-                            ),
-                            // Decrease the space between the Radio and the Text
-                            const Text('Others',
-                                style: TextStyle(
-                                    color: Color(0xff110B0F),
-                                    fontFamily: 'RozhaOne',
-                                    fontSize: 15,
-                                    height: 21.3 / 15,
-                                    fontWeight: FontWeight.w400)),
-                          ],
-                        ),
+                          ),
+                        )
                       ],
                     ),
-                    if (_validateGender.isNotEmpty) ...[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: ShakeWidget(
-                          key: Key("value"),
-                          duration: Duration(milliseconds: 700),
-                          child: Text(
-                            _validateGender,
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ] else ...[
-                      SizedBox(height: 8),
-                    ],
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
-
-
-
-              const SizedBox(height: 12),
-              InkResponse(
-                onTap: () {
-                  if(_loading){
-
-                  }else{
-                    _validateFields();
-                  }
-                },
-                child: Container(
-                  width: w,
-                  height: MediaQuery.of(context).size.height * 0.050,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff110B0F),
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: Center(
-                    child: _loading?spinkits.getFadingCircleSpinner(color: Color(0xffE7C6A0)):Text(
-                      "REGISTER",
-                      style: TextStyle(
-                        color: Color(0xffCAA16C),
-                        fontFamily: "RozhaOne",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        height: 21 / 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an account?",
-                    style: TextStyle(
-                      fontFamily: 'RozhaOne',
-                      fontSize: 14,
-                      color: Color(0xff6C7278),
-                      fontWeight: FontWeight.w400,
-                      height: 19.6 / 14,
-                      letterSpacing: -0.01,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignIn()));
-                    },
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        fontFamily: 'RozhaOne',
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Color(0xff110B0F),
-                        color: Color(0xff110B0F),
-                        fontWeight: FontWeight.w400,
-                        height: 19.6 / 14,
-                        letterSpacing: -0.01,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ):NoInternetWidget();
+            ),
+          )
+        : NoInternetWidget();
   }
 }
