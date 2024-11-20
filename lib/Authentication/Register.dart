@@ -161,12 +161,7 @@ class _RegisterState extends State<Register> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                  child: Image.asset(
-                "assets/OutfiterText.png",
-                fit: BoxFit.contain,
-                width: w * 0.4,
-              )),
+
               SizedBox(height: 30),
               Text("Register",
                   style: TextStyle(
@@ -214,17 +209,7 @@ class _RegisterState extends State<Register> {
                             fontFamily: 'RozhaOne',
                             fontWeight: FontWeight.w400,
                           ),
-                          prefixIcon: Container(
-                            width: 24,
-                            height: 24,
-                            padding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 6),
-                            child: Image.asset(
-                              "assets/person.png",
-                              fit: BoxFit.contain,
-                              color: Color(0xffCAA16C),
-                            ),
-                          ),
+
                           filled: true,
                           fillColor: const Color(0xffFCFAFF),
                           enabledBorder: OutlineInputBorder(
@@ -315,17 +300,7 @@ class _RegisterState extends State<Register> {
                             fontFamily: 'RozhaOne',
                             fontWeight: FontWeight.w400,
                           ),
-                          prefixIcon: Container(
-                            width: 24,
-                            height: 24,
-                            padding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 6),
-                            child: Image.asset(
-                              "assets/call.png",
-                              fit: BoxFit.contain,
-                              color: Color(0xffCAA16C),
-                            ),
-                          ),
+
                           filled: true,
                           fillColor: const Color(0xffFCFAFF),
                           enabledBorder: OutlineInputBorder(
@@ -414,17 +389,7 @@ class _RegisterState extends State<Register> {
                             fontFamily: 'RozhaOne',
                             fontWeight: FontWeight.w400,
                           ),
-                          prefixIcon: Container(
-                            width: 24,
-                            height: 24,
-                            padding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 6),
-                            child: Image.asset(
-                              "assets/mail.png",
-                              fit: BoxFit.contain,
-                              color: Color(0xffCAA16C),
-                            ),
-                          ),
+
                           filled: true,
                           fillColor: const Color(0xffFCFAFF),
                           enabledBorder: OutlineInputBorder(
@@ -510,17 +475,6 @@ class _RegisterState extends State<Register> {
                             color: Color(0xffCAA16C),
                             fontFamily: 'RozhaOne',
                             fontWeight: FontWeight.w400,
-                          ),
-                          prefixIcon: Container(
-                            width: 24,
-                            height: 24,
-                            padding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 6),
-                            child: Image.asset(
-                              "assets/pwd.png",
-                              fit: BoxFit.contain,
-                              color: Color(0xffCAA16C),
-                            ),
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
