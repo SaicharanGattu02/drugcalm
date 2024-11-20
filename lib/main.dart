@@ -3,7 +3,9 @@ import 'package:drugcalm/Authentication/ForgotPasswordScreen.dart';
 import 'package:drugcalm/Registration/BasicInformation.dart';
 import 'package:drugcalm/Registration/BusinessDetails.dart';
 import 'package:drugcalm/Registration/Registration.dart';
+import 'package:drugcalm/providers/AddressProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
+import 'package:drugcalm/providers/ShippingDetailsProvider.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,11 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => LanguageProvider(), // Add LanguageProvider here
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddressListProvider(
+            // shippingDetailsProvider: Provider.of<ShippingDetailsProvider>(context, listen: false),
+          ),
         ),
       ],
       child: const MyApp(),

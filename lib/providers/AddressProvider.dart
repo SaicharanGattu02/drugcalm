@@ -6,22 +6,21 @@ import 'package:flutter/foundation.dart';  // For ChangeNotifier
 import '../Model/AddressListModel.dart';
 import '../Model/AdressDeatilsModel.dart';
 import '../Services/UserApi.dart';
-import 'ProductListProvider.dart';
-import 'ShippingDetailsProvider.dart';
+
 
 class AddressListProvider with ChangeNotifier {
   List<AddressList>? _addresslistproducts = [];
   AddressDetails? _addressDetails;
-  String? _selectedAddressId;  // Track selected address ID
+  String? _selectedAddressId;
 
   List<AddressList> get addressList => _addresslistproducts ?? [];
   AddressDetails? get addressDetails => _addressDetails;
   String? get selectedAddressId => _selectedAddressId;
 
-  ShippingDetailsProvider shippingDetailsProvider;
+  // ShippingDetailsProvider shippingDetailsProvider;
 
   // Constructor
-  AddressListProvider({required this.shippingDetailsProvider});
+  // AddressListProvider({required this.shippingDetailsProvider});
 
   // Fetch address list from API
   Future<void> fetchAddressList() async {
@@ -57,7 +56,7 @@ class AddressListProvider with ChangeNotifier {
       if (res != null && res.settings?.success == 1) {
         print("AddAddress>>  ${res.settings?.message}");
         fetchAddressList();
-        shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
+        // shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
         return res.settings?.success;
       } else {
         return res?.settings?.success;
@@ -75,7 +74,7 @@ class AddressListProvider with ChangeNotifier {
         print('Address removed successfully');
         fetchAddressList();
         // Call fetchShippingDetails after adding to cart
-        shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
+        // shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
       } else {
         throw Exception('Failed to remove address from address list');
       }
@@ -92,7 +91,7 @@ class AddressListProvider with ChangeNotifier {
         // Update the address list and re-fetch
         fetchAddressList();
         // Call fetchShippingDetails after adding to cart
-        shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
+        // shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
       } else {
         throw Exception('Failed to set default address');
       }
@@ -108,7 +107,7 @@ class AddressListProvider with ChangeNotifier {
       if (res != null && res.settings?.success == 1) {
         fetchAddressList();
         // Call fetchShippingDetails after adding to cart
-        shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
+        // shippingDetailsProvider.fetchShippingDetails();  // Fetch shipping details every time
         return res.settings?.success;
       } else {
         return res?.settings?.success;
@@ -119,14 +118,16 @@ class AddressListProvider with ChangeNotifier {
   }
 
   // Get details of a specific address
-  Future<void> getaddressDetails(String addressID) async {
+  Future<AddressDetails?> getaddressDetails(String addressID) async {
     try {
       var res = await Userapi.getaddressdetails(addressID);
       if (res != null && res.settings?.success == 1) {
         _addressDetails = res.data;
-        notifyListeners();  // Notify listeners to update UI
+        print('_addressDetails>>${_addressDetails}');
+        notifyListeners();
+        return _addressDetails;
       } else {
-        throw Exception('Failed to fetch address details');
+        return null;
       }
     } catch (e) {
       throw Exception('Failed to fetch address details: $e');

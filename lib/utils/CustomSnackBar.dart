@@ -1,3 +1,4 @@
+import 'package:drugcalm/utils/constants.dart';
 import 'package:drugcalm/utils/three_bounce.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class CustomSnackBar {
           style: TextStyle(color: Colors.white, fontFamily: "Inter"),
         ),
         duration: Duration(seconds: 1),
-        backgroundColor: Color(0xFF8856F4),
+        backgroundColor: color1,
       ),
     );
   }
