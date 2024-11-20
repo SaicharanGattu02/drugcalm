@@ -1,4 +1,4 @@
-package com.example.drugcalm
+package com.drug.calm
 
 import io.flutter.embedding.android.FlutterActivity
 

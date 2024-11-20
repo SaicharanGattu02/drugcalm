@@ -324,10 +324,10 @@ class _HomeState extends State<Home> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          // height: h,
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('assets/Drug Clam Background.png'),
+            image: AssetImage('assets/Drug Clam Background.png',),
+                fit: BoxFit.cover,
           )),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -589,6 +589,8 @@ class _HomeState extends State<Home> {
                                         child: Column(
                                           children: [
                                             Container(
+                                              width:120,
+                                              height:100,
                                               child: Center(
                                                 child: Padding(
                                                   padding: EdgeInsets.all(
