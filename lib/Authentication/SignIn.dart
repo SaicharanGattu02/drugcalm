@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:drugcalm/Authentication/OtpVerify.dart';
+import 'package:drugcalm/Authentication/Register.dart';
 import 'package:drugcalm/Authentication/SignInWithEmail.dart';
 import 'package:drugcalm/utils/ColorConstrants.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
@@ -332,7 +333,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                print("Resend email clicked");
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
                               },
                           ),
                         ],

@@ -6,7 +6,7 @@ import '../Model/VerifyOtpModel.dart';  // Import this for MediaType
 
 
 class Userapi {
-  static String host = "http://192.168.0.169:8000";
+  static String host = "http://192.168.0.169:8090";
 
   static Future<RegisterModel?> PostRegister(String fullname, String mail,
       String phone, String password, String gender) async {
