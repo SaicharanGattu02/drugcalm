@@ -65,6 +65,8 @@ dependencies:
   gif: ^2.3.0
   file_picker: ^5.0.0
   fl_chart: ^0.69.0
+  cached_network_image: ^3.4.1
+  flutter_spinkit: ^5.2.1
 
 
 dev_dependencies:

@@ -31,6 +31,7 @@ class _BasicInformationState extends State<BasicInformation> {
     "OTC General",
     "Surgical"
   ];
+
   int currentIndex = 0;
   Future<void> pickFile() async {
     // Using file_picker to pick a file

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/Screens/Brands.dart';
 import 'package:drugcalm/Screens/CartScreen.dart';
@@ -8,7 +9,10 @@ import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:drugcalm/Screens/ProfileScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/CategoriesProvider.dart';
+import '../utils/CustomSnackBar.dart';
 import 'ProductDetails.dart';
 
 class Home extends StatefulWidget {
@@ -113,9 +117,7 @@ class _HomeState extends State<Home> {
 
   bool _isAbout = false;
   bool _isTerms = false;
-  bool _services = false;
-  bool _faq = false;
-  bool _contact = false;
+  final spinkits = Spinkits1();
 
   void _toggleAboutVisibility() {
     setState(() {
@@ -127,6 +129,19 @@ class _HomeState extends State<Home> {
     setState(() {
       _isTerms = !_isTerms;
     });
+  }
+
+  @override
+  void initState() {
+    GetCategoriesList();
+    super.initState();
+  }
+
+  Future<void> GetCategoriesList() async {
+    final categories_list_provider =
+        Provider.of<CategoriesProvider>(context, listen: false);
+    categories_list_provider.fetchCategoriesList();
+    categories_list_provider.fetchBrandsList();
   }
 
   @override
@@ -380,294 +395,333 @@ class _HomeState extends State<Home> {
                       ),
                   ],
                 ),
+                // SizedBox(
+                //   height: h * 0.02,
+                // ),
+                // container(context,padding: EdgeInsets.all(0),
+                //     w: w,
+                //     borderRadius: BorderRadius.circular(8),
+                //     colors: color4,
+                //     child:
+                //     Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             InkResponse(onTap:(){
+                //   Navigator.push(context, MaterialPageRoute(builder: (context)=>LabDiognistic()));
+                //   },
+                //               child: container(context,w: w*0.3,
+                //                 child: Column(
+                //                   children: [
+                //                     container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                         colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
+                //                     SizedBox(height: h*0.01,),
+                //                     text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                   ],
+                //                 ),
+                //               ),
+                //             ),
+                //             container(context,w: w*0.3 ,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Hospital.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Hospital & Clinics', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //             container(context,w: w*0.3 ,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Lab.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Medical Equipment Rental', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(height: h*0.01,),
+                //         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             container(context,w: w*0.3,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //             container(context,w: w*0.3 ,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Hospital.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Hospital & Clinics', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //             container(context,w: w*0.3 ,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Lab.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Medical Equipment Rental', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(height: h*0.01,),
+                //         Row(mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             container(context,w: w*0.3,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Consultancy for New Businesses', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //
+                //             container(context,w: w*0.3 ,
+                //               child: Column(
+                //                 children: [
+                //                   container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
+                //                       colors: color27, child: Image.asset('assets/Blood Request.png',fit: BoxFit.contain,)),
+                //                   SizedBox(height: h*0.01,),
+                //                   text(context, 'Blood Request', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     ),
+                // ),
                 SizedBox(
                   height: h * 0.02,
                 ),
-                container(context,padding: EdgeInsets.all(0),
-                    w: w,
-                    borderRadius: BorderRadius.circular(8),
-                    colors: color4,
-                    child:
-                    Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkResponse(onTap:(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LabDiognistic()));
-                  },
-                              child: container(context,w: w*0.3,
-                                child: Column(
-                                  children: [
-                                    container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                        colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
-                                    SizedBox(height: h*0.01,),
-                                    text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                  ],
-                                ),
-                              ),
-                            ),
-                            container(context,w: w*0.3 ,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Hospital.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Hospital & Clinics', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                            container(context,w: w*0.3 ,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Lab.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Medical Equipment Rental', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: h*0.01,),
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            container(context,w: w*0.3,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Diagnostic & Lab Services', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                            container(context,w: w*0.3 ,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Hospital.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Hospital & Clinics', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                            container(context,w: w*0.3 ,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Lab.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Medical Equipment Rental', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: h*0.01,),
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            container(context,w: w*0.3,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Diagnostic & Lab Services.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Consultancy for New Businesses', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-
-                            container(context,w: w*0.3 ,
-                              child: Column(
-                                children: [
-                                  container(context,w: w*0.1, borderRadius: BorderRadius.circular(100),padding: EdgeInsets.all(8),
-                                      colors: color27, child: Image.asset('assets/Blood Request.png',fit: BoxFit.contain,)),
-                                  SizedBox(height: h*0.01,),
-                                  text(context, 'Blood Request', 10,fontWeight: FontWeight.w400,textAlign: TextAlign.center)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-
-
-                ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
-                Row(
-                  children: [
-                    text(context, 'Shopping By Categories', 16),
-                    Spacer(),
-                    InkResponse(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CategoriesScreen(),
-                            ));
-                      },
-                      child: text(context, 'SEE ALL', 16,
-                          color: color1, fontWeight: FontWeight.w400),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: color1,
-                      size: 18,
-                    )
-                  ],
-                ),
-                GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                    childAspectRatio: 0.67,
-                  ),
-                  itemCount: grid.length,
-                  itemBuilder: (context, index) {
+                Consumer<CategoriesProvider>(
+                    builder: (context, categoriesProvider, child) {
+                  final categories_list = categoriesProvider.categoriesList;
+                  if (categoriesProvider.isLoading) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: Color(0xffE7C6A0),
+                    ));
+                  } else {
                     return Column(
                       children: [
-                        SizedBox(
-                          height: h * 0.02,
+                        Row(
+                          children: [
+                            text(context, 'Shopping By Categories', 16),
+                            Spacer(),
+                            InkResponse(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CategoriesScreen(),
+                                    ));
+                              },
+                              child: text(context, 'SEE ALL', 16,
+                                  color: color1, fontWeight: FontWeight.w400),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: color1,
+                              size: 18,
+                            )
+                          ],
                         ),
-                        InkResponse(
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => Productdetails(),
-                            //   ),
-                            // );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: color1.withOpacity(0.2),
-                                  width: 1,
+                        GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 5.0,
+                            mainAxisSpacing: 0.0,
+                            childAspectRatio: 0.66,
+                          ),
+                          itemCount: categories_list.length,
+                          itemBuilder: (context, index) {
+                            var data = categories_list[index];
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: h * 0.02,
                                 ),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: InkWell(
+                                InkResponse(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => Productdetails(),
+                                    //   ),
+                                    // );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: color1.withOpacity(0.2),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8)),
+                                    child: Center(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductList()));
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(
+                                                      3.0), // Adjust the padding as needed
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: data.image ?? "",
+                                                    fit: BoxFit.cover,
+                                                    placeholder:
+                                                        (BuildContext context,
+                                                            String url) {
+                                                      return Center(
+                                                        child: spinkits
+                                                            .getSpinningLinespinkit(),
+                                                      );
+                                                    },
+                                                    errorWidget:
+                                                        (BuildContext context,
+                                                            String url,
+                                                            dynamic error) {
+                                                      // Handle error in case the image fails to load
+                                                      return Icon(Icons.error);
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                                text(context, '${data.categoryName ?? ""}', 12,
+                                    fontWeight: FontWeight.w400)
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                }),
+                Consumer<CategoriesProvider>(
+                    builder: (context, categoriesProvider, child) {
+                  final brands_list = categoriesProvider.brandsList;
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      Row(
+                        children: [
+                          text(context, 'Shopping By Brands', 16),
+                          Spacer(),
+                          InkResponse(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Brands(),
+                                  ));
+                            },
+                            child: text(context, 'SEE ALL', 16,
+                                color: color1, fontWeight: FontWeight.w400),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: color1,
+                            size: 18,
+                          )
+                        ],
+                      ),
+                      GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 0.0,
+                          childAspectRatio: 1.55,
+                        ),
+                        itemCount: brands_list.length,
+                        itemBuilder: (context, index) {
+                          var data= brands_list[index];
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: h * 0.02,
+                              ),
+                              InkResponse(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductList()));
+
                                 },
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        child: Center(
-                                      child: Image.asset(
-                                        grid[index]['image']!,
+                                child: Container(
+                                  width:w*0.3,
+                                    padding: EdgeInsets.all(2),
+                                    height: w*0.14,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffffffff),
+                                        borderRadius:
+                                            BorderRadius.circular(8)),
+                                    child: Center(
+                                      child: CachedNetworkImage(
+                                        imageUrl: data.brandLogo ?? "",
                                         fit: BoxFit.cover,
-                                        width: w * 0.23,
-                                        height: h * 0.13,
+                                        placeholder:
+                                            (BuildContext context,
+                                            String url) {
+                                          return Center(
+                                            child: spinkits
+                                                .getSpinningLinespinkit(),
+                                          );
+                                        },
+                                        errorWidget:
+                                            (BuildContext context,
+                                            String url,
+                                            dynamic error) {
+                                          // Handle error in case the image fails to load
+                                          return Icon(Icons.error);
+                                        },
                                       ),
                                     )),
-                                  ],
-                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        text(context, '${grid[index]['title']!}', 12,
-                            fontWeight: FontWeight.w400)
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
-                Row(
-                  children: [
-                    text(context, 'Shopping By Brands', 16),
-                    Spacer(),
-                    InkResponse(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Brands(),
-                            ));
-                      },
-                      child: text(context, 'SEE ALL', 16,
-                          color: color1, fontWeight: FontWeight.w400),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: color1,
-                      size: 18,
-                    )
-                  ],
-                ),
-                GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                    childAspectRatio: 1.41,
-                  ),
-                  itemCount: grid1.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        InkResponse(
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => Home(),
-                            //   ),
-                            // );
-                          },
-                          child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomizeProductBar()));
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffffffff),
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      child: Center(
-                                        child: ClipRect(
-                                          child: Image.asset(
-                                            grid1[index]['image']!,
-                                            fit: BoxFit.contain,
-                                            width: w * 0.23,
-                                            height: h * 0.05,
-                                          ),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }),
                 SizedBox(
                   height: h * 0.02,
                 ),

@@ -1,8 +1,8 @@
 import 'dart:math' as math show sin, pi;
 import 'package:flutter/widgets.dart';
 
-class SpinKitThreeBounce extends StatefulWidget {
-  const SpinKitThreeBounce({
+class SpinKitThreeBounces extends StatefulWidget {
+  const SpinKitThreeBounces({
     super.key,
     this.color,
     this.size = 50.0,
@@ -22,10 +22,10 @@ class SpinKitThreeBounce extends StatefulWidget {
   final AnimationController? controller;
 
   @override
-  State<SpinKitThreeBounce> createState() => _SpinKitThreeBounceState();
+  State<SpinKitThreeBounces> createState() => _SpinKitThreeBounceState();
 }
 
-class _SpinKitThreeBounceState extends State<SpinKitThreeBounce>
+class _SpinKitThreeBounceState extends State<SpinKitThreeBounces>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
