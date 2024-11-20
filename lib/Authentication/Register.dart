@@ -556,8 +556,8 @@ class _RegisterState extends State<Register> {
                                     child: Radio<String>(
                                       value: 'Female',
                                       groupValue: _gender,
-                                      activeColor: Color(
-                                          0xffCAA16C), // Change the active color
+                                      activeColor: color1,
+
                                       onChanged: (value) {
                                         setState(() {
                                           _gender = value!;
@@ -593,7 +593,7 @@ class _RegisterState extends State<Register> {
                                       },
                                     ),
                                   ),
-                                  // Decrease the space between the Radio and the Text
+
                                   const Text('Others',
                                       style: TextStyle(
                                           color: Color(0xff110B0F),
