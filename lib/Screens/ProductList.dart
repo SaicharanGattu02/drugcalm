@@ -3,8 +3,11 @@ import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/ProductDetails.dart';
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
 import '../others/Banners.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/constants.dart';
 
 class ProductList extends StatefulWidget {
@@ -18,16 +21,31 @@ class _ProductListState extends State<ProductList> {
   int currentindex = 0;
   int _counter = 0;
   bool _isChecked = false;
+
   @override
   void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
     super.initState();
   }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(title: 'DOLO', actions: []),
       body: SingleChildScrollView(
         child: Container(
@@ -583,6 +601,6 @@ class _ProductListState extends State<ProductList> {
           ),
         ],
       ),
-    );
+    ):NoInternetWidget();
   }
 }

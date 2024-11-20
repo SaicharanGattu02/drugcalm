@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "90500457023",
+    "project_id": "drugcalm-b58c5",
+    "storage_bucket": "drugcalm-b58c5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90500457023:android:07d5f4d9c3d045d60dce8a",
+        "android_client_info": {
+          "package_name": "com.drug.calm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDShmgh6N_1u5M7gKpi6Vz7KdltNN2Tsy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

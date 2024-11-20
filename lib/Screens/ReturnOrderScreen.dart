@@ -1,6 +1,9 @@
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
 
 class Returnorderscreen extends StatefulWidget {
@@ -23,6 +26,18 @@ class _ReturnorderscreenState extends State<Returnorderscreen> {
     'It tells how strong the medicine is (dosage)',
   ];
 
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
   int _selectedIndex = -1; // Default: No option selected
 
   @override
@@ -30,7 +45,14 @@ class _ReturnorderscreenState extends State<Returnorderscreen> {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+
+      Scaffold(
       appBar: CustomAppBar1(
         title: 'RETURN',
         actions: [Container()],
@@ -242,6 +264,6 @@ class _ReturnorderscreenState extends State<Returnorderscreen> {
           ),
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 }

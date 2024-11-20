@@ -1,4 +1,5 @@
 import 'package:drugcalm/Screens/Home.dart';
+import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -113,7 +114,7 @@ class _MyPermissionState extends State<MyPermission> {
     if (token != "") {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        MaterialPageRoute(builder: (context) => Dashbord()),
       );
     } else {
       Navigator.push(

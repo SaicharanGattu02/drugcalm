@@ -45,7 +45,7 @@ class _AddAddressState extends State<AddAddress> {
   void initState() {
     if(widget.type=='Edit'){
       GetAddressDetails(widget.productid);
-      Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+     Provider.of<ConnectivityProviders>(context,listen: false).initConnectivity();
     }
 
     super.initState();
@@ -180,12 +180,12 @@ class _AddAddressState extends State<AddAddress> {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
-    // var connectivityStatus =
-    // Provider.of<ConnectivityProviders>(context);
-    // return (connectivityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
-    //     connectivityStatus.isDeviceConnected == "ConnectivityResult.mobile")
-    //     ?
+    var connectionStatus =Provider.of<ConnectivityProviders>(context);
+
     return
+      (connectionStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectionStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
       Scaffold(
         appBar: CustomAppBar1(title: '${widget.type} Address', actions: [Container()],),
         body: SingleChildScrollView(
@@ -982,7 +982,6 @@ class _AddAddressState extends State<AddAddress> {
           ),
         ),
       )
-    // :NoInternetWidget()
-    ;
+    :NoInternetWidget();
   }
 }

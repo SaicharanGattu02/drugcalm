@@ -3,6 +3,10 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 
 
 
@@ -16,45 +20,67 @@ class ApplyCoupon extends StatefulWidget {
 }
 
 class _ApplyCouponState extends State<ApplyCoupon> {
+  // Sample list of coupons to be used in ListView.builder
+  List<Map<String, String>> coupons = [
+    {
+      'title': 'Big Bachat Tuesday is LIVE.!',
+      'description': 'Get FLAT 5% OFF* during Big Bachat Tuesday on Healthcare Products on Orders above 100',
+      'expiry': 'Expires 15 Days',
+      'code': 'BCH12',
+      'image': 'assets/amazonpay.png'
+    },
+    // You can add more coupon objects here
+    {
+      'title': 'Mega Sale on Health Products',
+      'description': 'Get FLAT 10% OFF* on Orders above 500',
+      'expiry': 'Expires 7 Days',
+      'code': 'HEALTH10',
+      'image': 'assets/amazonpay.png'
+    },
+    {
+      'title': 'Weekend Special Discount',
+      'description': 'Get FLAT 20% OFF* on all Healthcare Orders',
+      'expiry': 'Expires 3 Days',
+      'code': 'WEEKEND20',
+      'image': 'assets/amazonpay.png'
+    },
+    {
+      'title': 'Exclusive Offer for You',
+      'description': 'Get 15% OFF* on Orders above 300',
+      'expiry': 'Expires 5 Days',
+      'code': 'EXCLUSIVE15',
+      'image': 'assets/amazonpay.png'
+    },
+  ];
+
+
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
-    // Sample list of coupons to be used in ListView.builder
-    List<Map<String, String>> coupons = [
-      {
-        'title': 'Big Bachat Tuesday is LIVE.!',
-        'description': 'Get FLAT 5% OFF* during Big Bachat Tuesday on Healthcare Products on Orders above 100',
-        'expiry': 'Expires 15 Days',
-        'code': 'BCH12',
-        'image': 'assets/amazonpay.png'
-      },
-      // You can add more coupon objects here
-      {
-        'title': 'Mega Sale on Health Products',
-        'description': 'Get FLAT 10% OFF* on Orders above 500',
-        'expiry': 'Expires 7 Days',
-        'code': 'HEALTH10',
-        'image': 'assets/amazonpay.png'
-      },
-      {
-        'title': 'Weekend Special Discount',
-        'description': 'Get FLAT 20% OFF* on all Healthcare Orders',
-        'expiry': 'Expires 3 Days',
-        'code': 'WEEKEND20',
-        'image': 'assets/amazonpay.png'
-      },
-      {
-        'title': 'Exclusive Offer for You',
-        'description': 'Get 15% OFF* on Orders above 300',
-        'expiry': 'Expires 5 Days',
-        'code': 'EXCLUSIVE15',
-        'image': 'assets/amazonpay.png'
-      },
-    ];
 
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(title: 'APPLY COUPON', actions: [Container()]),
       body: Container(
         width: w,
@@ -232,7 +258,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
           ],
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 
 }

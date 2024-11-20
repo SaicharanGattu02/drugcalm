@@ -1,6 +1,10 @@
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -13,11 +17,32 @@ class _MyProfileState extends State<MyProfile> {
   String? selectedGender;
   final TextEditingController dateOfBirthController = TextEditingController();
 
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    return Scaffold(
+
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: AppBar(
         backgroundColor: color1,
         leading: Container(),
@@ -617,7 +642,7 @@ class _MyProfileState extends State<MyProfile> {
           ),
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 
   // Helper method for gender selection button

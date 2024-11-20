@@ -5,8 +5,8 @@ import 'package:drugcalm/Screens/SubScription.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../providers/CategoriesProvider.dart';
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import 'WishListScreen.dart';
 
 class Dashbord extends StatefulWidget {
@@ -45,8 +45,15 @@ class _DashbordState extends State<Dashbord> {
   }
 
   @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
     super.dispose();
   }
 
@@ -54,8 +61,13 @@ class _DashbordState extends State<Dashbord> {
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
 
-    return Scaffold(
+      Scaffold(
       key: _scaffoldKey,
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
@@ -131,7 +143,8 @@ class _DashbordState extends State<Dashbord> {
           onTap: onTabTapped,
         ),
       ),
-    );
+    )
+          :NoInternetWidget();
   }
 }
 

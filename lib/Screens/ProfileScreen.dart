@@ -1,11 +1,12 @@
-import 'package:drugcalm/Screens/AddAddress.dart';
-import 'package:drugcalm/Screens/My%20Orders%20Screen.dart';
 import 'package:drugcalm/Screens/My%20Profile.dart';
 import 'package:drugcalm/Screens/SavingsScreen.dart';
 import 'package:drugcalm/Screens/WishListScreen.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
 import 'AddressList.dart';
 import 'BlockListScreen.dart';
@@ -20,11 +21,30 @@ class Profilescreen extends StatefulWidget {
 }
 
 class _ProfilescreenState extends State<Profilescreen> {
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(
         title: 'PROFILE',
         actions: [Container()],
@@ -400,6 +420,6 @@ class _ProfilescreenState extends State<Profilescreen> {
           ),
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 }

@@ -2,7 +2,10 @@ import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/Mywidgets.dart';
 import '../utils/constants.dart';
 
@@ -14,11 +17,30 @@ class Savingsscreen extends StatefulWidget {
 }
 
 class _SavingsscreenState extends State<Savingsscreen> {
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(
         title: "SAVINGS",
         actions: [Container()],
@@ -334,7 +356,7 @@ class _SavingsscreenState extends State<Savingsscreen> {
           ],
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 
   Widget _buildCircularProgress(double percent, Color color, Color bgcolor) {

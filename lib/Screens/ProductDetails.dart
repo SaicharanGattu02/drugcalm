@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:provider/provider.dart';
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/constants.dart';
 import 'SaltComposition.dart';
@@ -14,11 +17,30 @@ class Productdetails extends StatefulWidget {
 class _ProductdetailsState extends State<Productdetails> {
   int _counter = 0;
   bool _isChecked = false;
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(
         title: 'PRODUCT DETAIL',
         actions: [],
@@ -1803,6 +1825,6 @@ class _ProductdetailsState extends State<Productdetails> {
           ),
         ],
       ),
-    );
+    ):NoInternetWidget();
   }
 }

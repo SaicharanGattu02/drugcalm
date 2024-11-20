@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/CustomSnackBar.dart';
 import '../utils/Preferances.dart';
+import '../utils/constants.dart';
 
 Future<Map<String, String>> getheader() async {
   final sessionid = await PreferenceService().getString("token");
@@ -94,13 +95,13 @@ class NoInternetWidget extends StatelessWidget {
                   height: 46,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
-                    color: const Color(0xFF8856F4),
+                    color: color1,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Retry",
                       style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color:color4,
                         fontSize: 20,
                         fontFamily: "Inter",
                         fontWeight: FontWeight.w500,

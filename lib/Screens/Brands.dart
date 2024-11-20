@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
 import '../providers/CategoriesProvider.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/CustomSnackBar.dart';
 
@@ -12,6 +14,20 @@ class Brands extends StatefulWidget {
 }
 
 class _BrandsState extends State<Brands> {
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
+
   final spinkits = Spinkits1();
   @override
   Widget build(BuildContext context) {
@@ -19,7 +35,14 @@ class _BrandsState extends State<Brands> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(
         title: 'BRANDS',
         actions: [Container()],
@@ -91,6 +114,6 @@ class _BrandsState extends State<Brands> {
           ),
         );
       }),
-    );
+    ):NoInternetWidget();
   }
 }

@@ -1,7 +1,10 @@
 import 'package:drugcalm/Screens/AddAddress.dart';
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/constants.dart';
 
 class SelectAddress extends StatefulWidget {
@@ -19,11 +22,32 @@ class _SelectAddressState extends State<SelectAddress> {
     });
   }
 
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return Scaffold(
+
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       appBar: CustomAppBar1(title: 'SELECT ADDRESS', actions: []),
       body: Container(
         width: w,
@@ -146,6 +170,6 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
         mini: true,
       ),
-    );
+    ):NoInternetWidget();
   }
 }

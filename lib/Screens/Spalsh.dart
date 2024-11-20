@@ -4,6 +4,8 @@ import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 import '../utils/Preferances.dart';
 import 'OnBoardingScreen1.dart';
 import '../utils/ThemeProvider.dart';
@@ -27,6 +29,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     Fetchdetails();
     _checkPermissions();
+    Provider.of<ConnectivityProviders>(context,listen: false).initConnectivity();
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
@@ -36,7 +39,7 @@ class _SplashState extends State<Splash> {
           return (onboard_status == "")
               ? OnboardingPageView()
               : (token != "")
-              ? (permissions_granted ? Home() : MyPermission())
+              ? (permissions_granted ? Dashbord() : MyPermission())
               : (permissions_granted ? SignIn() : MyPermission());
         }),
       );
@@ -69,13 +72,26 @@ class _SplashState extends State<Splash> {
     print("Token:${token}");
     print("onboard_status:${onboard_status}");
   }
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
 
 
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return Scaffold(
+    final connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+
+      Scaffold(
       body: GradientBackground(
         child: Center(
           child: Column(
@@ -110,7 +126,7 @@ class _SplashState extends State<Splash> {
           ),
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 }
 

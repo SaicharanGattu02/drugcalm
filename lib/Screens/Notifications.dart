@@ -1,6 +1,10 @@
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../Services/otherservices.dart';
+import '../providers/ConnectivityProviders.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -31,10 +35,29 @@ class _NotificationsState extends State<Notifications> {
     // },
     // Add more items as needed
   ];
+
+  @override
+  void initState() {
+    Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<ConnectivityProviders>(context,listen: false).dispose();
+    super.dispose();
+  }
+
   bool _loading= false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+    return
+      (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
+          connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
+          ?
+
+      Scaffold(
       backgroundColor: const Color(0xffF3ECFB),
       appBar:CustomAppBar1(title: "Notifications",actions: [Container()],),
       body:
@@ -138,6 +161,6 @@ class _NotificationsState extends State<Notifications> {
           },
         ),
       ),
-    );
+    ):NoInternetWidget();
   }
 }
