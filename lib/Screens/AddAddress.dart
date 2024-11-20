@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import '../utils/ShakeWidget.dart';
 
 class AddAddress extends StatefulWidget {
-  const AddAddress({super.key});
+  String type;
+  String productid;
+  AddAddress({super.key, required this.type, required this.productid});
 
   @override
   State<AddAddress> createState() => _AddAddressState();
