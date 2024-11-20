@@ -8,6 +8,7 @@ import '../Model/CategoriesModel.dart';
 import '../Model/RegisterModel.dart';
 import '../Model/ShippingDetailsModel.dart';
 import '../Model/VerifyOtpModel.dart';
+import '../Model/WishlistModel.dart';
 import 'otherservices.dart';  // Import this for MediaType
 
 
@@ -378,6 +379,53 @@ class Userapi {
         return BrandsModel.fromJson(jsonResponse);
       } else {
         // Handle non-200 responses (e.g., 401, 404, etc.)
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+  static Future<RegisterModel?> AddWishList(String product) async {
+    try {
+      Map<String, String> data = {
+        "product": product,
+      };
+      final url = Uri.parse("${host}/api/wishlists");
+      final headers = await getheader2();
+
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: data,
+      );
+      if (response != null) {
+        final jsonResponse = jsonDecode(response.body);
+        print("AddWishList Status:${response.body}");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+  static Future<WishlistModel?> getWishList() async {
+    try {
+      final url = Uri.parse("${host}/api/wishlists");
+      final headers = await getheader1();
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("GetWishList response: ${response.body}");
+        return WishlistModel.fromJson(jsonResponse);
+      } else {
         print("Request failed with status: ${response.statusCode}");
         return null;
       }

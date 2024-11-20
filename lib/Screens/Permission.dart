@@ -1,3 +1,4 @@
+import 'package:drugcalm/Screens/Home.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,6 +19,7 @@ class _MyPermissionState extends State<MyPermission> {
   @override
   void initState() {
     super.initState();
+    _requestPermissions();
     Fetchdetails();
   }
 
@@ -32,115 +34,73 @@ class _MyPermissionState extends State<MyPermission> {
   }
 
   Future<void> _requestPermissions() async {
+    // Request all necessary permissions
     Map<Permission, PermissionStatus> statuses = await [
       Permission.location,
       Permission.camera,
-      Permission.sms,
       Permission.storage,
-      // Permission.notification,
-      // Permission.microphone,
+      Permission.notification,
     ].request();
-    // Check each permission status and print it to the console
+
+    // Check each permission status and print it
     statuses.forEach((permission, status) {
       print('$permission: $status');
     });
-    // Handle permissions that are denied
-    if (statuses[Permission.sms]!.isDenied ||
-        statuses[Permission.notification]!.isDenied) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Permissions Required'),
-            content: Text(
-                'SMS and Notifications permissions are required for the app to function properly. Please grant these permissions to proceed.'),
-            actions: [
-              TextButton(
-                child: Text('Retry'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await [
-                    Permission.sms,
-                    Permission.notification,
-                  ].request();
 
-                  if (await Permission.sms.isGranted &&
-                      await Permission.notification.isGranted) {
-                    if (token != "") {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => MyMainHome()),
-                      // );
-                    } else {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => MySignup()),
-                      // );
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content:
-                            Text('Please grant all permissions to proceed.'),
-                      ),
-                    );
-                  }
-                },
-              ),
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else if (statuses.values.every((status) => status.isGranted)) {
-      if (token != "") {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => MyMainHome()),
-        // );
-      } else {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => MySignup()),
-        // );
-      }
+    // Check if all permissions are granted
+    if (_areAllPermissionsGranted(statuses)) {
+      // If all permissions are granted, navigate to the appropriate screen
+      _navigateToAppropriateScreen();
     } else {
-      // Handle the case where some permissions are not granted
-      _showPermissionDeniedDialog();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please grant all permissions to proceed.'),
-        ),
-      );
+      // If any permission is denied, show a dialog asking the user to grant permissions
+      _showPermissionDeniedDialog(statuses);
     }
   }
 
-  void _showPermissionDeniedDialog() {
-    showDialog(
+// Helper function to check if all permissions are granted
+  bool _areAllPermissionsGranted(Map<Permission, PermissionStatus> statuses) {
+    return statuses.values.every((status) => status.isGranted);
+  }
+
+// Function to show a dialog if permissions are denied
+  Future<void> _showPermissionDeniedDialog(
+      Map<Permission, PermissionStatus> statuses) async {
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Permission Required'),
+          title: Text('Permissions Required'),
           content: Text(
-              'Fincalis app needs all permissions mentioned above. Please grant the permission to proceed.'),
+            'All permissions (Location, Camera, Storage, Notifications) are required for the app to function properly. Please grant all permissions to proceed.',
+          ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
               child: Text('Retry'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+
+                // Request all permissions again
+                Map<Permission, PermissionStatus> newStatuses = await [
+                  Permission.location,
+                  Permission.camera,
+                  Permission.storage,
+                  Permission.notification,
+                ].request();
+
+                // If all permissions are granted, navigate to the appropriate screen
+                if (_areAllPermissionsGranted(newStatuses)) {
+                  _navigateToAppropriateScreen();
+                } else {
+                  // If not all permissions are granted, show the permission denied dialog again
+                  _showPermissionDeniedDialog(newStatuses);
+                }
+              },
             ),
             TextButton(
+              child: Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _openAppSettings(); // Optionally, direct user to app settings
               },
-              child: Text('Settings'),
             ),
           ],
         );
@@ -148,8 +108,19 @@ class _MyPermissionState extends State<MyPermission> {
     );
   }
 
-  void _openAppSettings() async {
-    await openAppSettings();
+// Function to handle navigation based on token
+  void _navigateToAppropriateScreen() {
+    if (token != "") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SignIn()),
+      );
+    }
   }
 
   @override
@@ -196,12 +167,6 @@ class _MyPermissionState extends State<MyPermission> {
                       description:
                           "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
                     ),
-                    _buildPermissionItem(
-                      icon: "assets/message.png",
-                      title: "SMS",
-                      description:
-                          "Scientiam pollicetur quam on eat mirum sapien tiae cupido patria esse cariorem Qua igitur ab deo vincitur si aeternitate non ",
-                    ),
                   ],
                 ),
               ),
@@ -211,9 +176,9 @@ class _MyPermissionState extends State<MyPermission> {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(bottom: 20, left: 16, right: 16),
-        child: containertext(context, 'GET STARTED', onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignIn()));
+        child: containertext(context, 'GET STARTED',
+            onTap: () {
+              _requestPermissions();
         }),
       ),
     );
@@ -266,15 +231,16 @@ class _MyPermissionState extends State<MyPermission> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 7,),
+            padding: const EdgeInsets.only(
+              top: 7,
+            ),
             child: Text(
               description,
               style: TextStyle(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w300,
                   fontSize: 13,
-                  color: color
-              ),
+                  color: color),
             ),
           ),
         ],

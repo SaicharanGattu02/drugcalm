@@ -2,11 +2,13 @@ import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Screens/Home.dart';
 import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../utils/Preferances.dart';
 import 'OnBoardingScreen1.dart';
 import '../utils/ThemeProvider.dart';
 import '../utils/ColorConstrants.dart';
+import 'Permission.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -19,27 +21,41 @@ class _SplashState extends State<Splash> {
 
   String token="";
   String onboard_status="";
+  bool permissions_granted=false;
 
   @override
   void initState() {
     Fetchdetails();
+    _checkPermissions();
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context){
-          if(onboard_status == ""){
-            return OnboardingPageView();
-          }else if(token != ""){
-            return Dashbord();
-          }else{
-            return SignIn();
-          }
-        }
-
-            ),
+        MaterialPageRoute(builder: (context) {
+          return (onboard_status == "")
+              ? OnboardingPageView()
+              : (token != "")
+              ? (permissions_granted ? Home() : MyPermission())
+              : (permissions_granted ? SignIn() : MyPermission());
+        }),
       );
+    });
+
+  }
+
+  Future<void> _checkPermissions() async {
+    Map<Permission, PermissionStatus> statuses = {
+      Permission.location: await Permission.location.status,
+      Permission.camera: await Permission.camera.status,
+      Permission.notification: await Permission.notification.status,
+      Permission.storage: await Permission.storage.status,
+    };
+
+    bool allPermissionsGranted = statuses.values.every((status) => status.isGranted);
+
+    setState(() {
+      permissions_granted = allPermissionsGranted;
     });
   }
 
@@ -59,8 +75,6 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-
-
     return Scaffold(
       body: GradientBackground(
         child: Center(
