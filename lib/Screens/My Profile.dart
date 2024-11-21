@@ -24,6 +24,10 @@ class _MyProfileState extends State<MyProfile> {
   final TextEditingController fullnameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
+  final TextEditingController bloodGroup = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController WeightController = TextEditingController();
   String selectedGender = "";
   File? _image;
   XFile? _pickedFile;
@@ -78,6 +82,7 @@ class _MyProfileState extends State<MyProfile> {
           _validateDate.isEmpty &&
           _validateGender.isEmpty) {
         _updateProfile();
+        userHealthInfo();
       } else {
         _loading = false;
       }
@@ -109,9 +114,31 @@ class _MyProfileState extends State<MyProfile> {
         Provider.of<UserDetailsProvider>(context, listen: false);
     var response = await profile_provider.updateUserDetails(
         fullname, mobile, email, _image, selectedGender, dob);
-    print("response>>${response}");
+
     setState(() {
       if (response == 1) {
+        _loading = false;
+
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Profile updated successfully")));
+        // Optionally, you can navigate back or update the UI to reflect changes
+      } else {
+        _loading = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Failed to update profile")));
+      }
+    });
+  }
+
+
+  Future<void> userHealthInfo()async{
+    final profile_provider =
+    Provider.of<UserDetailsProvider>(context, listen: false);
+
+    var res= await profile_provider.updateHealthDetails(ageController.text, bloodGroup.text, heightController.text, WeightController.text);
+    setState(() {
+      if (res == 1) {
         _loading = false;
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -125,6 +152,7 @@ class _MyProfileState extends State<MyProfile> {
     });
   }
 
+
   Future<void> _fetchUserProfile() async {
     try {
       final profile_provider =
@@ -137,7 +165,15 @@ class _MyProfileState extends State<MyProfile> {
           emailController.text = res.email ?? '';
           profile_image = res.image ?? "";
           selectedGender = res.gender ?? "";
-          dateOfBirthController.text = res.dob ?? "";
+          // dateOfBirthController.text = res.dob ?? "";
+          dateOfBirthController.text = res.dob != null
+              ? DateFormat('dd/MM/yyyy').format(DateTime.parse(res.dob??""))
+              : "";
+
+          ageController.text=res.personal?.age.toString()??"" ;
+          bloodGroup.text=res.personal?.bloodGroup??"";
+          heightController.text=res.personal?.hight.toString()??"";
+          WeightController.text=res.personal?.weight??"";
         }
       });
     } catch (e) {
@@ -170,7 +206,6 @@ class _MyProfileState extends State<MyProfile> {
                       children: [
                         InkWell(
                           onTap: () {
-                            print("hiii");
                             Navigator.pop(context);
                           },
                           child: Icon(
@@ -319,7 +354,7 @@ class _MyProfileState extends State<MyProfile> {
                               controller: fullnameController,
                               focusNode: _focusNodeFullName,
                               keyboardType: TextInputType.text,
-                              cursorColor: Color(0xffCAA16C),
+                              cursorColor: color1,
                               onTap: () {
                                 setState(() {
                                   _validateFullName = "";
@@ -680,6 +715,15 @@ class _MyProfileState extends State<MyProfile> {
                                   Container(
                                     width: w * 0.42,
                                     child: TextField(
+                                      controller: ageController,
+                                      keyboardType: TextInputType.phone,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter
+                                            .digitsOnly, // Only allow digits
+                                        LengthLimitingTextInputFormatter(
+                                            4), // Limit input to 10 digits
+                                      ],
+                                      cursorColor: color1,
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 7),
@@ -740,6 +784,9 @@ class _MyProfileState extends State<MyProfile> {
                                   Container(
                                     width: w * 0.42,
                                     child: TextField(
+                                      controller: bloodGroup,
+                                      keyboardType: TextInputType.text,
+
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 7),
@@ -805,6 +852,13 @@ class _MyProfileState extends State<MyProfile> {
                                   Container(
                                     width: w * 0.42,
                                     child: TextField(
+                                      controller: heightController,
+                                      keyboardType: TextInputType.phone,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter
+                                            .digitsOnly, // Only allow digits
+                                         // Limit input to 10 digits
+                                      ],
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 7),
@@ -865,10 +919,18 @@ class _MyProfileState extends State<MyProfile> {
                                   Container(
                                     width: w * 0.42,
                                     child: TextField(
+                                      controller: WeightController,
+                                      keyboardType: TextInputType.phone,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter
+                                            .digitsOnly, // Only allow digits
+                                        LengthLimitingTextInputFormatter(
+                                            4), // Limit input to 10 digits
+                                      ],
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 7),
-                                        hintText: "Ex:72KG",
+                                        hintText: "Ex:72",
                                         hintStyle: TextStyle(
                                           fontSize: 15,
                                           letterSpacing: 0,
@@ -988,7 +1050,6 @@ class _MyProfileState extends State<MyProfile> {
     DateTime? pickedDate = await showDatePicker(
 
       context: context,
-      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );

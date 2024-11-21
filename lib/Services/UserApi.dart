@@ -455,7 +455,7 @@ class Userapi {
         return null;
       }
     } catch (e) {
-      // Catch any exceptions (e.g., network failure, JSON parsing error)
+
       print("Error occurred: $e");
       return null;
     }
@@ -566,7 +566,30 @@ class Userapi {
 
 
 
+    static Future<RegisterModel?> updateHealthInformation(String Age,String blood,String height,String Weight ) async{
+    try{
+      final Map<String,String> formData ={
+        'age':Age,
+        'blood_group':blood,
+        'hight':height,
+        'weight':Weight,
+      };
+      print("updateHealthInformation response: ${formData}");
+      final url = Uri.parse("${host}/auth/user-personal");
+      final headers = await getheader1();
+      final response = await http.put(url, headers: headers,body: formData);
 
-
-
-}
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("updateHealthInformation response: ${response.body}");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+    }}

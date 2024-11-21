@@ -54,6 +54,20 @@ class UserDetailsProvider with ChangeNotifier {
   }
 
 
-
+  Future<int?> updateHealthDetails(Age, blood, height, Weight) async{
+    try{
+      var response =await Userapi.updateHealthInformation(Age, blood, height, Weight);
+      if (response?.data != null) {
+        fetchUserDetails();
+        return response?.settings?.success??0;
+      } else {
+        return response?.settings?.success??0;
+      }
+    } catch (e) {
+      // If an error occurs, log or rethrow an exception
+      print('Error updating user details: $e');
+      throw Exception('Failed to updating user details: $e');
+    }
+  }
 }
 

@@ -1,4 +1,3 @@
-
 class UserDetailsModel {
   UserDetail? data;
   Settings? settings;
@@ -33,6 +32,7 @@ class UserDetail {
   String? mobile;
   String? gender;
   String? dob;
+  Personal? personal;
 
   UserDetail(
       {this.id,
@@ -41,9 +41,9 @@ class UserDetail {
         this.email,
         this.status,
         this.mobile,
-      this.gender,
-      this.dob,
-      });
+        this.gender,
+        this.dob,
+        this.personal});
 
   UserDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +54,9 @@ class UserDetail {
     mobile = json['mobile'];
     gender = json['gender'];
     dob = json['dob'];
+    personal = json['personal'] != null
+        ? new Personal.fromJson(json['personal'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +69,34 @@ class UserDetail {
     data['mobile'] = this.mobile;
     data['gender'] = this.gender;
     data['dob'] = this.dob;
+    if (this.personal != null) {
+      data['personal'] = this.personal!.toJson();
+    }
+    return data;
+  }
+}
+
+class Personal {
+  String? bloodGroup;
+  int? age;
+  String? hight;
+  String? weight;
+
+  Personal({this.bloodGroup, this.age, this.hight, this.weight});
+
+  Personal.fromJson(Map<String, dynamic> json) {
+    bloodGroup = json['blood_group'];
+    age = json['age'];
+    hight = json['hight'];
+    weight = json['weight'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['blood_group'] = this.bloodGroup;
+    data['age'] = this.age;
+    data['hight'] = this.hight;
+    data['weight'] = this.weight;
     return data;
   }
 }
