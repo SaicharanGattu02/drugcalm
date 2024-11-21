@@ -1,3 +1,4 @@
+import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Screens/My%20Profile.dart';
 import 'package:drugcalm/Screens/SavingsScreen.dart';
 import 'package:drugcalm/Screens/WishListScreen.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
+import '../utils/Preferances.dart';
 import 'AddressList.dart';
 import 'BlockListScreen.dart';
 import 'Madicine Request Scrfeen.dart';
@@ -409,6 +411,30 @@ class _ProfilescreenState extends State<Profilescreen> {
                             fontWeight: FontWeight.w500),
                         Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
                       ],
+                    ),
+                  ), 
+                  SizedBox(height: 10,),
+                  
+                  InkResponse(onTap: (){
+                    PreferenceService().remove('token');
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                  },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(color: Color(0xffD4DDEB))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'LogOut', 16,
+                              color: color11,
+                              fontfamily: "Inter",
+                              fontWeight: FontWeight.w500),
+                          Icon(Icons.arrow_forward_ios_outlined,size: 18,color: color1,),
+                        ],
+                      ),
                     ),
                   ),
 

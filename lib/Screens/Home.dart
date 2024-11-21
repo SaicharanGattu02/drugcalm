@@ -7,6 +7,7 @@ import 'package:drugcalm/Screens/Lab%20And%20Diagnosticlist.dart';
 import 'package:drugcalm/Screens/Notifications.dart';
 import 'package:drugcalm/Screens/ProductList.dart';
 import 'package:drugcalm/Screens/ProfileScreen.dart';
+import 'package:drugcalm/providers/UserDetailsProvider.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -138,10 +139,11 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> GetCategoriesList() async {
-    final categories_list_provider =
-        Provider.of<CategoriesProvider>(context, listen: false);
+    final categories_list_provider = Provider.of<CategoriesProvider>(context, listen: false);
+    final user_details_provider = Provider.of<UserDetailsProvider>(context, listen: false);
     categories_list_provider.fetchCategoriesList();
     categories_list_provider.fetchBrandsList();
+    user_details_provider.fetchUserDetails();
   }
 
   @override
@@ -231,10 +233,11 @@ class _HomeState extends State<Home> {
                       InkResponse(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Profilescreen(),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Profilescreen(),
+                            ),
+                          );
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -242,9 +245,24 @@ class _HomeState extends State<Home> {
                           child: ClipOval(
                             child: CircleAvatar(
                               radius: w * 0.038,
-                              child: Image.asset(
-                                "assets/profile.png",
-                                fit: BoxFit.contain,
+                              child: Consumer<UserDetailsProvider>(
+                                builder: (context, data, child) {
+                                  return CachedNetworkImage(
+                                      imageUrl: data.userDetails?.image ?? "",
+                                      fit: BoxFit.cover,
+                                      placeholder:
+                                          (BuildContext context, String url) {
+                                        return Center(
+                                          child:
+                                              spinkits.getSpinningLinespinkit(),
+                                        );
+                                      },
+                                      errorWidget: (BuildContext context,
+                                          String url, dynamic error) {
+                                        // Handle error in case the image fails to load
+                                        return Icon(Icons.error);
+                                      });
+                                },
                               ),
                             ),
                           ),
@@ -326,8 +344,10 @@ class _HomeState extends State<Home> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('assets/Drug Clam Background.png',),
-                fit: BoxFit.cover,
+            image: AssetImage(
+              'assets/Drug Clam Background.png',
+            ),
+            fit: BoxFit.cover,
           )),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -589,8 +609,8 @@ class _HomeState extends State<Home> {
                                         child: Column(
                                           children: [
                                             Container(
-                                              width:120,
-                                              height:100,
+                                              width: 120,
+                                              height: 100,
                                               child: Center(
                                                 child: Padding(
                                                   padding: EdgeInsets.all(
@@ -677,40 +697,34 @@ class _HomeState extends State<Home> {
                         ),
                         itemCount: brands_list.length,
                         itemBuilder: (context, index) {
-                          var data= brands_list[index];
+                          var data = brands_list[index];
                           return Column(
                             children: [
                               SizedBox(
                                 height: h * 0.02,
                               ),
                               InkResponse(
-                                onTap: () {
-
-                                },
+                                onTap: () {},
                                 child: Container(
-                                  width:w*0.3,
+                                    width: w * 0.3,
                                     padding: EdgeInsets.all(2),
-                                    height: w*0.14,
+                                    height: w * 0.14,
                                     decoration: BoxDecoration(
                                         color: Color(0xffffffff),
-                                        borderRadius:
-                                            BorderRadius.circular(8)),
+                                        borderRadius: BorderRadius.circular(8)),
                                     child: Center(
                                       child: CachedNetworkImage(
                                         imageUrl: data.brandLogo ?? "",
                                         fit: BoxFit.cover,
                                         placeholder:
-                                            (BuildContext context,
-                                            String url) {
+                                            (BuildContext context, String url) {
                                           return Center(
                                             child: spinkits
                                                 .getSpinningLinespinkit(),
                                           );
                                         },
-                                        errorWidget:
-                                            (BuildContext context,
-                                            String url,
-                                            dynamic error) {
+                                        errorWidget: (BuildContext context,
+                                            String url, dynamic error) {
                                           // Handle error in case the image fails to load
                                           return Icon(Icons.error);
                                         },
@@ -724,80 +738,80 @@ class _HomeState extends State<Home> {
                     ],
                   );
                 }),
-                SizedBox(
-                  height: h * 0.02,
-                ),
-                Container(
-                  width: w,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  decoration: BoxDecoration(
-                      color: const Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Search",
-                        style: TextStyle(
-                            color: Color(0xff9E7BCA),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            fontFamily: "Nunito"),
-                      ),
-                      Spacer(),
-                      Image.asset(
-                        "assets/atoz.png",
-                        width: 20,
-                        height: 20,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
-                Container(
-                    width: w,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/WhatsApp svg.png",
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          width: w * 0.02,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            text(context, 'Call Our Health Adviser to Book', 13,
-                                fontWeight: FontWeight.w400),
-                            SizedBox(
-                              height: h * 0.005,
-                            ),
-                            text(
-                              context,
-                              'Our Team of Experts will guide You',
-                              fontWeight: FontWeight.w600,
-                              11,
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          size: 18,
-                        )
-                      ],
-                    )),
+                // SizedBox(
+                //   height: h * 0.02,
+                // ),
+                // Container(
+                //   width: w,
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                //   decoration: BoxDecoration(
+                //       color: const Color(0xffffffff),
+                //       borderRadius: BorderRadius.circular(8)),
+                //   child: Row(
+                //     children: [
+                //       Text(
+                //         "Search",
+                //         style: TextStyle(
+                //             color: Color(0xff9E7BCA),
+                //             fontWeight: FontWeight.w400,
+                //             fontSize: 16,
+                //             fontFamily: "Nunito"),
+                //       ),
+                //       Spacer(),
+                //       Image.asset(
+                //         "assets/atoz.png",
+                //         width: 20,
+                //         height: 20,
+                //         fit: BoxFit.contain,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: h * 0.02,
+                // ),
+                // Container(
+                //     width: w,
+                //     padding: EdgeInsets.all(10),
+                //     decoration: BoxDecoration(
+                //         color: Color(0xffffffff),
+                //         borderRadius: BorderRadius.circular(8)),
+                //     child: Row(
+                //       children: [
+                //         Image.asset(
+                //           "assets/WhatsApp svg.png",
+                //           width: 40,
+                //           height: 40,
+                //           fit: BoxFit.contain,
+                //         ),
+                //         SizedBox(
+                //           width: w * 0.02,
+                //         ),
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             text(context, 'Call Our Health Adviser to Book', 13,
+                //                 fontWeight: FontWeight.w400),
+                //             SizedBox(
+                //               height: h * 0.005,
+                //             ),
+                //             text(
+                //               context,
+                //               'Our Team of Experts will guide You',
+                //               fontWeight: FontWeight.w600,
+                //               11,
+                //             ),
+                //           ],
+                //         ),
+                //         Spacer(),
+                //         Icon(
+                //           Icons.arrow_forward_ios_outlined,
+                //           size: 18,
+                //         )
+                //       ],
+                //     )),
                 SizedBox(
                   height: h * 0.02,
                 ),

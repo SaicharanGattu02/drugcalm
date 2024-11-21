@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import '../Model/AddressListModel.dart';
 import '../Model/AdressDeatilsModel.dart';
 import '../Model/BrandsModel.dart';
 import '../Model/CategoriesModel.dart';
 import '../Model/RegisterModel.dart';
 import '../Model/ShippingDetailsModel.dart';
+import '../Model/UserDetailsModel.dart';
 import '../Model/VerifyOtpModel.dart';
 import '../Model/WishlistModel.dart';
 import 'otherservices.dart';  // Import this for MediaType
+import 'package:http_parser/http_parser.dart';  // Import this for MediaType
 
 
 class Userapi {
@@ -435,4 +438,135 @@ class Userapi {
       return null;
     }
   }
+
+
+
+  static Future<UserDetailsModel?> getUserdetsils() async {
+    try {
+      final url = Uri.parse("${host}/auth/user-detail");
+      final headers = await getheader1();
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("getUserdetsils response: ${response.body}");
+        return UserDetailsModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+  static Future<RegisterModel?> updateprofile(
+      String id,
+      String pincode,
+      String mobile,
+      String address,
+      String address_type,
+      ) async {
+    try {
+      // Define the form data
+      final Map<String, String> formData = {
+        'pincode': pincode,
+        'mobile': mobile,
+        'address': address,
+        'address_type': address_type
+      };
+      final url = Uri.parse("${host}/api/update-address/$id");
+      final headers = await getheader1();
+      final response = await http.put(url, headers: headers,body: formData);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("updateAdress response: ${response.body}");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+
+
+  static Future<RegisterModel?> updateProfile(
+      String fullname,
+      String mobile,
+      String email,
+      File? image,
+      String gender,
+      String dob
+      ) async {
+    String? mimeType;
+
+    if (image != null) {
+      mimeType = lookupMimeType(image.path);  // Get MIME type for the image
+      if (mimeType == null || !mimeType.startsWith('image/')) {
+        print('Selected file is not a valid image.');
+        return null;
+      }
+    }
+
+    try {
+      // Prepare the URL for the update request
+      final url = Uri.parse("${host}/auth/user-detail");
+
+      // Create a MultipartRequest for a multipart form upload
+      final request = http.MultipartRequest('PUT', url);
+
+      // Add headers (use your token and necessary headers here)
+      final headers = await getheader1(); // Assuming you have a function to get headers
+      request.headers.addAll(headers);
+
+      // Add fields (name, mobile, email)
+      request.fields['full_name'] = fullname;
+      request.fields['mobile'] = mobile;
+      request.fields['email'] = email;
+      request.fields['gender'] = gender;
+      request.fields['dob'] = dob;
+
+      // If an image is provided, add it to the request as a file
+      if (image != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'image',  // The name of the file field in your API
+            image.path,
+            contentType: MediaType.parse(mimeType!),  // Ensure mime type is non-null
+          ),
+        );
+      }
+
+      print("Req filelds:${request.fields}");
+
+      // Send the request
+      final response = await request.send();
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = jsonDecode(responseBody);
+        print("updateProfile response: ${responseBody}");
+        return RegisterModel.fromJson(jsonResponse);  // Assuming RegisterModel parses the response
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+
+
+
+
+
 }

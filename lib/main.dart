@@ -10,6 +10,7 @@ import 'package:drugcalm/Registration/Registration.dart';
 import 'package:drugcalm/providers/AddressProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
+import 'package:drugcalm/providers/UserDetailsProvider.dart';
 import 'package:drugcalm/utils/Preferances.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -182,6 +183,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserDetailsProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AddressListProvider(

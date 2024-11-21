@@ -15,26 +15,46 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var w=MediaQuery.of(context).size.width;
-    var h=MediaQuery.of(context).size.height;
-    return AppBar(backgroundColor: color1,
-        leading: Container(),
-        leadingWidth: 0,
-        title:Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back,
-                color: color4,
-              ),
-            ),
-            SizedBox(width: 10,),
-            text(context,title, 20,color: color4),
-          ],
+    var w = MediaQuery.of(context).size.width;
+    var h = MediaQuery.of(context).size.height;
+
+    return AppBar(
+      automaticallyImplyLeading: false, // Disable default back button
+      backgroundColor: color1,
+      leading:Container(),
+      leadingWidth: 0,
+
+      title:Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(children: [ InkResponse(
+          onTap: () {
+            Navigator.pop(context, true); // Custom back button behavior
+          },
+          child: Row(
+            children: [
+              Icon(Icons.arrow_back, color: Color(0xffffffff)),
+              const SizedBox(width: 12),
+            ],
+          ),
         ),
+
+          Text(
+            title,
+            style: TextStyle(
+              color: Color(0xffffffff),
+              fontFamily: 'RozhaOne',
+              fontSize: 24,
+              height: 32 / 24,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+        ),
+      ),
+
+
+
+
       actions: actions.isNotEmpty
           ? actions
           : [
@@ -52,7 +72,9 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(width: w*0.02,),
+              SizedBox(
+                width: w * 0.02,
+              ),
               InkWell(
                 onTap: onPlusTap ?? () {},
                 child: Image.asset(
@@ -62,7 +84,9 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(width: w*0.02,),
+              SizedBox(
+                width: w * 0.02,
+              ),
               InkWell(
                 onTap: onPlusTap ?? () {},
                 child: Image.asset(
@@ -74,8 +98,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-
-        )
+        ),
       ],
     );
   }
