@@ -24,7 +24,6 @@ class ProductListProvider with ChangeNotifier {
     try {
       var response = await Userapi.getProductsList();
       _productlist = response?.data ?? [];
-      print("fetchProductsList>>${_productlist}");
     } catch (e) {
       throw Exception('Failed to fetch product details: $e');
     } finally {

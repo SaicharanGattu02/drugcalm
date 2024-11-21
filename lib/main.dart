@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:drugcalm/providers/AddressProvider.dart';
+import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
 import 'package:drugcalm/providers/UserDetailsProvider.dart';
@@ -194,6 +195,10 @@ Future<void> main() async {
           create: (context) => WishlistProvider(context.read<ProductListProvider>()),
           update: (context, productListProvider, wishlistProvider) =>
           wishlistProvider!..updateProductListProvider(productListProvider),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(
+          ),
         ),
       ],
       child: const MyApp(),

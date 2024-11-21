@@ -7,8 +7,10 @@ import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/ProductsListModel.dart';
 import '../Services/otherservices.dart';
 import '../others/Banners.dart';
+import '../providers/CartProvider.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../providers/ProductListProvider.dart';
 import '../providers/WishlistProvider.dart';
@@ -199,6 +201,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
                             // Get the product at the current index
                             var product = product_list[index];
+                            final cart_provider = Provider.of<CartProvider>(context, listen: false);
 
                             // Return the InkResponse for each product item
                             return Container(
@@ -478,70 +481,148 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                           .spaceBetween,
                                                   children: [
                                                     // Quantity Selector
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            color1, // Your color
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          GestureDetector(
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          5),
-                                                              child: Icon(
-                                                                  Icons.remove,
-                                                                  color: color4,
-                                                                  size: 20),
-                                                            ),
-                                                            onTap: _decrement,
+                                                    if (product.quantity == 0) ...[
+                                                      InkResponse(
+                                                        onTap: () async {
+                                                          var msg = await cart_provider.addToCartApi(product.id ?? "", "1");
+
+                                                          // After adding to the cart, update the product quantity in ProductListProvider
+                                                          if (msg != null) {
+                                                            ProductListProvider productListProvider = Provider.of<ProductListProvider>(context, listen: false);
+
+                                                            // Ensure you're using the correct 'product.id' here, not 'product' itself.
+                                                            String productId = product.id ?? '';  // Store the product ID in a local variable
+
+                                                            // Safely find the product in the list (or return a default product if not found)
+                                                            var Product = productListProvider.productList.firstWhere(
+                                                                    (p) => p.id == productId,  // Use the local 'productId' variable
+                                                                orElse: () => ProductsList(id: '-1')  // Return a default product if not found
+                                                            );
+
+                                                            // Ensure the product is found before updating
+                                                            if (product.id != '-1') {
+                                                              product.quantity = (product.quantity ?? 0) + 1;  // Safe addition
+                                                              productListProvider.notifyListeners();  // Notify listeners to update the UI
+                                                            }
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          padding: EdgeInsets.symmetric(vertical: 5),
+                                                          width: w * 0.3,
+                                                          decoration: BoxDecoration(
+                                                            color: color1,
+                                                            borderRadius: BorderRadius.circular(4),
                                                           ),
-                                                          AnimatedFlipCounter(
-                                                            value: _quantity,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              fontSize: 15,
-                                                              color: color4,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                          child: Center(
+                                                            child: Text(
+                                                              'ADD',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w400,
+                                                                color: color4,
+                                                              ),
                                                             ),
                                                           ),
-                                                          GestureDetector(
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          5),
-                                                              child: Icon(
-                                                                  Icons.add,
-                                                                  color: color4,
-                                                                  size: 20),
+                                                        ),
+                                                      )
+                                                    ] else ...[
+                                                      // Handle the other case when the product quantity is more than 0
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                          color: color1,
+                                                          borderRadius: BorderRadius.circular(4),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            // Decrease quantity button
+                                                            GestureDetector(
+                                                              child: Container(
+                                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                                child: Icon(Icons.remove, color: color4, size: 20),
+                                                              ),
+                                                              onTap: () async {
+                                                                if ((product.quantity ?? 0) > 0) {
+                                                                  // Decrease the quantity
+                                                                  int newQuantity = (product.quantity ?? 0) - 1;
+
+                                                                  // Optimistically update the quantity in the cart provider
+                                                                  cart_provider.optimisticUpdateCartQuantity(
+                                                                    product.id ?? "",
+                                                                    newQuantity,
+                                                                  );
+
+                                                                  // Update the quantity in the server (API call)
+                                                                  var res = await cart_provider.updateCartApi(
+                                                                    product.id ?? "",
+                                                                    newQuantity.toString(),
+                                                                  );
+
+                                                                  // Optionally update the product list immediately
+                                                                  // Notify listeners to update the UI
+                                                                  if(res!=0){
+                                                                    productListProvider.productList.forEach((p) {
+                                                                      if (p.id == product.id) {
+                                                                        p.quantity = newQuantity; // Directly update the product's quantity
+                                                                      }
+                                                                    });
+
+                                                                    // Notify the listeners of the product list provider to refresh the UI
+                                                                    productListProvider.notifyListeners();
+                                                                  }
+                                                                }
+                                                              },
                                                             ),
-                                                            onTap: _increment,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
+
+                                                            // Animated counter to display the updated quantity
+                                                            AnimatedFlipCounter(
+                                                              value: product.quantity ?? 0,
+                                                              textStyle: TextStyle(fontSize: 15, color: color4, fontWeight: FontWeight.bold),
+                                                            ),
+
+                                                            // Increase quantity button
+                                                            GestureDetector(
+                                                              child: Container(
+                                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                                child: Icon(Icons.add, color: color4, size: 20),
+                                                              ),
+                                                              onTap: () async {
+                                                                int newQuantity = (product.quantity ?? 0) + 1;
+
+                                                                // Optimistically update the quantity in the cart provider
+                                                                cart_provider.optimisticUpdateCartQuantity(
+                                                                  product.id ?? "",
+                                                                  newQuantity,
+                                                                );
+
+                                                                // Update the quantity in the server (API call)
+                                                                var res = await cart_provider.updateCartApi(
+                                                                  product.id ?? "",
+                                                                  newQuantity.toString(),
+                                                                );
+
+                                                                // Optionally update the product list immediately
+                                                                // Notify listeners to update the UI
+                                                                productListProvider.productList.forEach((p) {
+                                                                  if (p.id == product.id) {
+                                                                    p.quantity = newQuantity; // Directly update the product's quantity
+                                                                  }
+                                                                });
+
+                                                                // Notify the listeners of the product list provider to refresh the UI
+                                                                productListProvider.notifyListeners();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
                                                     GestureDetector(
                                                       onTap: () {
-                                                        print("HIIIII");
-                                                        if (product.isInWishlist ?? false) {
-                                                          print("TRUEEEEEE");
+                                                        if (product
+                                                                .isInWishlist ??
+                                                            false) {
                                                           context
                                                               .read<
                                                                   WishlistProvider>()
@@ -549,7 +630,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                                   product.id ??
                                                                       "");
                                                         } else {
-                                                          print("Falseeeeeee");
                                                           context
                                                               .read<
                                                                   WishlistProvider>()
@@ -573,6 +653,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                     ),
                                                     Image.asset(
                                                       'assets/block.png',
+                                                      width: w * 0.06,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    Image.asset(
+                                                      'assets/youtube.png',
                                                       width: w * 0.06,
                                                       fit: BoxFit.contain,
                                                     ),

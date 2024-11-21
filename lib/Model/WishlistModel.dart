@@ -64,6 +64,7 @@ class Product {
   String? ptr;
   String? net_price;
   bool? isInWishlist;
+  int? quantity;
 
   Product(
       {this.id,
@@ -82,6 +83,7 @@ class Product {
         this.mrp,
         this.ptr,
         this.net_price,
+        this.quantity,
         this.isInWishlist});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -102,6 +104,7 @@ class Product {
     ptr = json['ptr'];
     net_price = json['net_price'];
     isInWishlist = json['is_in_wishlist'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
@@ -123,6 +126,7 @@ class Product {
     data['ptr'] = this.ptr;
     data['net_price'] = this.net_price;
     data['is_in_wishlist'] = this.isInWishlist;
+    data['quantity'] = this.quantity;
     return data;
   }
 }
