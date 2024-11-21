@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:label="Drug Calm"
+        android:label="DrugCalm"
         android:name="${applicationName}"
         android:icon="@mipmap/drugclam">
         <activity

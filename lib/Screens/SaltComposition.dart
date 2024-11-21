@@ -2,7 +2,7 @@ import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'ProductList.dart';
+import 'ProductListScreen.dart';
 
 class SaltComposition extends StatefulWidget {
   const SaltComposition({super.key});
@@ -257,7 +257,7 @@ class _SaltCompositionState extends State<SaltComposition> {
                 InkResponse(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProductList()));
+                        MaterialPageRoute(builder: (context) => ProductListScreen()));
                   },
                   child: container(context,
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),

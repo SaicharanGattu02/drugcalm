@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drugcalm/Screens/ProductList.dart';
+import 'package:drugcalm/Screens/ProductListScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +63,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         height: h * 0.02,
                       ),
                       InkResponse(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductListScreen()));
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -73,46 +78,38 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProductList()));
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width:120,
-                                    height:100,
-                                    child: Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(3.0), // Adjust the padding as needed
-                                        child:CachedNetworkImage(
-                                          imageUrl: data.image ?? "",
-                                          fit: BoxFit.cover,
-                                          placeholder:
-                                              (BuildContext context,
-                                              String url) {
-                                            return Center(
-                                              child: spinkits
-                                                  .getSpinningLinespinkit(),
-                                            );
-                                          },
-                                          errorWidget:
-                                              (BuildContext context,
-                                              String url,
-                                              dynamic error) {
-                                            // Handle error in case the image fails to load
-                                            return Icon(Icons.error);
-                                          },
-                                        ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width:120,
+                                  height:100,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(3.0), // Adjust the padding as needed
+                                      child:CachedNetworkImage(
+                                        imageUrl: data.image ?? "",
+                                        fit: BoxFit.cover,
+                                        placeholder:
+                                            (BuildContext context,
+                                            String url) {
+                                          return Center(
+                                            child: spinkits
+                                                .getSpinningLinespinkit(),
+                                          );
+                                        },
+                                        errorWidget:
+                                            (BuildContext context,
+                                            String url,
+                                            dynamic error) {
+                                          // Handle error in case the image fails to load
+                                          return Icon(Icons.error);
+                                        },
                                       ),
                                     ),
-                                  )
+                                  ),
+                                )
 
-                                ],
-                              ),
+                              ],
                             ),
                           ),
                         ),

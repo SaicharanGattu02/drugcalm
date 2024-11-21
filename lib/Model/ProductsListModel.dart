@@ -1,14 +1,20 @@
-class WishlistModel {
-  List<Wishlist>? data;
+class ProductsListModel {
+  List<ProductsList>? data;
   Settings? settings;
 
-  WishlistModel({this.data, this.settings});
+  ProductsListModel({this.data, this.settings});
 
-  WishlistModel.fromJson(Map<String, dynamic> json) {
-    // Check if 'data' is a valid key and is a List, otherwise initialize as an empty list
-    data = (json['data'] != null && json['data'] is List)
-        ? (json['data'] as List).map((v) => Wishlist.fromJson(v)).toList()
-        : []; // If data is null or not a list, assign an empty list
+  ProductsListModel.fromJson(Map<String, dynamic> json) {
+    // Check if 'data' is present and non-null, if not, set it to an empty list
+    if (json['data'] != null && json['data'] is List) {
+      data = <ProductsList>[];
+      json['data'].forEach((v) {
+        data!.add(ProductsList.fromJson(v));
+      });
+    } else {
+      // Set data to an empty list if 'data' is null or not a list
+      data = [];
+    }
 
     settings = json['settings'] != null
         ? Settings.fromJson(json['settings'])
@@ -16,37 +22,23 @@ class WishlistModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> dataMap = <String, dynamic>{};
+    // If 'data' is not null, convert it to a list of JSON objects
+    if (data != null && data!.isNotEmpty) {
+      dataMap['data'] = data!.map((v) => v.toJson()).toList();
+    } else {
+      // If 'data' is null or empty, don't include the key 'data' in the JSON
+      dataMap['data'] = [];
     }
-    if (this.settings != null) {
-      data['settings'] = this.settings!.toJson();
+    // Convert 'settings' to JSON if not null
+    if (settings != null) {
+      dataMap['settings'] = settings!.toJson();
     }
-    return data;
+    return dataMap;
   }
 }
 
-class Wishlist {
-  Product? product;
-
-  Wishlist({this.product});
-
-  Wishlist.fromJson(Map<String, dynamic> json) {
-    product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
-    }
-    return data;
-  }
-}
-
-class Product {
+class ProductsList {
   String? id;
   String? name;
   String? subName;
@@ -65,7 +57,7 @@ class Product {
   String? net_price;
   bool? isInWishlist;
 
-  Product(
+  ProductsList(
       {this.id,
         this.name,
         this.subName,
@@ -84,7 +76,7 @@ class Product {
         this.net_price,
         this.isInWishlist});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  ProductsList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     subName = json['sub_name'];

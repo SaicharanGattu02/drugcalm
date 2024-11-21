@@ -5,7 +5,7 @@ import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/CategoriesScreen.dart';
 import 'package:drugcalm/Screens/Lab%20And%20Diagnosticlist.dart';
 import 'package:drugcalm/Screens/Notifications.dart';
-import 'package:drugcalm/Screens/ProductList.dart';
+import 'package:drugcalm/Screens/ProductListScreen.dart';
 import 'package:drugcalm/Screens/ProfileScreen.dart';
 import 'package:drugcalm/providers/UserDetailsProvider.dart';
 import 'package:drugcalm/utils/constants.dart';
@@ -604,7 +604,7 @@ class _HomeState extends State<Home> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ProductList()));
+                                                      ProductListScreen()));
                                         },
                                         child: Column(
                                           children: [

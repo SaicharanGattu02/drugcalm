@@ -3,14 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:drugcalm/Authentication/ForgotPasswordScreen.dart';
-import 'package:drugcalm/Registration/BasicInformation.dart';
-import 'package:drugcalm/Registration/BusinessDetails.dart';
-import 'package:drugcalm/Registration/Registration.dart';
 import 'package:drugcalm/providers/AddressProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
 import 'package:drugcalm/providers/UserDetailsProvider.dart';
+import 'package:drugcalm/providers/ProductListProvider.dart';
+import 'package:drugcalm/providers/WishlistProvider.dart';
 import 'package:drugcalm/utils/Preferances.dart';
 import 'package:drugcalm/utils/ThemeProvider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -21,9 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-
-import 'Authentication/SignIn.dart';
-import 'Screens/ProfileScreen.dart';
 import 'Screens/Spalsh.dart';
 
 
@@ -191,6 +186,14 @@ Future<void> main() async {
           create: (context) => AddressListProvider(
             // shippingDetailsProvider: Provider.of<ShippingDetailsProvider>(context, listen: false),
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProductListProvider(),
+        ),
+        ChangeNotifierProxyProvider<ProductListProvider, WishlistProvider>(
+          create: (context) => WishlistProvider(context.read<ProductListProvider>()),
+          update: (context, productListProvider, wishlistProvider) =>
+          wishlistProvider!..updateProductListProvider(productListProvider),
         ),
       ],
       child: const MyApp(),
