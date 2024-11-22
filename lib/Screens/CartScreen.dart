@@ -1,4 +1,5 @@
 import 'package:drugcalm/Screens/ApplyCoupon.dart';
+import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +28,35 @@ class _CartscreenState extends State<Cartscreen> {
     super.initState();
   }
 
+  Future<void> GetCartList() async {
+    final cart_list_provider =
+    Provider.of<CartProvider>(context, listen: false);
+    cart_list_provider.fetchCartProducts();
+  }
+
   @override
   void dispose() {
     Provider.of<ConnectivityProviders>(context, listen: false).dispose();
     super.dispose();
   }
+
+  final List<Map<String, dynamic>> productData = [
+    {
+      'name': 'Dolo 250 Oral Suspension',
+      'details': 'Bottle of 60 ml Oral Suspension',
+      'quantity': '10S',
+      'netPrice': '₹ 93.81',
+      'mrp': '₹ 106.8',
+      'scheme': '5+1',
+      'margin': '16%',
+      'ptr': '₹180',
+      'dcpo': 'DCPO',
+      'speciality': 'Spaciality',
+      'coldBox': 'COLD BOX',
+    },
+    // Add more product data as needed
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,237 +151,152 @@ class _CartscreenState extends State<Cartscreen> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                width: w * 0.6,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                              ListView.builder(
+                                itemCount: productData.length,
+                                itemBuilder: (context, index) {
+                                  var product = productData[index];
+                                  return Container(
+                                    width: w * 0.6,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Column(
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            text(context,
-                                                'Dolo 250 Oral Suspension', 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: color11,
-                                                textAlign: TextAlign.left,
-                                                maxLines: 2),
-                                            text(
-                                                context,
-                                                'Bottle of 60 ml Oral Suspension',
-                                                12,
-                                                color: color,
-                                                fontWeight: FontWeight.w400,
-                                                textAlign: TextAlign.left),
+                                            Column(
+                                              children: [
+                                                text(context, product['name'], 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xFF000000), textAlign: TextAlign.left, maxLines: 2),
+                                                text(context, product['details'], 12,
+                                                    color: Color(0xFF000000),
+                                                    fontWeight: FontWeight.w400,
+                                                    textAlign: TextAlign.left),
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            container(
+                                              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                              colors: Color(0xffEDF2F5),
+                                              borderRadius: BorderRadius.circular(4),
+                                              border: Border.all(color: Color(0xFF000000), width: 1),
+                                              context,
+                                              child: text(context, product['quantity'], 12,
+                                                  fontWeight: FontWeight.w400, color: Color(0xFF000000)),
+                                            ),
                                           ],
                                         ),
-                                        Spacer(),
-                                        container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 4),
-                                            colors: Color(0xffEDF2F5),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            border: Border.all(
-                                                color: color, width: 1),
-                                            context,
-                                            child: text(context, '10S', 12,
-                                                fontWeight: FontWeight.w400,
-                                                color: color11)),
-                                      ],
-                                    ),
-                                    RatingWidget(
-                                      initialRating: 4,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Net Price:', 10,
-                                            color: color,
-                                            fontWeight: FontWeight.w400),
-                                        SizedBox(
-                                          width: w * 0.01,
+                                        RatingWidget(initialRating: 4),
+                                        Row(
+                                          children: [
+                                            text(context, 'Net Price:', 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                            SizedBox(width: w * 0.01),
+                                            text(context, product['netPrice'], 14),
+                                            Spacer(),
+                                            text(context, 'M.R.P: ', 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                            text(context, product['mrp'], 12, color: Color(0xFF000000)),
+                                            SizedBox(height: h * 0.01),
+                                          ],
                                         ),
-                                        text(context, '₹ 93.81', 14),
-                                        Spacer(),
-                                        text(context, 'M.R.P: ', 10,
-                                            color: color,
-                                            fontWeight: FontWeight.w400),
-                                        // Spacer(),
-                                        text(context, '₹106.8', 12,
-                                            color: color1),
-                                        SizedBox(
-                                          height: h * 0.01,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.008,
-                                    ),
-                                    Row(
-                                      children: [
-                                        container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 4),
-                                            colors: Color(0xffEDF2F5),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            context,
-                                            child: Row(
-                                              children: [
-                                                text(context, 'Scheme', 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: color2),
-                                                SizedBox(
-                                                  width: w * 0.01,
-                                                ),
-                                                container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2,
-                                                            horizontal: 4),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    border: Border.all(
-                                                        color: color7,
-                                                        width: 1),
-                                                    context,
-                                                    child: text(
-                                                      context,
-                                                      '5+1',
-                                                      10,
-                                                      color: color10,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ))
-                                              ],
-                                            )),
-                                        Spacer(),
-                                        container(context,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            colors: Color(0xffFEF6F5),
-                                            child: Row(
-                                              children: [
-                                                text(context, 'MARGIN', 10,
-                                                    color: color11,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                                SizedBox(
-                                                  width: w * 0.01,
-                                                ),
-                                                text(context, '16%', 10,
-                                                    color: color1,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ],
-                                            )),
-                                        Spacer(),
-                                        text(context, 'PTR', 10,
-                                            color: color11,
-                                            fontWeight: FontWeight.w400),
-                                        SizedBox(
-                                          width: w * 0.007,
-                                        ),
-                                        Image.asset('assets/about.png',
-                                            color: color1, width: w * 0.016),
-                                        SizedBox(
-                                          width: w * 0.007,
-                                        ),
-                                        text(context, '₹180', 10,
-                                            color: color11,
-                                            fontWeight: FontWeight.w400),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        container(
-                                          context,
-                                          border: Border.all(
-                                              color: color5, width: 1),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 6, vertical: 3),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: Row(
-                                            children: [
-                                              text(context, 'DCPO', 10,
-                                                  color: color5,
-                                                  fontWeight: FontWeight.w400),
-                                              SizedBox(
-                                                width: w * 0.01,
-                                              ),
-                                              Image.asset('assets/about.png',
-                                                  color: color5,
-                                                  width: w * 0.015)
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: w * 0.01,
-                                        ),
+                                        SizedBox(height: h * 0.008),
                                         Row(
                                           children: [
                                             container(
+                                                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                                colors: Color(0xffEDF2F5),
+                                                borderRadius: BorderRadius.circular(4),
+                                                context,
+                                                child: Row(
+                                                  children: [
+                                                    text(context, 'Scheme', 12,
+                                                        fontWeight: FontWeight.w400, color: Color(0xFF000000)),
+                                                    SizedBox(width: w * 0.01),
+                                                    container(
+                                                        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                                        borderRadius: BorderRadius.circular(4),
+                                                        border: Border.all(color: Color(0xFF000000), width: 1),
+                                                        context,
+                                                        child: text(context, product['scheme'], 10, color: Color(0xFF000000)))
+                                                  ],
+                                                )),
+                                            Spacer(),
+                                            container(
                                               context,
-                                              colors: color5,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 6, vertical: 4),
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
+                                              borderRadius: BorderRadius.circular(4),
+                                              padding: EdgeInsets.symmetric(horizontal: 4),
+                                              colors: Color(0xffFEF6F5),
                                               child: Row(
                                                 children: [
-                                                  text(
-                                                      context, 'Spaciality', 10,
-                                                      color: color4,
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                                  text(context, 'MARGIN', 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                                  SizedBox(width: w * 0.01),
+                                                  text(context, product['margin'], 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                                ],
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            text(context, 'PTR', 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                            SizedBox(width: w * 0.007),
+                                            Image.asset('assets/about.png', color: Color(0xFF000000), width: w * 0.016),
+                                            SizedBox(width: w * 0.007),
+                                            text(context, product['ptr'], 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                          ],
+                                        ),
+                                        SizedBox(height: h * 0.01),
+                                        Row(
+                                          children: [
+                                            container(
+                                             context,
+                                              border: Border.all(color: Color(0xFF000000), width: 1),
+                                              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                              borderRadius: BorderRadius.circular(4),
+                                              child: Row(
+                                                children: [
+                                                  text(context, product['dcpo'], 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                                  SizedBox(width: w * 0.01),
+                                                  Image.asset('assets/about.png', color: Color(0xFF000000), width: w * 0.015)
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(width: w * 0.01),
+                                            Row(
+                                              children: [
+                                                container(
+                                                  context,
+                                                  colors: Color(0xFF000000),
+                                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                                                  borderRadius: BorderRadius.circular(4),
+                                                  child: Row(
+                                                    children: [
+                                                      text(context, product['speciality'], 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(width: w * 0.01),
+                                            container(
+                                             context,
+                                              colors: Color(0xFF000000).withOpacity(0.11),
+                                              border: Border.all(color: Color(0xFF000000), width: 1),
+                                              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                              borderRadius: BorderRadius.circular(4),
+                                              child: Row(
+                                                children: [
+                                                  text(context, product['coldBox'], 10, color: Color(0xFF000000), fontWeight: FontWeight.w400),
+                                                  SizedBox(width: w * 0.01),
+                                                  Image.asset('assets/about.png', color: Color(0xFF000000), width: w * 0.015)
                                                 ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                          width: w * 0.01,
-                                        ),
-                                        container(
-                                          context,
-                                          colors: color5.withOpacity(0.11),
-                                          border: Border.all(
-                                              color: color5, width: 1),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 6, vertical: 3),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: Row(
-                                            children: [
-                                              text(context, 'COLD BOX', 10,
-                                                  color: color5,
-                                                  fontWeight: FontWeight.w400),
-                                              SizedBox(
-                                                width: w * 0.01,
-                                              ),
-                                              Image.asset('assets/about.png',
-                                                  color: color5,
-                                                  width: w * 0.015)
-                                            ],
-                                          ),
-                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              )
+                                  );
+                                },
+                              ),
                             ],
                           ),
                           SizedBox(

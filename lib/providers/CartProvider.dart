@@ -27,7 +27,7 @@ class CartProvider with ChangeNotifier {
     try {
       var response = await Userapi.GetCartList();
       _cartList = response?.data ?? [];
-      _cartAmount = response?.totalCartAmount ?? 0; // Make sure we reset the total cart amount
+      // _cartAmount = response?.totalCartAmount ?? 0; // Make sure we reset the total cart amount
       _updateCartCount(); // Update cart count after fetching
     } catch (e) {
       throw Exception('Failed to fetch cart list: $e');
@@ -95,7 +95,7 @@ class CartProvider with ChangeNotifier {
       orElse: () => CartList(id: productID, product: null, quantity: 0),
     );
     if (cartItem.product == null) {
-      _cartList.add(CartList(id: productID, product: null, quantity: quantity,amount: cartItem.product?.salePrice)); // Adding the item optimistically
+      _cartList.add(CartList(id: productID, product: Product(ptr:cartItem.product?.ptr ), quantity: quantity)); // Adding the item optimistically
     } else {
       cartItem.quantity = (cartItem.quantity ?? 0) + quantity;
     }
@@ -140,7 +140,7 @@ class CartProvider with ChangeNotifier {
     // Ensure cart amount is reset before recalculating
     _cartAmount = _cartList.fold<int>(0, (total, item) {
       // Safely cast to int if necessary and perform calculation
-      int itemAmount = (item.product?.salePrice ?? 0).toInt(); // Convert to int
+      int itemAmount = int.tryParse(item.product?.ptr ?? "") ?? 0;
       int itemQuantity = (item.quantity ?? 0); // Assuming quantity is already an int
       print("itemAmount:${itemAmount}   itemQuantity:${itemQuantity}   total:${total}");
       return total + (itemAmount * itemQuantity);  // Accumulate total

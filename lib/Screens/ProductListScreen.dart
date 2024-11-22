@@ -84,6 +84,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               )),
               child: CustomScrollView(
                 slivers: [
+
                   // SliverToBoxAdapter(
                   //   child: Container(
                   //     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

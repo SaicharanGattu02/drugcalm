@@ -1,9 +1,8 @@
 class GetCartListModel {
   List<CartList>? data;
-  dynamic totalCartAmount;
   Settings? settings;
 
-  GetCartListModel({this.data, this.totalCartAmount, this.settings});
+  GetCartListModel({this.data, this.settings});
 
   GetCartListModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -12,7 +11,6 @@ class GetCartListModel {
         data!.add(new CartList.fromJson(v));
       });
     }
-    totalCartAmount = json['total_cart_amount'];
     settings = json['settings'] != null
         ? new Settings.fromJson(json['settings'])
         : null;
@@ -23,7 +21,6 @@ class GetCartListModel {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['total_cart_amount'] = this.totalCartAmount;
     if (this.settings != null) {
       data['settings'] = this.settings!.toJson();
     }
@@ -32,116 +29,114 @@ class GetCartListModel {
 }
 
 class CartList {
-  String id;
-  Product? product;
-  int quantity;
-  dynamic amount;
-
-  String size;
-  String color;
-
-  CartList({
-    this.id = "", // default to empty string
-    this.product,
-    this.quantity = 0, // default to 0
-    this.amount = 0, // default to 0
-
-    this.size = "", // default to empty string
-    this.color = "", // default to empty string
-  });
-
-  CartList.fromJson(Map<String, dynamic> json)
-      : id = json['id'] ?? "",
-        product = json['product'] != null ? Product.fromJson(json['product']) : null,
-        quantity = json['quantity'] ?? 0,
-        amount = json['amount'] ?? 0,
-        size = json['size'] ?? "",
-        color = json['color'] ?? "";
-
-  // A helper function to safely parse lists, ensuring the value is either null or a valid list.
-  static List<T> _parseList<T>(dynamic value) {
-    if (value == null) {
-      return [];
-    }
-    if (value is List) {
-      return value.map((item) => _fromJson<T>(item)).toList();
-    }
-    return [];
-  }
-
-  // A helper function to handle parsing of items from JSON for different types
-  static T _fromJson<T>(dynamic json) {
-    throw Exception('Unknown type: $T');
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    if (product != null) {
-      data['product'] = product!.toJson();
-    }
-    data['quantity'] = quantity;
-    data['amount'] = amount;
-    data['size'] = size;
-    data['color'] = color;
-    return data;
-  }
-}
-
-
-class Product {
   String? id;
-  String? title;
-  String? category;
-  bool? isBestSeller;
-  String? brand;
-  String? postedBy;
-  int? mrp;
-  int? salePrice;
-  bool? isInWishlist;
-  String? image;
-  dynamic rating;
+  Product? product;
+  int? quantity;
+  int? totalAmount;
 
-  Product(
-      {this.id,
-        this.title,
-        this.category,
-        this.isBestSeller,
-        this.brand,
-        this.postedBy,
-        this.mrp,
-        this.salePrice,
-        this.isInWishlist,
-        this.image,
-        this.rating});
+  CartList({this.id, this.product, this.quantity, this.totalAmount});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  CartList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    title = json['title'];
-    category = json['category'];
-    isBestSeller = json['is_best_seller'];
-    brand = json['brand'];
-    postedBy = json['posted_by'];
-    mrp = json['mrp'];
-    salePrice = json['sale_price'];
-    isInWishlist = json['is_in_wishlist'];
-    image = json['image'];
-    rating = json['rating'];
+    product =
+    json['product'] != null ? new Product.fromJson(json['product']) : null;
+    quantity = json['quantity'];
+    totalAmount = json['total_amount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['title'] = this.title;
-    data['category'] = this.category;
-    data['is_best_seller'] = this.isBestSeller;
-    data['brand'] = this.brand;
-    data['posted_by'] = this.postedBy;
-    data['mrp'] = this.mrp;
-    data['sale_price'] = this.salePrice;
-    data['is_in_wishlist'] = this.isInWishlist;
+    if (this.product != null) {
+      data['product'] = this.product!.toJson();
+    }
+    data['quantity'] = this.quantity;
+    data['total_amount'] = this.totalAmount;
+    return data;
+  }
+}
+
+class Product {
+  String? id;
+  String? name;
+  String? subName;
+  String? manufactureCompany;
+  String? image;
+  double? margin;
+  int? quantity;
+  String? productForm;
+  int? rating;
+  bool? isBlocked;
+  bool? bestSeller;
+  String? medicineCategory;
+  String? usagePurpose;
+  String? healthSegment;
+  String? mrp;
+  String? netPrice;
+  String? ptr;
+  bool? isInWishlist;
+
+  Product(
+      {this.id,
+        this.name,
+        this.subName,
+        this.manufactureCompany,
+        this.image,
+        this.margin,
+        this.quantity,
+        this.productForm,
+        this.rating,
+        this.isBlocked,
+        this.bestSeller,
+        this.medicineCategory,
+        this.usagePurpose,
+        this.healthSegment,
+        this.mrp,
+        this.netPrice,
+        this.ptr,
+        this.isInWishlist});
+
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    subName = json['sub_name'];
+    manufactureCompany = json['manufacture_company'];
+    image = json['image'];
+    margin = json['margin'];
+    quantity = json['quantity'];
+    productForm = json['product_form'];
+    rating = json['rating'];
+    isBlocked = json['is_blocked'];
+    bestSeller = json['best_seller'];
+    medicineCategory = json['medicine_category'];
+    usagePurpose = json['usage_purpose'];
+    healthSegment = json['health_segment'];
+    mrp = json['mrp'];
+    netPrice = json['net_price'];
+    ptr = json['ptr'];
+    isInWishlist = json['is_in_wishlist'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['sub_name'] = this.subName;
+    data['manufacture_company'] = this.manufactureCompany;
     data['image'] = this.image;
+    data['margin'] = this.margin;
+    data['quantity'] = this.quantity;
+    data['product_form'] = this.productForm;
     data['rating'] = this.rating;
+    data['is_blocked'] = this.isBlocked;
+    data['best_seller'] = this.bestSeller;
+    data['medicine_category'] = this.medicineCategory;
+    data['usage_purpose'] = this.usagePurpose;
+    data['health_segment'] = this.healthSegment;
+    data['mrp'] = this.mrp;
+    data['net_price'] = this.netPrice;
+    data['ptr'] = this.ptr;
+    data['is_in_wishlist'] = this.isInWishlist;
     return data;
   }
 }
