@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../Registration/Registration.dart';
 import '../Services/UserApi.dart';
 import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
@@ -333,7 +334,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistraionTypes()));
                               },
                           ),
                         ],

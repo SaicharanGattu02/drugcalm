@@ -77,7 +77,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
           connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
           ?
-
       Scaffold(
       appBar: CustomAppBar1(
         title: 'MY ORDERS',

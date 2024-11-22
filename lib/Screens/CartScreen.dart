@@ -211,8 +211,7 @@ class _CartscreenState extends State<Cartscreen> {
                                           placeholder: (BuildContext context,
                                               String url) {
                                             return Center(
-                                              child: spinkits
-                                                  .getSpinningLinespinkit(),
+                                              child: spinkits.getSpinningLinespinkit(),
                                             );
                                           },
                                           errorWidget: (BuildContext context,
