@@ -7,6 +7,7 @@ import 'package:drugcalm/providers/AddressProvider.dart';
 import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
+import 'package:drugcalm/providers/ShippingDetailsProvider.dart';
 import 'package:drugcalm/providers/UserDetailsProvider.dart';
 import 'package:drugcalm/providers/ProductListProvider.dart';
 import 'package:drugcalm/providers/WishlistProvider.dart';
@@ -199,6 +200,9 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) => CartProvider(
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ShippingDetailsProvider(),
         ),
       ],
       child: const MyApp(),

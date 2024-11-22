@@ -27,8 +27,8 @@ class ShippingData {
   int? shippingFee;
   int? deliveryCharges;
   int? discount;
-  int? amount;
-  int? totalAmount;
+  double? amount;
+  double? totalAmount;
   Address? address;
 
   ShippingData({

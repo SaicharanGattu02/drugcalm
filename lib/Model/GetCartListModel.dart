@@ -32,16 +32,17 @@ class CartList {
   String? id;
   Product? product;
   int? quantity;
-  int? totalAmount;
+  double? totalAmount; // Change to double to handle possible decimal values
 
   CartList({this.id, this.product, this.quantity, this.totalAmount});
 
   CartList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? new Product.fromJson(json['product']) : null;
     quantity = json['quantity'];
-    totalAmount = json['total_amount'];
+    totalAmount = (json['total_amount'] is int)
+        ? json['total_amount'].toDouble() // Handle conversion from int to double
+        : json['total_amount'];  // If it's already a double, keep it as is
   }
 
   Map<String, dynamic> toJson() {
@@ -62,39 +63,40 @@ class Product {
   String? subName;
   String? manufactureCompany;
   String? image;
-  double? margin;
+  double? margin; // Change to double to handle decimal values
   int? quantity;
   String? productForm;
-  int? rating;
+  dynamic rating;
   bool? isBlocked;
   bool? bestSeller;
   String? medicineCategory;
   String? usagePurpose;
   String? healthSegment;
-  String? mrp;
-  String? netPrice;
-  String? ptr;
+  double? mrp; // Change to double to handle decimal values
+  double? netPrice; // Change to double to handle decimal values
+  double? ptr; // Change to double to handle decimal values
   bool? isInWishlist;
 
-  Product(
-      {this.id,
-        this.name,
-        this.subName,
-        this.manufactureCompany,
-        this.image,
-        this.margin,
-        this.quantity,
-        this.productForm,
-        this.rating,
-        this.isBlocked,
-        this.bestSeller,
-        this.medicineCategory,
-        this.usagePurpose,
-        this.healthSegment,
-        this.mrp,
-        this.netPrice,
-        this.ptr,
-        this.isInWishlist});
+  Product({
+    this.id,
+    this.name,
+    this.subName,
+    this.manufactureCompany,
+    this.image,
+    this.margin,
+    this.quantity,
+    this.productForm,
+    this.rating,
+    this.isBlocked,
+    this.bestSeller,
+    this.medicineCategory,
+    this.usagePurpose,
+    this.healthSegment,
+    this.mrp,
+    this.netPrice,
+    this.ptr,
+    this.isInWishlist,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -102,7 +104,9 @@ class Product {
     subName = json['sub_name'];
     manufactureCompany = json['manufacture_company'];
     image = json['image'];
-    margin = json['margin'];
+    margin = (json['margin'] is int)
+        ? json['margin'].toDouble()
+        : json['margin'];  // Convert margin to double if it's an int
     quantity = json['quantity'];
     productForm = json['product_form'];
     rating = json['rating'];
@@ -111,9 +115,9 @@ class Product {
     medicineCategory = json['medicine_category'];
     usagePurpose = json['usage_purpose'];
     healthSegment = json['health_segment'];
-    mrp = json['mrp'];
-    netPrice = json['net_price'];
-    ptr = json['ptr'];
+    mrp = (json['mrp'] is String) ? double.tryParse(json['mrp']!) : json['mrp']; // Parse if string
+    netPrice = (json['net_price'] is String) ? double.tryParse(json['net_price']!) : json['net_price']; // Parse if string
+    ptr = (json['ptr'] is String) ? double.tryParse(json['ptr']!) : json['ptr']; // Parse if string
     isInWishlist = json['is_in_wishlist'];
   }
 
@@ -149,13 +153,14 @@ class Settings {
   bool? nextPage;
   bool? prevPage;
 
-  Settings(
-      {this.success,
-        this.message,
-        this.status,
-        this.page,
-        this.nextPage,
-        this.prevPage});
+  Settings({
+    this.success,
+    this.message,
+    this.status,
+    this.page,
+    this.nextPage,
+    this.prevPage,
+  });
 
   Settings.fromJson(Map<String, dynamic> json) {
     success = json['success'];

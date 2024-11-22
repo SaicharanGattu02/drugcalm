@@ -285,7 +285,7 @@ class Userapi {
   }
 
   static Future<RegisterModel?> placeOrder(
-      int order_value,
+      String order_value,
       String address,
       List<String> items, // Changed to accept a list of items
       ) async {

@@ -140,7 +140,16 @@ class CartProvider with ChangeNotifier {
     // Ensure cart amount is reset before recalculating
     _cartAmount = _cartList.fold<int>(0, (total, item) {
       // Safely cast to int if necessary and perform calculation
-      int itemAmount = int.tryParse(item.product?.ptr ?? "") ?? 0;
+      // Assuming `ptr` is a nullable double or a String, you can convert it accordingly:
+      double? ptrValue = item.product?.ptr; // this could be a double
+      int itemAmount = 0;
+
+// If ptrValue is a double, you can convert it to an integer by rounding or truncating:
+      if (ptrValue != null) {
+        itemAmount = ptrValue.toInt(); // Converts double to int by truncating
+      } else {
+        itemAmount = 0; // Default to 0 if null
+      }
       int itemQuantity = (item.quantity ?? 0); // Assuming quantity is already an int
       print("itemAmount:${itemAmount}   itemQuantity:${itemQuantity}   total:${total}");
       return total + (itemAmount * itemQuantity);  // Accumulate total
