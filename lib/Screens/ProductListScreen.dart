@@ -232,7 +232,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Productdetails(),
+                                                        Productdetails(productid: product.id.toString(),),
                                                   ));
                                             },
                                             child: Container(
@@ -285,7 +285,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              Productdetails(),
+                                                              Productdetails(productid: product.id.toString(),),
                                                         ));
                                                   },
                                                   child: Column(

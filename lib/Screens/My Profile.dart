@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -132,8 +131,10 @@ class _MyProfileState extends State<MyProfile> {
   }
 
 
-  Future<void> userHealthInfo()async{
+  Future<void> userHealthInfo() async {
+
     final profile_provider =
+
     Provider.of<UserDetailsProvider>(context, listen: false);
 
     var res= await profile_provider.updateHealthDetails(ageController.text, bloodGroup.text, heightController.text, WeightController.text);
@@ -147,7 +148,9 @@ class _MyProfileState extends State<MyProfile> {
       } else {
         _loading = false;
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Failed to update profile")));
+            .showSnackBar(SnackBar(content: Text("Failed to update profile")
+        )
+        );
       }
     });
   }

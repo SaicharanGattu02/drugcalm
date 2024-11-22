@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drugcalm/Screens/ApplyCoupon.dart';
 import 'package:drugcalm/providers/CartProvider.dart';
+import 'package:drugcalm/providers/ProductDetailsProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -158,6 +159,7 @@ class _CartscreenState extends State<Cartscreen> {
                       Consumer<CartProvider>(
                           builder: (context, cartListProvider, child) {
                         final cart_list = cartListProvider.cartList;
+                        final product_detail = Provider.of<ProductDetailsProvider>(context,listen: false);
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: cart_list.length,
@@ -168,7 +170,8 @@ class _CartscreenState extends State<Cartscreen> {
                             if (cartdata.id != null) {
                               items.add(cartdata.id ?? ""); // Add item ID to the list
                             }
-                            return Container(
+                            return
+                              Container(
                               width: double
                                   .infinity, // Use full width of the container
                               padding: EdgeInsets.only(
@@ -188,7 +191,7 @@ class _CartscreenState extends State<Cartscreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                Productdetails(),
+                                                Productdetails(productid: product_detail.productData?.id??"",),
                                           ),
                                         );
                                       },

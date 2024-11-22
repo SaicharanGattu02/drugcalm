@@ -1,3 +1,4 @@
+
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -150,14 +151,14 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                       //   );
                       // }
 
-                      // If the product list is empty, show "No Product" message
+
                       if (product_list.isEmpty) {
                         return Center(
                           child: Column(
                             children: [
                               SizedBox(height: w * 0.2),
                               Image.asset(
-                                'assets/no_product.png',
+                                'assets/not_connect_wifi_wishlist.png',
                                 width: 160,
                                 height: 160,
                                 fit: BoxFit.cover,
@@ -166,7 +167,7 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                               Text(
                                 "No Product",
                                 style: TextStyle(
-                                  color: Color(0xffCAA16C),
+                                  color: color1,
                                   fontFamily: 'RozhaOne',
                                   fontSize: 22,
                                   fontWeight: FontWeight.w400,
@@ -220,7 +221,7 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  Productdetails(),
+                                                  Productdetails(productid: data.product?.id??""),
                                             ));
                                       },
                                       child: Container(
@@ -273,7 +274,7 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Productdetails(),
+                                                        Productdetails(productid: data.product?.id??""),
                                                   ));
                                             },
                                             child: Column(

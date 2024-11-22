@@ -12,7 +12,7 @@ class UserDetailsProvider with ChangeNotifier {
   // Getter for userDetails that ensures null safety
   UserDetail? get userDetails => _userdetails;
 
-  // Method to fetch user details asynchronously
+
   Future<int?> fetchUserDetails() async {
     try {
       // Fetching user details from the API
@@ -54,11 +54,11 @@ class UserDetailsProvider with ChangeNotifier {
   }
 
 
-  Future<int?> updateHealthDetails(Age, blood, height, Weight) async{
-    try{
+  Future<int?> updateHealthDetails( Age, blood, height, Weight) async {
+    try {
       var response =await Userapi.updateHealthInformation(Age, blood, height, Weight);
       if (response?.data != null) {
-        fetchUserDetails();
+        fetchUserDetails() ;
         return response?.settings?.success??0;
       } else {
         return response?.settings?.success??0;

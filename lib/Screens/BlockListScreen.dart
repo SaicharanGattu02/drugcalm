@@ -73,11 +73,11 @@ class _BlocklistscreenState extends State<Blocklistscreen> {
                 itemBuilder: (context, index) {
                   return InkResponse(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Productdetails(),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => Productdetails(),
+                      //     ));
                     },
                     child: Container(
                       width: w,

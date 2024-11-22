@@ -1,12 +1,17 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:drugcalm/Screens/OrderDetails.dart';
+import 'package:drugcalm/Screens/OrderSummary.dart';
 import 'package:drugcalm/Screens/ReturnOrderScreen.dart';
+import 'package:drugcalm/Services/UserApi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/OrdersListModel.dart';
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../utils/CustomAppBar1.dart';
+import '../utils/CustomSnackBar.dart';
 import '../utils/constants.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -20,9 +25,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
   String selectedOption = "All";
   final List<String> dropdownOptions = ["All", "Live Orders", "Past Orders"];
 
+  final Map<String, String> sortOptionToValue={
+    "All":"all",
+    "Live Orders":"live_orders",
+    "Past Orders":"live_orders",
+  };
+
+  bool isLoading= false;
+
   @override
   void initState() {
     Provider.of<ConnectivityProviders>(context, listen: false).initConnectivity();
+    getOrdersList("all");
     super.initState();
   }
 
@@ -31,6 +45,27 @@ class _OrdersScreenState extends State<OrdersScreen> {
     Provider.of<ConnectivityProviders>(context,listen: false).dispose();
     super.dispose();
   }
+
+  List<Data> orders_list=[];
+
+  Future<void> getOrdersList(String sortOptionToValue) async{
+     var res = await Userapi.getOrdersListapi(sortOptionToValue);
+     if (res != null ){
+       setState(() {
+         if (res.settings?.success == 1) {
+           orders_list = res.data ?? [];
+           // filteredOrders = res.data ?? [];
+           isLoading = false; // Hide loader if error occurs
+         } else {
+           CustomSnackBar.show(context, res.settings?.message ?? "");
+           isLoading = false;
+         }
+       });
+
+     }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +125,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         setState(() {
                           selectedOption = value!;
                           print("Selected Option:${selectedOption}");
+                          String sortValue =
+                          sortOptionToValue[selectedOption]!;
+                          getOrdersList(sortValue);
+                          print("sortOptionToValue:${sortValue}");
                         });
                       },
                       buttonStyleData: ButtonStyleData(
@@ -149,20 +188,25 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 ),
 
                 // Third Container with Filter Icon
-                Container(
-                  width: w * 0.12,
-                  height: 40,
-                  margin: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/filter_alt.png',
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.contain,
+                InkResponse(onTap: (){
+                  
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderDetailScreen(id:"" ,)));
+                },
+                  child: Container(
+                    width: w * 0.12,
+                    height: 40,
+                    margin: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/filter_alt.png',
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -173,8 +217,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: 10,  // Number of items
+                itemCount: orders_list.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final OrderListData =orders_list[index];
                   return container(context,
                       colors: color4,
                       borderRadius: BorderRadius.circular(8),
@@ -192,14 +237,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               SizedBox(
                                 width: w * 0.01,
                               ),
-                              text(context, 'Order ID', 11,
+                              text(context, 'Order ID :', 11,
                                   color: color1,
                                   fontfamily: "Poppins",
                                   fontWeight: FontWeight.w400),
                               SizedBox(
                                 width: w * 0.01,
                               ),
-                              text(context, ': FDH02386JN', 10,
+                              text(context, '${OrderListData.orderId}', 10,
                                   color: color11,
                                   fontWeight: FontWeight.w400,
                                   fontfamily: "Poppins"),
