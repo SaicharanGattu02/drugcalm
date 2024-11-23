@@ -5,6 +5,7 @@ import 'package:drugcalm/utils/CustomSnackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:provider/provider.dart';
+import '../Services/UserApi.dart';
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../providers/ProductDetailsProvider.dart';
@@ -56,6 +57,22 @@ class _ProductdetailsState extends State<Productdetails> {
       CustomSnackBar.show(context,res.toString() );
     }
   }
+
+  Future<void> BlockList( String id) async{
+    var res = await Userapi.postBlockListapi(id);
+    if(res != null){
+      setState(() {
+        if(res.settings?.success==1){
+          CustomSnackBar.show(context, res.settings?.message ?? "");
+
+        }else{
+          CustomSnackBar.show(context, res.settings?.message ?? "");
+        }
+      });
+
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +189,8 @@ class _ProductdetailsState extends State<Productdetails> {
                             ),
                           ),
 
+
+
                           // child: Image.asset(
                           //   'assets/favrate.png',
                           //   color: Colors.red,
@@ -188,6 +207,40 @@ class _ProductdetailsState extends State<Productdetails> {
                           //       width: w * 0.08,
                           //       height: h * 0.08,
                           //     ))
+                        ),
+
+                        Positioned(
+                            right: h * 0.02,
+                            top: h * 0.13,
+                          child: InkResponse(
+                            onTap: () {
+                              BlockList(product_details.productData?.id??"");
+                              
+
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: wishlist_status == true
+                                  ? Icon(
+                                Icons
+                                    .block,
+                                size: 18,
+                                color: Colors
+                                    .red, // Red color for filled icon
+                              )
+                                  : Icon(
+                                Icons
+                                    .block, // Outline heart icon when item is NOT in wishlist
+                                size: 18,
+                                color: Colors
+                                    .black, // Black color for outline icon
+                              ),
+                            ),
+                          ),
                         )
                       ]),
                       SizedBox(

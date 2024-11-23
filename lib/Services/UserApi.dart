@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 import '../Model/AddressListModel.dart';
 import '../Model/AdressDeatilsModel.dart';
+import '../Model/BLockListModel.dart';
 import '../Model/BrandsModel.dart';
 import '../Model/CategoriesModel.dart';
 import '../Model/GetCartListModel.dart';
@@ -800,7 +801,76 @@ class Userapi {
   }
 
 
+  static Future<BLockListModel?> getBlockList() async {
+    try {
+      final url = Uri.parse("${host}/api/block-list");
+      final headers = await getheader1();
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("getBlockList response: ${response.body}");
+        return BLockListModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
 
+  static Future<RegisterModel?> updateBlockListapi(String id) async {
+    try {
+      final url = Uri.parse("${host}/api/update-block-list/${id}");
+
+      final headers = await getheader1();
+      final response = await http.put(url, headers: headers);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("updateBlockList response: ${response.body}");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+
+  static Future<RegisterModel?> postBlockListapi(String id) async {
+    Map<String, String> form = {
+      'product': id,
+    };
+    try {
+      final url = Uri.parse("${host}/api/block-list");
+      print("API URL: $url");
+
+      final headers = await getheader1();
+      print("Request Headers: $headers");
+
+      final response = await http.post(url, headers: headers, body: form);
+      print("Response Status: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("Response parsed successfully: $jsonResponse");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+      return null;
+    }
+  }
 
 
 }

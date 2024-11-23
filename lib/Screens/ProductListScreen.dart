@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/ProductDetails.dart';
+import 'package:drugcalm/Services/UserApi.dart';
 import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +65,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
       });
     }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -652,11 +656,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                               color:
                                                                   Colors.black),
                                                     ),
-                                                    Image.asset(
-                                                      'assets/block.png',
-                                                      width: w * 0.06,
-                                                      fit: BoxFit.contain,
-                                                    ),
+                                                    // Image.asset(
+                                                    //   'assets/block.png',
+                                                    //   width: w * 0.06,
+                                                    //   fit: BoxFit.contain,
+                                                    // ),
                                                     Image.asset(
                                                       'assets/youtube.png',
                                                       width: w * 0.06,

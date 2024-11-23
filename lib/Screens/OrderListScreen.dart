@@ -362,7 +362,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                               FontWeight.w500,
                                                           textAlign:
                                                               TextAlign.start),
-                                                      // Spacer(),
+                                                      Spacer(),
                                                       // text(
                                                       //     context,
                                                       //     fontfamily: 'Poppins',
@@ -372,15 +372,15 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                       //         FontWeight.w500,
                                                       //     textAlign:
                                                       //         TextAlign.start),
-                                                      // text(
-                                                      //   context,
-                                                      //   fontfamily: 'Poppins',
-                                                      //   OrderListData.createdAt ??
-                                                      //       "",
-                                                      //   15,
-                                                      //   fontWeight:
-                                                      //       FontWeight.w500,
-                                                      // ),
+                                                      text(
+                                                        context,
+                                                        fontfamily: 'Poppins',
+                                                        OrderListData.createdAt ??
+                                                            "",
+                                                        15,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                     ],
                                                   ),
                                                   SingleChildScrollView(
