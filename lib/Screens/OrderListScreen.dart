@@ -362,25 +362,25 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                               FontWeight.w500,
                                                           textAlign:
                                                               TextAlign.start),
-                                                      Spacer(),
-                                                      text(
-                                                          context,
-                                                          fontfamily: 'Poppins',
-                                                          'Created At : ',
-                                                          13,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          textAlign:
-                                                              TextAlign.start),
-                                                      text(
-                                                        context,
-                                                        fontfamily: 'Poppins',
-                                                        OrderListData.createdAt ??
-                                                            "",
-                                                        15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                      // Spacer(),
+                                                      // text(
+                                                      //     context,
+                                                      //     fontfamily: 'Poppins',
+                                                      //     'Created At : ',
+                                                      //     13,
+                                                      //     fontWeight:
+                                                      //         FontWeight.w500,
+                                                      //     textAlign:
+                                                      //         TextAlign.start),
+                                                      // text(
+                                                      //   context,
+                                                      //   fontfamily: 'Poppins',
+                                                      //   OrderListData.createdAt ??
+                                                      //       "",
+                                                      //   15,
+                                                      //   fontWeight:
+                                                      //       FontWeight.w500,
+                                                      // ),
                                                     ],
                                                   ),
                                                   SingleChildScrollView(
@@ -396,7 +396,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                                         OrderListData
                                                                             .image!
                                                                             .length &&
-                                                                    i < 3;
+                                                                    i < 2;
                                                                 i++) //
                                                               Container(
                                                                 padding:
@@ -459,6 +459,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                                       .only(
                                                                       right: 8.0),
                                                               child: Container(
+                                                                
                                                                 width: 80,
                                                                 height: 80,
                                                                 padding: EdgeInsets
@@ -467,8 +468,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                                                                             8,
                                                                         vertical:
                                                                             4),
-                                                                color: Colors
-                                                                    .grey[300],
+                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: color1.withOpacity(0.1)),
                                                                 child: Center(
                                                                   child: Text(
                                                                     '+${OrderListData.image!.length - 3} more',
