@@ -36,6 +36,7 @@ class Data {
   String? paymentStatus;
   int? orderValue;
   String? createdAt;
+  List<String>? image;
 
   Data(
       {this.id,
@@ -44,7 +45,8 @@ class Data {
         this.paymentMethod,
         this.paymentStatus,
         this.orderValue,
-        this.createdAt});
+        this.createdAt,
+        this.image});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +56,7 @@ class Data {
     paymentStatus = json['payment_status'];
     orderValue = json['order_value'];
     createdAt = json['created_at'];
+    image = json['image'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -65,6 +68,7 @@ class Data {
     data['payment_status'] = this.paymentStatus;
     data['order_value'] = this.orderValue;
     data['created_at'] = this.createdAt;
+    data['image'] = this.image;
     return data;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drugcalm/Screens/ApplyCoupon.dart';
+import 'package:drugcalm/Screens/Home.dart';
 import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:drugcalm/providers/ProductDetailsProvider.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +16,8 @@ import '../utils/CustomAppBar1.dart';
 import '../utils/CustomSnackBar.dart';
 import '../utils/constants.dart';
 import 'AddressList.dart';
-import 'OrderScreen.dart';
+import 'CategoriesScreen.dart';
+import 'OrderListScreen.dart';
 import 'ProductDetails.dart';
 import 'SaltComposition.dart';
 
@@ -33,6 +35,7 @@ class _CartscreenState extends State<Cartscreen> {
   String address = "";
   String order_value = "0";
   List<String> items = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -53,25 +56,27 @@ class _CartscreenState extends State<Cartscreen> {
 
   Future<void> PlacerOrderApi() async {
     await Userapi.placeOrder(order_value, address, items).then((data) => {
-      if (data != null)
-        {
-          setState(() {
-            if (data.settings?.success == 1) {
-              CustomSnackBar.show(context, "Order Placed Successfully!");
-              final cart_list_provider =
-              Provider.of<CartProvider>(context, listen: false);
-              cart_list_provider.cartList;
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrdersScreen(),
-                  ));
-            } else {
-              CustomSnackBar.show(context, data.settings?.message ?? "");
+          if (data != null)
+            {
+              setState(() {
+                isLoading = false;
+                if (data.settings?.success == 1) {
+                  CustomSnackBar.show(context, "Order Placed Successfully!");
+                  final cart_list_provider =
+                      Provider.of<CartProvider>(context, listen: false);
+                  cart_list_provider.cartList;
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrdersListScreen(),
+                      ));
+                } else {
+                  isLoading = false;
+                  CustomSnackBar.show(context, data.settings?.message ?? "");
+                }
+              })
             }
-          })
-        }
-    });
+        });
   }
 
   @override
@@ -159,105 +164,235 @@ class _CartscreenState extends State<Cartscreen> {
                       Consumer<CartProvider>(
                           builder: (context, cartListProvider, child) {
                         final cart_list = cartListProvider.cartList;
-                        final product_detail = Provider.of<ProductDetailsProvider>(context,listen: false);
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: cart_list.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var cartdata = cart_list[index];
-                            // Add each item's ID to the items list
-                            if (cartdata.id != null) {
-                              items.add(cartdata.id ?? ""); // Add item ID to the list
-                            }
-                            return
-                              Container(
-                              width: double
-                                  .infinity, // Use full width of the container
-                              padding: EdgeInsets.only(
-                                  left: 8, right: 8, top: 16, bottom: 16),
-                              margin: EdgeInsets.only(bottom: 16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: color4, // Add your color
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: InkResponse(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                Productdetails(productid: product_detail.productData?.id??"",),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/water_mark.png'),
-                                            fit: BoxFit.cover,
-                                          ),
+                        final product_detail =
+                            Provider.of<ProductDetailsProvider>(context,
+                                listen: false);
+
+                        if (cartListProvider.isLoading) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: color1,
+                          ));
+                        } else if (cart_list.isEmpty) {
+                          return Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: w * 0.4,
+                                ),
+                                Image.asset(
+                                  alignment: Alignment.center,
+                                  'assets/no_search_found_cart.png',
+                                  // Your "no items" image
+                                  width: 160,
+                                  height: 160,
+                                  fit: BoxFit.cover,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Text(
+                                  "Cart is Empty",
+                                  style: TextStyle(
+                                    color:color1,
+                                    fontFamily: 'RozhaOne',
+                                    fontSize: 22,
+                                    height: 18 / 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text(
+                                    "It Seems like you haven’t added anything to Your Cart yet!",
+                                    style: TextStyle(
+                                      color: Color(0xff000000),
+                                      fontFamily: 'RozhaOne',
+                                      fontSize: 16,
+                                      height: 18 / 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: w * 0.2,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CategoriesScreen()),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: w * 0.5,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff110B0F),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Shop Now",
+                                        style: TextStyle(
+                                          color: Color(0xffCAA16C),
+                                          fontFamily: 'RozhaOne',
+                                          fontSize: 16,
+                                          height: 21.06 / 16,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              cartdata.product?.image ?? "",
-                                          fit: BoxFit.cover,
-                                          placeholder: (BuildContext context,
-                                              String url) {
-                                            return Center(
-                                              child: spinkits.getSpinningLinespinkit(),
-                                            );
-                                          },
-                                          errorWidget: (BuildContext context,
-                                              String url, dynamic error) {
-                                            return Icon(Icons.error);
-                                          },
-                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    width: w * 0.48,
-                                                    child: Text(
-                                                      cartdata.product?.name ??
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: cart_list.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var cartdata = cart_list[index];
+                              // Add each item's ID to the items list
+                              if (cartdata.id != null) {
+                                items.add(cartdata.id ??
+                                    ""); // Add item ID to the list
+                              }
+                              return Container(
+                                width: double
+                                    .infinity, // Use full width of the container
+                                padding: EdgeInsets.only(
+                                    left: 8, right: 8, top: 16, bottom: 16),
+                                margin: EdgeInsets.only(bottom: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color4, // Add your color
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Productdetails(
+                                                productid: product_detail
+                                                        .productData?.id ??
+                                                    "",
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/water_mark.png'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                cartdata.product?.image ?? "",
+                                            fit: BoxFit.cover,
+                                            placeholder: (BuildContext context,
+                                                String url) {
+                                              return Center(
+                                                child: spinkits
+                                                    .getSpinningLinespinkit(),
+                                              );
+                                            },
+                                            errorWidget: (BuildContext context,
+                                                String url, dynamic error) {
+                                              return Icon(Icons.error);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      width: w * 0.48,
+                                                      child: Text(
+                                                        cartdata.product
+                                                                ?.name ??
+                                                            "",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Color(0xFF000000),
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cartdata.product
+                                                              ?.subName ??
                                                           "",
                                                       style: TextStyle(
-                                                        fontSize: 14,
+                                                        fontSize: 12,
                                                         fontWeight:
-                                                            FontWeight.w500,
+                                                            FontWeight.w400,
                                                         color:
                                                             Color(0xFF000000),
                                                       ),
                                                       textAlign: TextAlign.left,
-                                                      maxLines: 1,
                                                     ),
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffEDF2F5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    border: Border.all(
+                                                        color:
+                                                            Color(0xFF617C9D),
+                                                        width: 1),
                                                   ),
-                                                  Text(
-                                                    cartdata.product?.subName ??
+                                                  child: Text(
+                                                    cartdata.product?.quantity
+                                                            .toString() ??
                                                         "",
                                                     style: TextStyle(
                                                       fontSize: 12,
@@ -265,126 +400,132 @@ class _CartscreenState extends State<Cartscreen> {
                                                           FontWeight.w400,
                                                       color: Color(0xFF000000),
                                                     ),
-                                                    textAlign: TextAlign.left,
                                                   ),
-                                                ],
-                                              ),
-                                              Spacer(),
-                                              Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 2, horizontal: 4),
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xffEDF2F5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  border: Border.all(
-                                                      color: Color(0xFF617C9D),
-                                                      width: 1),
                                                 ),
-                                                child: Text(
-                                                  cartdata.product?.quantity
+                                              ],
+                                            ),
+                                            RatingWidget(initialRating: 4),
+                                            // Ensure RatingWidget is defined
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Net Price:',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF000000),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                SizedBox(width: w * 0.01),
+                                                Text(
+                                                  cartdata.product?.netPrice
+                                                          .toString() ??
+                                                      "",
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                Spacer(),
+                                                Text(
+                                                  'M.R.P:',
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF000000),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  cartdata.product?.mrp
                                                           .toString() ??
                                                       "",
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
                                                     color: Color(0xFF000000),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          RatingWidget(initialRating: 4),
-                                          // Ensure RatingWidget is defined
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'Net Price:',
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFF000000),
-                                                  fontWeight: FontWeight.w400,
+                                              ],
+                                            ),
+                                            SizedBox(height: h * 0.008),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                // Container(
+                                                //   padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                                //   decoration: BoxDecoration(
+                                                //     color: Color(0xffEDF2F5),
+                                                //     borderRadius: BorderRadius.circular(4),
+                                                //     border: Border.all(color: Color(0xFF000000), width: 1),
+                                                //   ),
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Text(
+                                                //         'Scheme',
+                                                //         style: TextStyle(
+                                                //           fontSize: 12,
+                                                //           fontWeight: FontWeight.w400,
+                                                //           color: Color(0xFF000000),
+                                                //         ),
+                                                //       ),
+                                                //       SizedBox(width: w * 0.01),
+                                                //       Container(
+                                                //         padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                                                //         decoration: BoxDecoration(
+                                                //           borderRadius: BorderRadius.circular(4),
+                                                //           border: Border.all(color: Color(0xFF000000), width: 1),
+                                                //         ),
+                                                //         child: Text(
+                                                //           product['scheme'] ?? '',
+                                                //           style: TextStyle(
+                                                //             fontSize: 10,
+                                                //             color: Color(0xFF000000),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffFEF6F5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        'MARGIN',
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color:
+                                                              Color(0xFF000000),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: w * 0.01),
+                                                      Text(
+                                                        cartdata.product?.margin
+                                                                .toString() ??
+                                                            "",
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color:
+                                                              Color(0xFF000000),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(width: w * 0.01),
-                                              Text(
-                                                cartdata.product?.netPrice
-                                                        .toString() ??
-                                                    "",
-                                                style: TextStyle(fontSize: 14),
-                                              ),
-                                              Spacer(),
-                                              Text(
-                                                'M.R.P:',
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFF000000),
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                              Text(
-                                                cartdata.product?.mrp
-                                                        .toString() ??
-                                                    "",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(0xFF000000),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: h * 0.008),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // Container(
-                                              //   padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                                              //   decoration: BoxDecoration(
-                                              //     color: Color(0xffEDF2F5),
-                                              //     borderRadius: BorderRadius.circular(4),
-                                              //     border: Border.all(color: Color(0xFF000000), width: 1),
-                                              //   ),
-                                              //   child: Row(
-                                              //     children: [
-                                              //       Text(
-                                              //         'Scheme',
-                                              //         style: TextStyle(
-                                              //           fontSize: 12,
-                                              //           fontWeight: FontWeight.w400,
-                                              //           color: Color(0xFF000000),
-                                              //         ),
-                                              //       ),
-                                              //       SizedBox(width: w * 0.01),
-                                              //       Container(
-                                              //         padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                                              //         decoration: BoxDecoration(
-                                              //           borderRadius: BorderRadius.circular(4),
-                                              //           border: Border.all(color: Color(0xFF000000), width: 1),
-                                              //         ),
-                                              //         child: Text(
-                                              //           product['scheme'] ?? '',
-                                              //           style: TextStyle(
-                                              //             fontSize: 10,
-                                              //             color: Color(0xFF000000),
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //     ],
-                                              //   ),
-                                              // ),
-                                              Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 4),
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xffFEF6F5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                ),
-                                                child: Row(
+                                                Row(
                                                   children: [
                                                     Text(
-                                                      'MARGIN',
+                                                      'PTR',
                                                       style: TextStyle(
                                                         fontSize: 10,
                                                         fontWeight:
@@ -393,9 +534,15 @@ class _CartscreenState extends State<Cartscreen> {
                                                             Color(0xFF000000),
                                                       ),
                                                     ),
-                                                    SizedBox(width: w * 0.01),
+                                                    SizedBox(width: w * 0.007),
+                                                    Image.asset(
+                                                      'assets/about.png',
+                                                      color: Color(0xFF000000),
+                                                      width: w * 0.016,
+                                                    ),
+                                                    SizedBox(width: w * 0.007),
                                                     Text(
-                                                      cartdata.product?.margin
+                                                      cartdata.product?.ptr
                                                               .toString() ??
                                                           "",
                                                       style: TextStyle(
@@ -408,151 +555,120 @@ class _CartscreenState extends State<Cartscreen> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'PTR',
-                                                    style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Color(0xFF000000),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: w * 0.007),
-                                                  Image.asset(
-                                                    'assets/about.png',
-                                                    color: Color(0xFF000000),
-                                                    width: w * 0.016,
-                                                  ),
-                                                  SizedBox(width: w * 0.007),
-                                                  Text(
-                                                    cartdata.product?.ptr
-                                                            .toString() ??
-                                                        "",
-                                                    style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Color(0xFF000000),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: h * 0.01),
-                                          // Row(
-                                          //   children: [
-                                          //     Container(
-                                          //       padding: EdgeInsets.symmetric(
-                                          //           horizontal: 6, vertical: 3),
-                                          //       decoration: BoxDecoration(
-                                          //         border: Border.all(
-                                          //             color: Color(0xFF000000),
-                                          //             width: 1),
-                                          //         borderRadius:
-                                          //         BorderRadius.circular(4),
-                                          //       ),
-                                          //       child: Row(
-                                          //         children: [
-                                          //           Text(
-                                          //             product['dcpo'] ?? '',
-                                          //             style: TextStyle(
-                                          //               fontSize: 10,
-                                          //               fontWeight:
-                                          //               FontWeight.w400,
-                                          //               color: Color(
-                                          //                   0xFF000000),
-                                          //             ),
-                                          //           ),
-                                          //           SizedBox(width: w * 0.01),
-                                          //           Image.asset(
-                                          //             'assets/about.png',
-                                          //             color: Color(0xFF000000),
-                                          //             width: w * 0.015,
-                                          //           ),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //     SizedBox(width: w * 0.01),
-                                          //     Row(
-                                          //       children: [
-                                          //         Container(
-                                          //           padding: EdgeInsets
-                                          //               .symmetric(
-                                          //               horizontal: 6,
-                                          //               vertical: 4),
-                                          //           decoration: BoxDecoration(
-                                          //             color: Color(0xFF000000),
-                                          //             borderRadius:
-                                          //             BorderRadius.circular(
-                                          //                 4),
-                                          //           ),
-                                          //           child: Row(
-                                          //             children: [
-                                          //               Text(
-                                          //                 product['speciality'] ??
-                                          //                     '',
-                                          //                 style: TextStyle(
-                                          //                   fontSize: 10,
-                                          //                   fontWeight:
-                                          //                   FontWeight.w400,
-                                          //                   color:
-                                          //                   Color(0xFF000000),
-                                          //                 ),
-                                          //               ),
-                                          //             ],
-                                          //           ),
-                                          //         ),
-                                          //       ],
-                                          //     ),
-                                          //     SizedBox(width: w * 0.01),
-                                          //     Container(
-                                          //       padding: EdgeInsets.symmetric(
-                                          //           horizontal: 6, vertical: 3),
-                                          //       decoration: BoxDecoration(
-                                          //         color: Color(0xFF000000)
-                                          //             .withOpacity(0.11),
-                                          //         border: Border.all(
-                                          //             color: Color(0xFF000000),
-                                          //             width: 1),
-                                          //         borderRadius:
-                                          //         BorderRadius.circular(4),
-                                          //       ),
-                                          //       child: Row(
-                                          //         children: [
-                                          //           Text(
-                                          //             product['coldBox'] ?? '',
-                                          //             style: TextStyle(
-                                          //               fontSize: 10,
-                                          //               fontWeight:
-                                          //               FontWeight.w400,
-                                          //               color: Color(
-                                          //                   0xFF000000),
-                                          //             ),
-                                          //           ),
-                                          //           SizedBox(width: w * 0.01),
-                                          //           Image.asset(
-                                          //             'assets/about.png',
-                                          //             color: Color(0xFF000000),
-                                          //             width: w * 0.015,
-                                          //           ),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                        ],
+                                              ],
+                                            ),
+                                            SizedBox(height: h * 0.01),
+                                            // Row(
+                                            //   children: [
+                                            //     Container(
+                                            //       padding: EdgeInsets.symmetric(
+                                            //           horizontal: 6, vertical: 3),
+                                            //       decoration: BoxDecoration(
+                                            //         border: Border.all(
+                                            //             color: Color(0xFF000000),
+                                            //             width: 1),
+                                            //         borderRadius:
+                                            //         BorderRadius.circular(4),
+                                            //       ),
+                                            //       child: Row(
+                                            //         children: [
+                                            //           Text(
+                                            //             product['dcpo'] ?? '',
+                                            //             style: TextStyle(
+                                            //               fontSize: 10,
+                                            //               fontWeight:
+                                            //               FontWeight.w400,
+                                            //               color: Color(
+                                            //                   0xFF000000),
+                                            //             ),
+                                            //           ),
+                                            //           SizedBox(width: w * 0.01),
+                                            //           Image.asset(
+                                            //             'assets/about.png',
+                                            //             color: Color(0xFF000000),
+                                            //             width: w * 0.015,
+                                            //           ),
+                                            //         ],
+                                            //       ),
+                                            //     ),
+                                            //     SizedBox(width: w * 0.01),
+                                            //     Row(
+                                            //       children: [
+                                            //         Container(
+                                            //           padding: EdgeInsets
+                                            //               .symmetric(
+                                            //               horizontal: 6,
+                                            //               vertical: 4),
+                                            //           decoration: BoxDecoration(
+                                            //             color: Color(0xFF000000),
+                                            //             borderRadius:
+                                            //             BorderRadius.circular(
+                                            //                 4),
+                                            //           ),
+                                            //           child: Row(
+                                            //             children: [
+                                            //               Text(
+                                            //                 product['speciality'] ??
+                                            //                     '',
+                                            //                 style: TextStyle(
+                                            //                   fontSize: 10,
+                                            //                   fontWeight:
+                                            //                   FontWeight.w400,
+                                            //                   color:
+                                            //                   Color(0xFF000000),
+                                            //                 ),
+                                            //               ),
+                                            //             ],
+                                            //           ),
+                                            //         ),
+                                            //       ],
+                                            //     ),
+                                            //     SizedBox(width: w * 0.01),
+                                            //     Container(
+                                            //       padding: EdgeInsets.symmetric(
+                                            //           horizontal: 6, vertical: 3),
+                                            //       decoration: BoxDecoration(
+                                            //         color: Color(0xFF000000)
+                                            //             .withOpacity(0.11),
+                                            //         border: Border.all(
+                                            //             color: Color(0xFF000000),
+                                            //             width: 1),
+                                            //         borderRadius:
+                                            //         BorderRadius.circular(4),
+                                            //       ),
+                                            //       child: Row(
+                                            //         children: [
+                                            //           Text(
+                                            //             product['coldBox'] ?? '',
+                                            //             style: TextStyle(
+                                            //               fontSize: 10,
+                                            //               fontWeight:
+                                            //               FontWeight.w400,
+                                            //               color: Color(
+                                            //                   0xFF000000),
+                                            //             ),
+                                            //           ),
+                                            //           SizedBox(width: w * 0.01),
+                                            //           Image.asset(
+                                            //             'assets/about.png',
+                                            //             color: Color(0xFF000000),
+                                            //             width: w * 0.015,
+                                            //           ),
+                                            //         ],
+                                            //       ),
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
                       }),
                       // SizedBox(
                       //   height: 15,
@@ -758,278 +874,286 @@ class _CartscreenState extends State<Cartscreen> {
                           }
                         }
                         // Handle null or invalid shipping_data cases
-                        order_value = shipping_data?.totalAmount.toString() ?? "";
-                        return Column(
-                          children: [
-                        if (address.isNotEmpty &&
-                        address != "No address found") ...[
-                            Row(
-                              children: [
-                                Text(
-                                  "Delivery To",
-                                  style: TextStyle(
-                                    color: Color(0xff110B0F),
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                    height: 28 / 20,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Spacer(),
-                                InkResponse(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AddressListScreen(),
-                                        ));
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 1),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(
-                                          color: Color(0xff0AA44F), width: 1),
-                                    ),
-                                    child: Text(
-                                      "Change",
+                        order_value =
+                            shipping_data?.totalAmount.toString() ?? "";
+                        if(order_value!="0"){
+                          return Column(
+                            children: [
+                              if (address.isNotEmpty &&
+                                  address != "No address found") ...[
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Delivery To",
                                       style: TextStyle(
-                                        color: Color(0xff0AA44F),
+                                        color: Color(0xff110B0F),
                                         fontFamily: 'Inter',
-                                        fontSize: 13,
-                                        height: 28 / 16,
+                                        fontSize: 16,
+                                        height: 28 / 20,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
+                                    Spacer(),
+                                    InkResponse(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddressListScreen(),
+                                            ));
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 1),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(4),
+                                          border: Border.all(
+                                              color: Color(0xff0AA44F), width: 1),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: Color(0xff0AA44F),
+                                            fontFamily: 'Inter',
+                                            fontSize: 13,
+                                            height: 28 / 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: h * 0.01),
+                                Container(
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffFFFfff),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.person_outline_rounded,
+                                              color: color1, size: 18),
+                                          SizedBox(width: w * 0.02),
+                                          Text(
+                                            shipping_data?.address?.fullName ??
+                                                "",
+                                            style: TextStyle(
+                                              color: Color(0xff110B0F),
+                                              fontFamily: 'Inter',
+                                              fontSize: 18,
+                                              height: 28 / 18,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          SizedBox(width: w * 0.04),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 6, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffE8EFFB),
+                                              borderRadius:
+                                              BorderRadius.circular(4),
+                                            ),
+                                            child: Text(
+                                              shipping_data
+                                                  ?.address?.addressType ??
+                                                  "",
+                                              style: TextStyle(
+                                                color: Color(0xff110B0F),
+                                                fontFamily: 'Inter',
+                                                fontSize: 12,
+                                                height: 18 / 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: h * 0.01),
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Icon(Icons.location_on_rounded,
+                                              color: color1, size: 18),
+                                          SizedBox(width: w * 0.02),
+                                          Flexible(
+                                            child: Text(
+                                              "Address\n ${shipping_data?.address?.address}",
+                                              style: TextStyle(
+                                                color: Color(0xff110B0F),
+                                                fontFamily: 'Inter',
+                                                fontSize: 14,
+                                                height: 21 / 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
-                            ),
-                            SizedBox(height: h * 0.01),
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Color(0xffFFFfff),
-                                borderRadius: BorderRadius.circular(7),
+                              SizedBox(
+                                height: h * 0.01,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                              container(context,
+                                  colors: color4,
+                                  borderRadius: BorderRadius.circular(8),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 16),
+                                  w: w,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.person_outline_rounded,
-                                          color: color1, size: 18),
-                                      SizedBox(width: w * 0.02),
-                                      Text(
-                                        shipping_data?.address?.fullName ?? "",
-                                        style: TextStyle(
-                                          color: Color(0xff110B0F),
-                                          fontFamily: 'Inter',
-                                          fontSize: 18,
-                                          height: 28 / 18,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                      text(context, 'Payment Details', 13,
+                                          color: color23,
+                                          fontWeight: FontWeight.w400),
+                                      SizedBox(
+                                        height: h * 0.01,
                                       ),
-                                      SizedBox(width: w * 0.04),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xffE8EFFB),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                        ),
-                                        child: Text(
-                                          shipping_data?.address?.addressType ??
-                                              "",
-                                          style: TextStyle(
-                                            color: Color(0xff110B0F),
-                                            fontFamily: 'Inter',
-                                            fontSize: 12,
-                                            height: 18 / 12,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Total Cost:', 12,
+                                              color: color,
+                                              fontWeight: FontWeight.w400,
+                                              fontfamily: 'Inter'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              '₹${shipping_data?.totalAmount.toString()}',
+                                              15,
+                                              fontWeight: FontWeight.w400,
+                                              color: color18)
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Shipping Fee', 12,
+                                              color: color,
+                                              fontWeight: FontWeight.w400,
+                                              fontfamily: 'SFPD'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              "₹${shipping_data?.shippingFee.toString()}",
+                                              15,
+                                              fontWeight: FontWeight.w400,
+                                              color: color18)
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Delivery Charges', 12,
+                                              color: color,
+                                              fontWeight: FontWeight.w400,
+                                              fontfamily: 'Inter'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              "₹${shipping_data?.deliveryCharges.toString()}",
+                                              15,
+                                              fontWeight: FontWeight.w400,
+                                              color: color18)
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Handling Charges', 12,
+                                              color: color,
+                                              fontWeight: FontWeight.w400,
+                                              fontfamily: 'Inter'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              "₹${shipping_data?.handlingCharges.toString()}",
+                                              15,
+                                              fontWeight: FontWeight.w400,
+                                              color: color18)
+                                        ],
+                                      ),
+                                      // SizedBox(
+                                      //   height: h * 0.01,
+                                      // ),
+                                      // Row(
+                                      //   children: [
+                                      //     text(context, 'GST', 12,
+                                      //         color: color,
+                                      //         fontWeight: FontWeight.w400,
+                                      //         fontfamily: 'Inter'),
+                                      //     Spacer(),
+                                      //     text(context, '₹12', 15,
+                                      //         fontWeight: FontWeight.w400,
+                                      //         color: color18)
+                                      //   ],
+                                      // ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Additional Discount', 12,
+                                              color: color,
+                                              fontWeight: FontWeight.w400,
+                                              fontfamily: 'Inter'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              "₹${shipping_data?.discount.toString()}",
+                                              15,
+                                              fontWeight: FontWeight.w400,
+                                              color: color6)
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Divider(
+                                        height: 1,
+                                        color: color,
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          text(context, 'Total Amount', 12,
+                                              color: color11,
+                                              fontWeight: FontWeight.w500,
+                                              fontfamily: 'Inter'),
+                                          Spacer(),
+                                          text(
+                                              context,
+                                              "₹${shipping_data?.totalAmount.toString()}",
+                                              15,
+                                              fontWeight: FontWeight.w500,
+                                              color: color11)
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                  SizedBox(height: h * 0.01),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Icon(Icons.location_on_rounded,
-                                          color: color1, size: 18),
-                                      SizedBox(width: w * 0.02),
-                                      Flexible(
-                                        child: Text(
-                                          "Address\n ${shipping_data?.address?.address}",
-                                          style: TextStyle(
-                                            color: Color(0xff110B0F),
-                                            fontFamily: 'Inter',
-                                            fontSize: 14,
-                                            height: 21 / 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                                  )),
                             ],
-                            SizedBox(
-                              height: h * 0.01,
-                            ),
-                            container(context,
-                                colors: color4,
-                                borderRadius: BorderRadius.circular(8),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 16),
-                                w: w,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    text(context, 'Payment Details', 13,
-                                        color: color23,
-                                        fontWeight: FontWeight.w400),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Total Cost:', 12,
-                                            color: color,
-                                            fontWeight: FontWeight.w400,
-                                            fontfamily: 'Inter'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            '₹${shipping_data?.totalAmount.toString()}',
-                                            15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color18)
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Shipping Fee', 12,
-                                            color: color,
-                                            fontWeight: FontWeight.w400,
-                                            fontfamily: 'SFPD'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            "₹${shipping_data?.shippingFee.toString()}",
-                                            15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color18)
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Delivery Charges', 12,
-                                            color: color,
-                                            fontWeight: FontWeight.w400,
-                                            fontfamily: 'Inter'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            "₹${shipping_data?.deliveryCharges.toString()}",
-                                            15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color18)
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Handling Charges', 12,
-                                            color: color,
-                                            fontWeight: FontWeight.w400,
-                                            fontfamily: 'Inter'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            "₹${shipping_data?.handlingCharges.toString()}",
-                                            15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color18)
-                                      ],
-                                    ),
-                                    // SizedBox(
-                                    //   height: h * 0.01,
-                                    // ),
-                                    // Row(
-                                    //   children: [
-                                    //     text(context, 'GST', 12,
-                                    //         color: color,
-                                    //         fontWeight: FontWeight.w400,
-                                    //         fontfamily: 'Inter'),
-                                    //     Spacer(),
-                                    //     text(context, '₹12', 15,
-                                    //         fontWeight: FontWeight.w400,
-                                    //         color: color18)
-                                    //   ],
-                                    // ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Additional Discount', 12,
-                                            color: color,
-                                            fontWeight: FontWeight.w400,
-                                            fontfamily: 'Inter'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            "₹${shipping_data?.discount.toString()}",
-                                            15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color6)
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                      color: color,
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.01,
-                                    ),
-                                    Row(
-                                      children: [
-                                        text(context, 'Total Amount', 12,
-                                            color: color11,
-                                            fontWeight: FontWeight.w500,
-                                            fontfamily: 'Inter'),
-                                        Spacer(),
-                                        text(
-                                            context,
-                                            "₹${shipping_data?.totalAmount.toString()}",
-                                            15,
-                                            fontWeight: FontWeight.w500,
-                                            color: color11)
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        );
+                          );
+                        }else{
+                          return Container();
+                        }
                       }),
 
                       SizedBox(
@@ -1239,7 +1363,8 @@ class _CartscreenState extends State<Cartscreen> {
               return SafeArea(
                 child: Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 15,top: 15),
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, bottom: 15, top: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1287,14 +1412,14 @@ class _CartscreenState extends State<Cartscreen> {
                           height: h * 0.05,
                           // padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color:color1,
+                            color: color1,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Center(
                             child: Text(
                               "PLACE ORDER",
                               style: TextStyle(
-                                color:  color4,
+                                color: color4,
                                 fontFamily: 'RozhaOne',
                                 fontSize: 16,
                                 height: 21.06 / 16,

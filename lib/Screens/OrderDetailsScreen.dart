@@ -5,10 +5,7 @@ import 'package:drugcalm/Services/UserApi.dart';
 import 'package:drugcalm/providers/ShippingDetailsProvider.dart';
 import 'package:drugcalm/utils/CustomSnackBar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../Model/OrderDetailsModel.dart';
-import '../Model/ShippingDetailsModel.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/constants.dart';
 
@@ -30,21 +27,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   @override
   void initState() {
-    getOrderDetailsApi();
+    getOrderDetailsApi(widget.id);
     super.initState();
   }
 
-  OrderDetails? orderdata;
+  OrderDetails? orderdetails;
 
-  Future<void> getOrderDetailsApi() async {
+  Future<void> getOrderDetailsApi(String id) async {
     try {
-      var res = await Userapi.getOrderDetails(widget.id);
+      var res = await Userapi.getOrderDetails(id);
+      print("id>>${id}");
       if (res != null) {
         setState(() {
           if (res.settings?.success==1) {
-            orderdata = res.data;
+            orderdetails = res.data;
 
-            print("orderdata>>${orderdata}");
+            print("orderdata>>${orderdetails}");
           } else {
             print(
                 "API response status is not successful:");
@@ -71,7 +69,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: CustomAppBar1(title: 'ORDER DETAILS', actions: [Container()]),
-        body: SingleChildScrollView(
+        body:
+        SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +84,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           'assets/Drug Clam Background.png',
                         ),
                         fit: BoxFit.cover)),
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             fontfamily: 'Inter',
                             color: color1,
                             fontWeight: FontWeight.w500),
-                        text(context, ' ${orderdata?.orderId.toString()}', 16,
+                        text(context, ' ${orderdetails?.orderId.toString()}', 16,
                             fontfamily: 'Inter',
                             color: color11,
                             fontWeight: FontWeight.w500,
@@ -145,10 +145,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
             ListView.builder(
               shrinkWrap: true,
-              itemCount: orderdata?.items.length,
+              itemCount: orderdetails?.items.length,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                var cartdata = orderdata?.items[index];
+                var cartdata = orderdetails?.items[index];
 
                 return
                   Container(
@@ -551,7 +551,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   color: color1, size: 18),
                               SizedBox(width: w * 0.02),
                               Text(
-                                orderdata?.address.fullName??"",
+                                orderdetails?.address.fullName??"",
 
                                 style: TextStyle(
                                   color: Color(0xff110B0F),
@@ -570,7 +570,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  orderdata?.address.addressType??"",
+                                  orderdetails?.address.addressType??"",
                                   style: TextStyle(
                                     color: Color(0xff110B0F),
                                     fontFamily: 'Inter',
@@ -591,7 +591,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               SizedBox(width: w * 0.02),
                               Flexible(
                                 child: Text(
-                                  "Address\n ${orderdata?.address.address??""}",
+                                  "Address\n ${orderdetails?.address.address??""}",
                                   style: TextStyle(
                                     color: Color(0xff110B0F),
                                     fontFamily: 'Inter',
@@ -636,7 +636,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                   "${orderdata?.orderValue??""}",
+                                   "${orderdetails?.orderValue??""}",
                                     15,
                                     fontWeight: FontWeight.w400,
                                     color: color18)
@@ -654,7 +654,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                    "${orderdata?.shipping.shippingFee.toString()??""}",
+                                    "${orderdetails?.shipping.shippingFee.toString()??""}",
                                     15,
                                     fontWeight: FontWeight.w400,
                                     color: color18)
@@ -672,7 +672,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                    "${orderdata?.shipping.deliveryCharges.toString()??""}",
+                                    "${orderdetails?.shipping.deliveryCharges.toString()??""}",
                                     15,
                                     fontWeight: FontWeight.w400,
                                     color: color18)
@@ -690,7 +690,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                    "${orderdata?.shipping.handlingCharges.toString()??""}",
+                                    "${orderdetails?.shipping.handlingCharges.toString()??""}",
                                     15,
                                     fontWeight: FontWeight.w400,
                                     color: color18)
@@ -723,7 +723,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                    "${orderdata?.shipping.discount.toString()??""}",
+                                    "${orderdetails?.shipping.discount.toString()??""}",
                                     15,
                                     fontWeight: FontWeight.w400,
                                     color: color6)
@@ -748,7 +748,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 Spacer(),
                                 text(
                                     context,
-                                    "${orderdata?.shipping.totalAmount.toString()??""}",
+                                    "${orderdetails?.shipping.totalAmount.toString()??""}",
                                     15,
                                     fontWeight: FontWeight.w500,
                                     color: color11)
