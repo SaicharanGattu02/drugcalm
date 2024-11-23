@@ -4,6 +4,8 @@ import 'package:drugcalm/utils/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../Services/UserApi.dart';
+import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
 
 class BusinessDetails extends StatefulWidget {
@@ -14,11 +16,35 @@ class BusinessDetails extends StatefulWidget {
 }
 
 class _BusinessDetailsState extends State<BusinessDetails> {
-  final TextEditingController _businessRegistraionController =TextEditingController();
-  final TextEditingController _expiryController =TextEditingController();
+  final TextEditingController RegistrationController =TextEditingController();
+  final TextEditingController licensenumberController =TextEditingController();
+  final TextEditingController druglicensemoController =TextEditingController();
+  final TextEditingController  expiryController =TextEditingController();
+  final TextEditingController  gstinController =TextEditingController();
+  final TextEditingController  panController =TextEditingController();
+  final TextEditingController  muncipallicensenumberController =TextEditingController();
+  final TextEditingController  geolocationController =TextEditingController();
+  final TextEditingController  cityController =TextEditingController();
+  final TextEditingController  stateController =TextEditingController();
+  final TextEditingController  pincodeController =TextEditingController();
+  final TextEditingController  outletcountController =TextEditingController();
+  final TextEditingController  operatinghoursController =TextEditingController();
+
+
 
   String validatebusinessRegistraion ="";
+  String validatelicensenumber ="";
+  String validatedruglicensenumber ="";
+  String validatemuncipallicensenumber ="";
+  String validategstin ="";
+  String validatepan ="";
   String validateexpiry ="";
+  String validatecity ="";
+  String validatestate ="";
+  String validatepincode ="";
+  String validategeolocation ="";
+  String validateoperatinghours ="";
+  String validateoutletcount ="";
 
 
 
@@ -34,8 +60,55 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       lastDate: DateTime(2101),
     );
     if (pickedDate != null) {
-      controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      controller.text = DateFormat('dd-MM-yyyy').format(pickedDate);
     }
+  }
+
+  @override
+  void initState() {
+    getOutletApi();
+    super.initState();
+  }
+
+  String? outletID;
+  Future<void> getOutletApi() async {
+      var res = await Userapi.getOutlet();
+      if (res != null) {
+        setState(() {
+          if (res.settings?.success == 1) {
+            outletID=res.data?.id??"";
+            print("outletID:${outletID}");
+          } else {
+
+          }
+        });
+      }
+
+  }
+
+  Future<void> AddBusinessDetails() async {
+    var res = await Userapi.AddBusinessDetailsApi(
+      outletID,
+        RegistrationController.text,
+      licensenumberController.text,
+      druglicensemoController.text,
+      expiryController.text,
+      gstinController.text,
+      panController.text,
+      muncipallicensenumberController.text,
+      geolocationController.text,
+      outletcountController.text
+    );
+    if (res != null) {
+      setState(() {
+        if (res.settings?.success == 1) {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicInformation()));
+        } else {
+
+        }
+      });
+    }
+
   }
 
 
@@ -90,77 +163,12 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                       physics: AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              items: dropdownOptions.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              value: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                  print("Selected Option:${selectedOption}");
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 45,
-                                width: double.infinity,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7.0),
-                                    border: Border.all(color: Color(0xffD0CBDB)),
-                                    color: Color(0xffFCFAFF)),
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 25,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: w*0.88,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness: MaterialStateProperty.all(6),
-                                  thumbVisibility:
-                                  MaterialStateProperty.all(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
+
                           SizedBox(height:h*0.01,),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: RegistrationController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
@@ -238,18 +246,18 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: licensenumberController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatelicensenumber="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatelicensenumber="";
                                 });
                               },
                               decoration: InputDecoration(
@@ -290,7 +298,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validatelicensenumber.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -299,7 +307,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validatelicensenumber,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -312,114 +320,104 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           ] else ...[
                             SizedBox(height: 15),
                           ], SizedBox(height:h*0.01,),
-                          Row(
-                            children: [
-                    
-                              Container(
-                                width: w*0.5,
-                                height: MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap:(){
-                                    // closeDropdown();
-                                    setState(() {
-                                      validatebusinessRegistraion="";
-                                    });
-                                  },
-                                  onChanged: (v){
-                                    setState(() {
-                                      validatebusinessRegistraion="";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                    hintText: "Drug licence",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    fillColor: const Color(0xffFCFAFF),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide:
-                                      const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide:
-                                      const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide:
-                                      const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide:
-                                      const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                                  width: MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      validatebusinessRegistraion,
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(width: w*0.025,),
-                              _buildDateField(
-                                _expiryController,
-                              ),
-                    
-                    
-                            ],
-                          ),
-                    
-                    
-                    
-                          SizedBox(height:h*0.01,),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: druglicensemoController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatedruglicensenumber="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatedruglicensenumber="";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                                hintText: "Drug licence",
+                                hintStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 19.36 / 14,
+                                  color: Color(0xffAFAFAF),
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                          ),
+                          if (validatedruglicensenumber.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  validatedruglicensenumber,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 15),
+                          ],
+                          SizedBox(height:h*0.01,),
+                          _buildDateField(
+                            expiryController,
+                          ),
+                          SizedBox(height:h*0.01,),
+                          SizedBox(height:h*0.01,),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              controller: gstinController,
+                              keyboardType: TextInputType.text,
+                              cursorColor: Color(0xff8856F4),
+                              onTap:(){
+                                // closeDropdown();
+                                setState(() {
+                                  validategstin="";
+                                });
+                              },
+                              onChanged: (v){
+                                setState(() {
+                                  validategstin="";
                                 });
                               },
                               decoration: InputDecoration(
@@ -460,7 +458,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validategstin.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -469,7 +467,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validategstin,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -486,18 +484,18 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: panController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatepan="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatepan="";
                                 });
                               },
                               decoration: InputDecoration(
@@ -538,7 +536,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validatepan.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -547,7 +545,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validatepan,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -564,18 +562,18 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: muncipallicensenumberController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatemuncipallicensenumber="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatemuncipallicensenumber="";
                                 });
                               },
                               decoration: InputDecoration(
@@ -616,7 +614,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validatemuncipallicensenumber.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -625,161 +623,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ] else ...[
-                            SizedBox(height: 15),
-                          ], SizedBox(height:h*0.01,),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.050,
-                            child: TextFormField(
-                              controller: _businessRegistraionController,
-                              keyboardType: TextInputType.text,
-                              cursorColor: Color(0xff8856F4),
-                              onTap:(){
-                                // closeDropdown();
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              onChanged: (v){
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "Address Information",
-                                hintStyle: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  height: 19.36 / 14,
-                                  color: Color(0xffAFAFAF),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xffFCFAFF),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: ShakeWidget(
-                                key: Key("value"),
-                                duration: Duration(milliseconds: 700),
-                                child: Text(
-                                  validatebusinessRegistraion,
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ] else ...[
-                            SizedBox(height: 15),
-                          ], SizedBox(height:h*0.01,),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.050,
-                            child: TextFormField(
-                              controller: _businessRegistraionController,
-                              keyboardType: TextInputType.text,
-                              cursorColor: Color(0xff8856F4),
-                              onTap:(){
-                                // closeDropdown();
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              onChanged: (v){
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "self pan",
-                                hintStyle: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  height: 19.36 / 14,
-                                  color: Color(0xffAFAFAF),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xffFCFAFF),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: ShakeWidget(
-                                key: Key("value"),
-                                duration: Duration(milliseconds: 700),
-                                child: Text(
-                                  validatebusinessRegistraion,
+                                  validatemuncipallicensenumber,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -796,23 +640,23 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: cityController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatecity="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatecity="";
                                 });
                               },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "Business Address",
+                                hintText: "City",
                                 hintStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 14,
@@ -848,7 +692,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validatecity.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -857,7 +701,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validatecity,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -870,223 +714,179 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           ] else ...[
                             SizedBox(height: 15),
                           ],
-                         SizedBox(height:h*0.01,),
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              items: dropdownOptions.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              value: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                  print("Selected Option:${selectedOption}");
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 45,
-                                width: double.infinity,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7.0),
-                                    border: Border.all(color: Color(0xffD0CBDB)),
-                                    color: Color(0xffFCFAFF)),
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 25,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: w*0.88,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness: MaterialStateProperty.all(6),
-                                  thumbVisibility:
-                                  MaterialStateProperty.all(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
                           SizedBox(height:h*0.01,),
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              items: dropdownOptions.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              value: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                  print("Selected Option:${selectedOption}");
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 45,
-                                width: double.infinity,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7.0),
-                                    border: Border.all(color: Color(0xffD0CBDB)),
-                                    color: Color(0xffFCFAFF)),
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 25,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: w*0.88,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness: MaterialStateProperty.all(6),
-                                  thumbVisibility:
-                                  MaterialStateProperty.all(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height:h*0.01,),
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              items: dropdownOptions.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              value: selectedOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedOption = value!;
-                                  print("Selected Option:${selectedOption}");
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 45,
-                                width: double.infinity,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7.0),
-                                    border: Border.all(color: Color(0xffD0CBDB)),
-                                    color: Color(0xffFCFAFF)),
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 25,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: w*0.88,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness: MaterialStateProperty.all(6),
-                                  thumbVisibility:
-                                  MaterialStateProperty.all(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height:h*0.01,),
+
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: stateController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatestate="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validatestate="";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                                hintText: "State",
+                                hintStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 19.36 / 14,
+                                  color: Color(0xffAFAFAF),
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                          ),
+                          if (validatestate.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  validatestate,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 15),
+                          ],
+                          SizedBox(height:h*0.01,),
+
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              controller: pincodeController,
+                              keyboardType: TextInputType.text,
+                              cursorColor: Color(0xff8856F4),
+                              onTap:(){
+                                // closeDropdown();
+                                setState(() {
+                                  validatepincode="";
+                                });
+                              },
+                              onChanged: (v){
+                                setState(() {
+                                  validatepincode="";
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                                hintText: "Pincode",
+                                hintStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 14,
+                                  letterSpacing: 0,
+                                  height: 19.36 / 14,
+                                  color: Color(0xffAFAFAF),
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xffFCFAFF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  borderSide:
+                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+                                ),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                          ),
+                          if (validatepincode.isNotEmpty) ...[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: ShakeWidget(
+                                key: Key("value"),
+                                duration: Duration(milliseconds: 700),
+                                child: Text(
+                                  validatepincode,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ] else ...[
+                            SizedBox(height: 15),
+                          ],
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.050,
+                            child: TextFormField(
+                              controller: geolocationController,
+                              keyboardType: TextInputType.text,
+                              cursorColor: Color(0xff8856F4),
+                              onTap:(){
+                                // closeDropdown();
+                                setState(() {
+                                  validategeolocation="";
+                                });
+                              },
+                              onChanged: (v){
+                                setState(() {
+                                  validategeolocation="";
                                 });
                               },
                               decoration: InputDecoration(
@@ -1127,7 +927,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validategeolocation.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -1136,7 +936,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validategeolocation,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -1153,23 +953,23 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.050,
                             child: TextFormField(
-                              controller: _businessRegistraionController,
+                              controller: outletcountController,
                               keyboardType: TextInputType.text,
                               cursorColor: Color(0xff8856F4),
                               onTap:(){
                                 // closeDropdown();
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validateoutletcount="";
                                 });
                               },
                               onChanged: (v){
                                 setState(() {
-                                  validatebusinessRegistraion="";
+                                  validateoutletcount="";
                                 });
                               },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "Business Operations",
+                                hintText: "Outlet Count",
                                 hintStyle: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 14,
@@ -1205,7 +1005,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                               textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
+                          if (validateoutletcount.isNotEmpty) ...[
                             Container(
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -1214,7 +1014,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                                 key: Key("value"),
                                 duration: Duration(milliseconds: 700),
                                 child: Text(
-                                  validatebusinessRegistraion,
+                                  validateoutletcount,
                                   style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 12,
@@ -1227,166 +1027,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           ] else ...[
                             SizedBox(height: 15),
                           ],
-                          SizedBox(height:h*0.01,),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.050,
-                            child: TextFormField(
-                              controller: _businessRegistraionController,
-                              keyboardType: TextInputType.text,
-                              cursorColor: Color(0xff8856F4),
-                              onTap:(){
-                                // closeDropdown();
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              onChanged: (v){
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "Operating Hours for delivery's",
-                                hintStyle: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  height: 19.36 / 14,
-                                  color: Color(0xffAFAFAF),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xffFCFAFF),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: ShakeWidget(
-                                key: Key("value"),
-                                duration: Duration(milliseconds: 700),
-                                child: Text(
-                                  validatebusinessRegistraion,
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ] else ...[
-                            SizedBox(height: 15),
-                          ],
-                          SizedBox(height:h*0.01,),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.050,
-                            child: TextFormField(
-                              controller: _businessRegistraionController,
-                              keyboardType: TextInputType.text,
-                              cursorColor: Color(0xff8856F4),
-                              onTap:(){
-                                // closeDropdown();
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              onChanged: (v){
-                                setState(() {
-                                  validatebusinessRegistraion="";
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                                hintText: "Number of Outlets",
-                                hintStyle: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 14,
-                                  letterSpacing: 0,
-                                  height: 19.36 / 14,
-                                  color: Color(0xffAFAFAF),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xffFCFAFF),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(7),
-                                  borderSide:
-                                  const BorderSide(width: 1, color: Color(0xffd0cbdb)),
-                                ),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                          ),
-                          if (validatebusinessRegistraion.isNotEmpty) ...[
-                            Container(
-                              alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: ShakeWidget(
-                                key: Key("value"),
-                                duration: Duration(milliseconds: 700),
-                                child: Text(
-                                  validatebusinessRegistraion,
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 12,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ] else ...[
-                            SizedBox(height: 15),
-                          ],
-
-
-                    
-                    
                         ],
                       ),
                     ),
@@ -1432,7 +1072,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
             Spacer(),
             InkResponse(
               onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicInformation()));
+                AddBusinessDetails();
               },
               child: Container(
                 height: 40,
@@ -1472,8 +1112,6 @@ class _BusinessDetailsState extends State<BusinessDetails> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
-          width: MediaQuery.of(context).size.width * 0.28,
-
           child: TextField(
             controller: controller,
             readOnly: true,

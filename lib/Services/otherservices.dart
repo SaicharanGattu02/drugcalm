@@ -8,15 +8,11 @@ import '../utils/CustomSnackBar.dart';
 import '../utils/Preferances.dart';
 import '../utils/constants.dart';
 
-Future<Map<String, String>> getheader() async {
+Future<String> getheader() async {
   final sessionid = await PreferenceService().getString("token");
   print(sessionid);
   String Token = "Bearer ${sessionid}";
-  Map<String, String> headers = {
-    'Authorization': Token,
-    'Content-Type': 'application/json',
-  };
-  return headers;
+  return Token;
 }
 
 Future<Map<String, String>> getheader1() async {
@@ -35,6 +31,17 @@ Future<Map<String, String>> getheader2() async {
   Map<String, String> headers = {
     'Authorization': Token,
     'Content-Type': 'application/x-www-form-urlencoded',
+  };
+  return headers;
+}
+
+Future<Map<String, String>> getheader3() async {
+  final sessionid = await PreferenceService().getString("token");
+  print(sessionid);
+  String Token = "Bearer ${sessionid}";
+  Map<String, String> headers = {
+    'Authorization': Token,
+    'Cookie': 'csrftoken=EjpRTP1IPaRhtaAA6IPAlsiVVC9ulKVC; sessionid=ovlqdbnfns7r34ehiaw7vigxgawxxysf', // Replace with your actual Cookie values
   };
   return headers;
 }

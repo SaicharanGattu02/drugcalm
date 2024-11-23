@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drugcalm/Authentication/SignInWithEmail.dart';
 import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,34 +16,83 @@ class VerificationDetails extends StatefulWidget {
 }
 
 class _VerificationDetailsState extends State<VerificationDetails> {
-  final TextEditingController _businessRegistraionController =
-      TextEditingController();
-  final TextEditingController _expiryController = TextEditingController();
+  String validatebusinessRegistraiondoc = "";
+  String validatedruglicensedoc = "";
+  String validategstdoc = "";
+  String validateaddressdoc = "";
+  String validateowneriddoc = "";
+  String validatemuncipaldoc = "";
+  String validatepandoc = "";
+  String validateaadhar = "";
 
-  String validatebusinessRegistraion = "";
-  String? fileName; // To store the name of the selected file
-  String? filePath; // To store the path of the selected file
 
-  // Method to pick a file
-  Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowMultiple:
-          false, // Set to true if you want to allow multiple file selections
-      type: FileType
-          .any, // You can specify the file types you want to allow (e.g. FileType.custom, FileType.image)
-    );
+// Variables to store filenames for each document type
+  String? register_doc_fileName;
+  String? drug_doc_fileName;
+  String? gst_doc_fileName;
+  String? address_doc_fileName;
+  String? owner_doc_fileName;
+  String? muncipal_doc_fileName;
+  String? aadhar_doc_fileName;
+  String? filePath;
+
+// List to store selected files
+  List<Map<String, File>> selectedFiles = [];
+
+// Function to pick files for any document type
+  Future<void> pickDocument(String documentType) async {
+    // Allow the user to pick a single file
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
 
     if (result != null) {
-      // Get the first selected file
+      // Get the selected file
       PlatformFile file = result.files.first;
 
-      setState(() {
-        fileName = file.name; // Set the file name
-        filePath = file.path; // Set the file path
-      });
+      // Convert PlatformFile to File object
+      File selectedFile = File(file.path!);
+
+      // Dynamically assign the file name based on document type
+      if (documentType == "registration") {
+        register_doc_fileName = file.name;
+      } else if (documentType == "drug_license") {
+        drug_doc_fileName = file.name;
+      } else if (documentType == "gst_certificate") {
+        gst_doc_fileName = file.name;
+      } else if (documentType == "address_proof") {
+        address_doc_fileName = file.name;
+      } else if (documentType == "owner_id_proof") {
+        owner_doc_fileName = file.name;
+      } else if (documentType == "municipal_certificate") {
+        muncipal_doc_fileName = file.name;
+      } else if (documentType == "aadhar") {
+        aadhar_doc_fileName = file.name;
+      }
+
+      // Dynamically assign the file name based on document type
+
+      // Check if the document type already exists in the list
+      bool documentExists =
+      selectedFiles.any((entry) => entry.containsKey(documentType));
+
+      if (documentExists) {
+        // Update the existing entry for the document type
+        int index = selectedFiles
+            .indexWhere((entry) => entry.containsKey(documentType));
+        selectedFiles[index] = {documentType: selectedFile};
+        print('File updated for $documentType: ${file.name}');
+      } else {
+        // Add a new entry for the document type
+        selectedFiles.add({
+          documentType: selectedFile,
+        });
+        print('File added for $documentType: ${file.name}');
+      }
+
+      // Optionally, print the selected files for debugging
+      print('File selected for $documentType: ${file.name}');
+      print('selected files $selectedFiles');
     } else {
-      // User canceled the file picker
-      print('No file selected');
+      print('No file selected for $documentType');
     }
   }
 
@@ -90,8 +141,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                       ),
                       Expanded(
                           child: SingleChildScrollView(
-                        child:
-                        Column(
+                        child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -107,80 +157,494 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                 height: h * 0.01,
                               ),
                               Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Documents",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                          pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
+                                    Expanded(
+                                      child: Text(
+                                        register_doc_fileName!=null?
+                                        register_doc_fileName??"":
+                                        "Upload Documents", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("registration");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w400,
-                                          )),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
+                                  ],
                                 ),
                               ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
+                              if (validatebusinessRegistraiondoc
+                                  .isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validatebusinessRegistraiondoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+                              text(context, 'Drug License', 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload Drug License", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("drug_license");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validatedruglicensedoc.isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validatedruglicensedoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              text(context, 'GST Certificate', 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload GST Certificate", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("gst_certificate");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validategstdoc.isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validategstdoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              text(context, 'Proof of Address', 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload Proof of Address", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("address_proof");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validateaddressdoc.isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validateaddressdoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              text(context, "Owner's ID Proof", 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload Owner's ID Proof", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("owner_id_proof");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validateowneriddoc.isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validateowneriddoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              text(context, "Municipal Certificate", 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload municipal certificate", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("municipal_certificate");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validatemuncipaldoc.isNotEmpty) ...[
                                 Container(
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(
@@ -204,101 +668,166 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                               ] else ...[
                                 SizedBox(height: 15),
                               ],
-
-                              text(
-                                  context, 'Drug License', 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
+                              // SizedBox(
+                              //   height: h * 0.01,
+                              // ),
+                              // text(context, "Self Pan", 16,
+                              //     color: color18,
+                              //     fontWeight: FontWeight.w400,
+                              //     textAlign: TextAlign.center),
+                              // Container(
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(7),
+                              //     border: Border.all(
+                              //       color: Color(0xffd0cbdb),
+                              //       width: 1,
+                              //     ),
+                              //     color: Colors.white, // Background color
+                              //   ),
+                              //   child: Row(
+                              //     children: [
+                              //       SizedBox(
+                              //         width: 10,
+                              //       ),
+                              //       Expanded(
+                              //         child: Text(
+                              //           "Upload Self Pan", // This acts as the hint text
+                              //           style: TextStyle(
+                              //             fontSize: 14,
+                              //             color: Color(0xffAFAFAF),
+                              //             fontWeight: FontWeight.w400,
+                              //             fontFamily: 'Inter',
+                              //             letterSpacing: 0,
+                              //             height: 19.36 / 14,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       GestureDetector(
+                              //         onTap:(){
+                              //           pickDocument("municipal_certificate");
+                              //         } ,
+                              //         child: Container(
+                              //           padding: EdgeInsets.symmetric(
+                              //               horizontal: 10, vertical: 4),
+                              //           margin: EdgeInsets.all(8),
+                              //           decoration: BoxDecoration(
+                              //             color:
+                              //                 color1, // The color for the upload button
+                              //             borderRadius:
+                              //                 BorderRadius.circular(8),
+                              //           ),
+                              //           child: Text(
+                              //             'Upload', // Button text
+                              //             style: TextStyle(
+                              //               color:
+                              //                   color4, // The color for the button text
+                              //               fontSize: 15,
+                              //               fontWeight: FontWeight.w400,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // if (validatepandoc.isNotEmpty) ...[
+                              //   Container(
+                              //     alignment: Alignment.topLeft,
+                              //     margin: EdgeInsets.only(
+                              //         left: 8, bottom: 10, top: 5),
+                              //     width:
+                              //         MediaQuery.of(context).size.width * 0.6,
+                              //     child: ShakeWidget(
+                              //       key: Key("value"),
+                              //       duration: Duration(milliseconds: 700),
+                              //       child: Text(
+                              //         validatepandoc,
+                              //         style: TextStyle(
+                              //           fontFamily: "Poppins",
+                              //           fontSize: 12,
+                              //           color: Colors.red,
+                              //           fontWeight: FontWeight.w500,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ] else ...[
+                              //   SizedBox(height: 15),
+                              // ],
                               SizedBox(
                                 height: h * 0.01,
                               ),
+                              text(context, "Aadhar", 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
                               Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Drug License",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.symmetric(horizontal: 6,vertical: 6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
                                   ),
-                                  textAlignVertical: TextAlignVertical.center,
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Upload Aadhar", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("aadhar");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              color1, // The color for the upload button
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                                color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
+                              if (validateaadhar.isNotEmpty) ...[
                                 Container(
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                  MediaQuery.of(context).size.width * 0.6,
+                                      MediaQuery.of(context).size.width * 0.6,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
                                     child: Text(
-                                      'Upload Documents',
+                                      validateaadhar,
                                       style: TextStyle(
                                         fontFamily: "Poppins",
                                         fontSize: 12,
@@ -314,775 +843,13 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                               SizedBox(
                                 height: h * 0.01,
                               ),
-                              text(
-                                  context, 'GST Certificate', 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload GST Certificate",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ),
-                              text(
-                                  context, 'Proof of Address', 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Proof of Address",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ),
-
-                              text(
-                                  context, "Owner's ID Proof", 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Owner's ID Proof",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ), text(
-                                  context, "Municipal Certificate", 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload municipal certificate",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ),
-                            text(
-                                  context, "Self Pan", 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Self Pan",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ), text(
-                                  context, "Municipal Certificate", 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload municipal certificate",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-                              SizedBox(
-                                height: h * 0.01,
-                              ), text(
-                                  context, "Aadhar", 16,
-                                  color: color18,
-                                  fontWeight: FontWeight.w400,
-                                  textAlign: TextAlign.center),
-
-
-                              Container(
-                                height:
-                                MediaQuery.of(context).size.height * 0.050,
-                                child: TextFormField(
-                                  controller: _businessRegistraionController,
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Color(0xff8856F4),
-                                  onTap: () {
-                                    // closeDropdown(); // You can handle dropdown close here if needed
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  onChanged: (v) {
-                                    setState(() {
-                                      // validatebusinessRegistraion = "";
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Upload Aadhar",
-                                    hintStyle: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      letterSpacing: 0,
-                                      height: 19.36 / 14,
-                                      color: Color(0xffAFAFAF),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    filled: true,
-                                    suffixIcon: GestureDetector(
-                                      onTap:
-                                      pickFile, // Trigger file picker on tap
-                                      child: container(context,
-                                          padding: EdgeInsets.all(4),
-                                          margin: EdgeInsets.all(6),
-                                          colors: color1,
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                          child: text(
-                                            context,
-                                            color: color4,
-                                            'Upload',
-                                            14,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ),
-                                    fillColor: const Color(0xffffffff),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: Color(0xffd0cbdb)),
-                                    ),
-                                  ),
-                                  textAlignVertical: TextAlignVertical.center,
-                                ),
-                              ),
-                              if (validatebusinessRegistraion.isNotEmpty) ...[
-
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      left: 8, bottom: 10, top: 5),
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.6,
-                                  child: ShakeWidget(
-                                    key: Key("value"),
-                                    duration: Duration(milliseconds: 700),
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
-                                SizedBox(height: 15),
-                              ],
-
-                              SizedBox(
-                                height: h * 0.01,
-                              ),
-
-                              containertext1(context, 'CONTINUE',onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInWithEmail()));
-
+                              containertext1(context, 'CONTINUE', onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SignInWithEmail()));
                               })
-
-
                             ]),
                       ))
                     ]))));

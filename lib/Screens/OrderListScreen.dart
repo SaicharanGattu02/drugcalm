@@ -216,12 +216,13 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                       itemBuilder: (BuildContext context, int index) {
                         final OrderListData = orders_list[index];
                         return
-                          InkResponse(onTap: (){
+                          InkResponse(
+                            onTap: (){
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        OrderDetailScreen(id: "")));
+                                        OrderDetailScreen(id: OrderListData.id??"")));
                           },
                             child: container(context,
                               colors: color4,

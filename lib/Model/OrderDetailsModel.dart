@@ -5,10 +5,10 @@ class Product {
   final String manufactureCompany;
   final String image;
   final double margin;
-  final int quantity;
+  final String quantity;
   final String productForm;
   final double? rating;
-  final bool isBlocked;
+  final bool? isBlocked; // make this nullable
   final bool bestSeller;
   final String medicineCategory;
   final String usagePurpose;
@@ -28,7 +28,7 @@ class Product {
     required this.quantity,
     required this.productForm,
     this.rating,
-    required this.isBlocked,
+    this.isBlocked, // make this nullable
     required this.bestSeller,
     required this.medicineCategory,
     required this.usagePurpose,
@@ -47,10 +47,10 @@ class Product {
       manufactureCompany: json['manufacture_company'],
       image: json['image'],
       margin: json['margin'].toDouble(),
-      quantity: json['quantity'],
+      quantity: json['quantity'].toString(),  // Convert quantity to string
       productForm: json['product_form'],
       rating: json['rating'] != null ? json['rating'].toDouble() : null,
-      isBlocked: json['is_blocked'],
+      isBlocked: json['is_blocked'], // Nullable
       bestSeller: json['best_seller'],
       medicineCategory: json['medicine_category'],
       usagePurpose: json['usage_purpose'],
@@ -61,6 +61,7 @@ class Product {
       isInWishlist: json['is_in_wishlist'],
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -85,7 +86,6 @@ class Product {
     };
   }
 }
-
 class Item {
   final String id;
   final Product product;

@@ -7,10 +7,12 @@ import '../Model/AddressListModel.dart';
 import '../Model/AdressDeatilsModel.dart';
 import '../Model/BLockListModel.dart';
 import '../Model/BrandsModel.dart';
+import '../Model/BusinessTypesModel.dart';
 import '../Model/CategoriesModel.dart';
 import '../Model/GetCartListModel.dart';
 import '../Model/OrderDetailsModel.dart';
 import '../Model/OrdersListModel.dart';
+import '../Model/OutletModel.dart';
 import '../Model/ProductsListModel.dart';
 import '../Model/RegisterModel.dart';
 import '../Model/ShippingDetailsModel.dart';
@@ -111,14 +113,12 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> addAdress(
-    String pincode,
-    String mobile,
-    String address,
-    String address_type,
-    String fullname,
-    String alternate,
-  ) async {
+  static Future<RegisterModel?> addAdress(String pincode,
+      String mobile,
+      String address,
+      String address_type,
+      String fullname,
+      String alternate,) async {
     try {
       // Define the form data
       final Map<String, String> formData = {
@@ -149,15 +149,13 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> updateAdress(
-    String id,
-    String pincode,
-    String mobile,
-    String address,
-    String address_type,
-    String fullname,
-    String alternate,
-  ) async {
+  static Future<RegisterModel?> updateAdress(String id,
+      String pincode,
+      String mobile,
+      String address,
+      String address_type,
+      String fullname,
+      String alternate,) async {
     try {
       // Define the form data
       final Map<String, String> formData = {
@@ -266,7 +264,167 @@ class Userapi {
     }
   }
 
+  static Future<BusinessTypesModel?> getBusinessTypes() async {
+    try {
+      // Define the URL
+      final url = Uri.parse("${host}/api/business-types");
+      final headers = await getheader1();
+      // Send the GET request with the headers
+      final response = await http.get(url, headers: headers);
+      // print("response:${response.body}");
 
+      // Check if the response is successful (status code 200)
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("getBusinessTypes response: ${response.body}");
+
+        // Parse the JSON response into a BusinessTypesModel object
+        return BusinessTypesModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+  static Future<OutletModel?> getOutlet() async {
+    try {
+      // Define the URL
+      final url = Uri.parse("${host}/api/outlets");
+      final headers = await getheader1();
+      // Send the GET request with the headers
+      final response = await http.get(url, headers: headers);
+      // print("response:${response.body}");
+
+      // Check if the response is successful (status code 200)
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("getBusinessTypes response: ${response.body}");
+
+        // Parse the JSON response into a BusinessTypesModel object
+        return OutletModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+
+  static Future<RegisterModel?> AddBusinessOutlet(name, business_type, sub_type,
+      location, prem_type, File image) async {
+    // URL
+    final url = Uri.parse('${host}/api/outlets');
+
+    // Get headers (Authorization token)
+    final headers = await getheader();
+
+    // Create a MultipartRequest
+    var request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = headers // Add Bearer token
+      ..fields['name'] = name
+      ..fields['business_type'] = business_type
+      ..fields['sub_type'] = sub_type
+      ..fields['location'] = location
+      ..fields['prem_type'] = prem_type;
+
+    try {
+      // Adding the image file (replace with correct file path)
+
+      var imageFile = await http.MultipartFile.fromPath(
+        'image',
+        image.path, // Get the path of the image file
+        contentType: MediaType(
+            'image', 'jpeg'), // Set content type (change as needed)
+      );
+      request.files.add(imageFile);
+
+      // Send the request
+      var response = await request.send();
+
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        // Collect response body from stream
+        var responseBody = await response.stream.bytesToString();
+
+        // Print the response (optional)
+        print("getBusinessTypes response: $responseBody");
+
+        // Parse the JSON response into a RegisterModel object
+        final jsonResponse = jsonDecode(responseBody);
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Handle any error that occurs during the request
+      print('Error: $e');
+      return null;
+    }
+  }
+
+
+  static Future<RegisterModel?> AddBusinessDetailsApi(outlet,
+      registration_number,
+      license_number,
+      drug_license_no,
+      drug_license_expire,
+      gst,
+      pan,
+      municipal_license_number,
+      geolocation,
+      outlet_count) async {
+    var url = Uri.parse('${host}/api/business');
+    var request = http.MultipartRequest('POST', url);
+    // Adding form fields
+    // Get headers (Authorization token)
+    final headers = await getheader();
+    request.headers['Authorization'] = headers; // Add Bearer token
+    request.fields['outlet'] = outlet;
+    request.fields['registration_number'] = registration_number;
+    request.fields['license_number'] = license_number;
+    request.fields['drug_license_no'] = drug_license_no;
+    request.fields['drug_license_expire'] = drug_license_expire;
+    request.fields['gst'] = gst;
+    request.fields['pan'] = pan;
+    request.fields['municipal_license_number'] = municipal_license_number;
+    request.fields['geolocation'] = geolocation;
+    request.fields['outlet_count'] = outlet_count;
+
+
+    print("request fields:${request.fields}");
+
+    try {
+      var response = await request.send();
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        // Collect response body from stream
+        var responseBody = await response.stream.bytesToString();
+
+        // Print the response (optional)
+        print("getBusinessTypes response: $responseBody");
+
+        // Parse the JSON response into a RegisterModel object
+        final jsonResponse = jsonDecode(responseBody);
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+    }
+    return null;
+  }
 
   static Future<ShippingDetailsModel?> getShippingDetails() async {
     try {
@@ -288,11 +446,10 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> placeOrder(
-    String order_value,
-    String address,
-    List<String> items, // Changed to accept a list of items
-  ) async {
+  static Future<RegisterModel?> placeOrder(String order_value,
+      String address,
+      List<String> items, // Changed to accept a list of items
+      ) async {
     // Set the URL of your API
     final url = Uri.parse('${host}/api/orders');
 
@@ -342,9 +499,9 @@ class Userapi {
   static Future<CategoriesModel?> getCategories() async {
     try {
       final url =
-          Uri.parse("$host/api/categories"); // Adjusted the endpoint URL
+      Uri.parse("$host/api/categories"); // Adjusted the endpoint URL
       final headers =
-          await getheader1(); // Ensuring headers are fetched asynchronously
+      await getheader1(); // Ensuring headers are fetched asynchronously
       final response = await http.get(
         url,
         headers: headers,
@@ -372,7 +529,7 @@ class Userapi {
     try {
       final url = Uri.parse("$host/api/brands"); // Adjusted the endpoint URL
       final headers =
-          await getheader1(); // Ensuring headers are fetched asynchronously
+      await getheader1(); // Ensuring headers are fetched asynchronously
       final response = await http.get(
         url,
         headers: headers,
@@ -511,13 +668,11 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> updateprofile(
-    String id,
-    String pincode,
-    String mobile,
-    String address,
-    String address_type,
-  ) async {
+  static Future<RegisterModel?> updateprofile(String id,
+      String pincode,
+      String mobile,
+      String address,
+      String address_type,) async {
     try {
       // Define the form data
       final Map<String, String> formData = {
@@ -565,7 +720,7 @@ class Userapi {
 
       // Add headers (use your token and necessary headers here)
       final headers =
-          await getheader1(); // Assuming you have a function to get headers
+      await getheader1(); // Assuming you have a function to get headers
       request.headers.addAll(headers);
 
       // Add fields (name, mobile, email)
@@ -582,7 +737,7 @@ class Userapi {
             'image', // The name of the file field in your API
             image.path,
             contentType:
-                MediaType.parse(mimeType!), // Ensure mime type is non-null
+            MediaType.parse(mimeType!), // Ensure mime type is non-null
           ),
         );
       }
@@ -609,8 +764,8 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> updateHealthInformation(
-      String Age, String blood, String height, String Weight) async {
+  static Future<RegisterModel?> updateHealthInformation(String Age,
+      String blood, String height, String Weight) async {
     try {
       final Map<String, String> formData = {
         'age': Age,
@@ -655,10 +810,11 @@ class Userapi {
       print("Error occurred: $e");
       return null;
     }
-    }
+  }
 
   //
-  static Future<RegisterModel?> addCartQuanitity(String productID, String quantity) async {
+  static Future<RegisterModel?> addCartQuanitity(String productID,
+      String quantity) async {
     try {
       Map<String, String> data = {
         "product": productID,
@@ -687,9 +843,11 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> updateCartQuanitity(String productID,String quantity) async {
+  static Future<RegisterModel?> updateCartQuanitity(String productID,
+      String quantity) async {
     try {
-      final url = Uri.parse("${host}/api/update-cart/$productID?quantity=${quantity}");
+      final url = Uri.parse(
+          "${host}/api/update-cart/$productID?quantity=${quantity}");
       final headers = await getheader2();
       final response = await http.put(
         url,
@@ -725,13 +883,13 @@ class Userapi {
     } catch (e) {
       // Catch any exceptions (e.g., network failure, JSON parsing error)
       print("Error occurred: $e");
-      return null ;
+      return null;
     }
   }
 
 
-
-  static Future<ProductsDetailsModel?> getProductDetails(String? product_id) async {
+  static Future<ProductsDetailsModel?> getProductDetails(
+      String? product_id) async {
     try {
       final url = Uri.parse("$host/api/item-details/${product_id}");
       final headers = await getheader1();
@@ -782,7 +940,7 @@ class Userapi {
 
   static Future<OrderResponse?> getOrderDetails(String id) async {
     try {
-      final url = Uri.parse("${host}/api/order-details/912a5a18-c5fc-47db-b954-efeaf81819ec");
+      final url = Uri.parse("${host}/api/order-details/$id");
       final headers = await getheader1();
       final response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
@@ -872,6 +1030,7 @@ class Userapi {
     }
   }
 
-
 }
+
+
 

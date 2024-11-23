@@ -78,7 +78,7 @@ class _OtpVerifyState extends State<OtpVerify> {
           _isLoading = false;
           PreferenceService().saveString('token', res.data?.access ?? "");
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Dashbord()));
+              context, MaterialPageRoute(builder: (context) => RegistraionTypes()));
         } else {
           _isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
