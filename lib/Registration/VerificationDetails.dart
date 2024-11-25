@@ -5,6 +5,8 @@ import 'package:drugcalm/Screens/dashboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../Services/UserApi.dart';
+import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
 import '../utils/constants.dart';
 
@@ -35,6 +37,71 @@ class _VerificationDetailsState extends State<VerificationDetails> {
   String? muncipal_doc_fileName;
   String? aadhar_doc_fileName;
   String? filePath;
+  String? pan_doc_filename;
+
+  bool _loading = false;
+
+  void _validateDocuments() {
+    setState(() {
+      _loading = true;
+
+      // Validation for Business Registration document
+      validatebusinessRegistraiondoc = register_doc_fileName==null
+          ? "Please upload the Business Registration document"
+          : "";
+
+      // Validation for Drug License document
+      validatedruglicensedoc = drug_doc_fileName==null
+          ? "Please upload the Drug License document"
+          : "";
+
+      // Validation for GST document
+      validategstdoc = gst_doc_fileName==null
+          ? "Please upload the GST document"
+          : "";
+
+      // Validation for Address document
+      validateaddressdoc = address_doc_fileName==null
+          ? "Please upload the Address document"
+          : "";
+
+      // Validation for Owner ID document
+      validateowneriddoc = owner_doc_fileName==null
+          ? "Please upload the Owner ID document"
+          : "";
+
+      // Validation for Municipal document
+      validatemuncipaldoc = muncipal_doc_fileName==null
+          ? "Please upload the Municipal document"
+          : "";
+
+      // Validation for PAN document
+      validatepandoc = pan_doc_filename==null
+          ? "Please upload the PAN document"
+          : "";
+
+      // Validation for Aadhar document
+      validateaadhar = aadhar_doc_fileName==null
+          ? "Please upload the Aadhar document"
+          : "";
+      // Check if all document validation fields are empty, indicating successful validation
+      if (validatebusinessRegistraiondoc.isEmpty &&
+          validatedruglicensedoc.isEmpty &&
+          validategstdoc.isEmpty &&
+          validateaddressdoc.isEmpty &&
+          validateowneriddoc.isEmpty &&
+          validatemuncipaldoc.isEmpty &&
+          validatepandoc.isEmpty &&
+          validateaadhar.isEmpty) {
+        // Proceed with your next step (e.g., API call)
+        UploadFilesApiApi();
+      } else {
+        // Stop the loading state if validations failed
+        _loading = false;
+      }
+    });
+  }
+
 
 // List to store selected files
   List<Map<String, File>> selectedFiles = [];
@@ -51,22 +118,26 @@ class _VerificationDetailsState extends State<VerificationDetails> {
       // Convert PlatformFile to File object
       File selectedFile = File(file.path!);
 
-      // Dynamically assign the file name based on document type
-      if (documentType == "registration") {
-        register_doc_fileName = file.name;
-      } else if (documentType == "drug_license") {
-        drug_doc_fileName = file.name;
-      } else if (documentType == "gst_certificate") {
-        gst_doc_fileName = file.name;
-      } else if (documentType == "address_proof") {
-        address_doc_fileName = file.name;
-      } else if (documentType == "owner_id_proof") {
-        owner_doc_fileName = file.name;
-      } else if (documentType == "municipal_certificate") {
-        muncipal_doc_fileName = file.name;
-      } else if (documentType == "aadhar") {
-        aadhar_doc_fileName = file.name;
-      }
+      setState(() {
+        // Dynamically assign the file name based on document type
+        if (documentType == "registration") {
+          register_doc_fileName = file.name;
+        } else if (documentType == "drug_license") {
+          drug_doc_fileName = file.name;
+        } else if (documentType == "gst_certificate") {
+          gst_doc_fileName = file.name;
+        } else if (documentType == "address_proof") {
+          address_doc_fileName = file.name;
+        } else if (documentType == "owner_id_proof") {
+          owner_doc_fileName = file.name;
+        } else if (documentType == "municipal_certificate") {
+          muncipal_doc_fileName = file.name;
+        } else if (documentType == "aadhar") {
+          aadhar_doc_fileName = file.name;
+        }else if(documentType == "pan"){
+          pan_doc_filename= file.name;
+        }
+      });
 
       // Dynamically assign the file name based on document type
 
@@ -95,6 +166,23 @@ class _VerificationDetailsState extends State<VerificationDetails> {
       print('No file selected for $documentType');
     }
   }
+
+  Future<void> UploadFilesApiApi() async{
+      var res = await Userapi.uploadFiles(selectedFiles);
+      if (res != null) {
+        setState(() {
+          if (res.settings?.success == 1) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        SignInWithEmail()));
+          } else {
+            CustomSnackBar.show(context, res.settings?.message ?? "");
+          }
+        });
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +308,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                      MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -261,6 +349,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        drug_doc_fileName!=null?
+                                        drug_doc_fileName??"":
                                         "Upload Drug License", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -306,7 +396,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -347,6 +437,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        gst_doc_fileName!=null?
+                                        gst_doc_fileName??"":
                                         "Upload GST Certificate", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -392,7 +484,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -433,6 +525,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        address_doc_fileName!=null?
+                                        address_doc_fileName??"":
                                         "Upload Proof of Address", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -478,7 +572,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -519,6 +613,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        owner_doc_fileName!=null?
+                                        owner_doc_fileName??"":
                                         "Upload Owner's ID Proof", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -564,7 +660,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -605,6 +701,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        muncipal_doc_fileName!=null?
+                                        muncipal_doc_fileName??"":
                                         "Upload municipal certificate", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -650,12 +748,12 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
                                     child: Text(
-                                      'Upload Documents',
+                                    validatemuncipaldoc,
                                       style: TextStyle(
                                         fontFamily: "Poppins",
                                         fontSize: 12,
@@ -668,92 +766,96 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                               ] else ...[
                                 SizedBox(height: 15),
                               ],
-                              // SizedBox(
-                              //   height: h * 0.01,
-                              // ),
-                              // text(context, "Self Pan", 16,
-                              //     color: color18,
-                              //     fontWeight: FontWeight.w400,
-                              //     textAlign: TextAlign.center),
-                              // Container(
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(7),
-                              //     border: Border.all(
-                              //       color: Color(0xffd0cbdb),
-                              //       width: 1,
-                              //     ),
-                              //     color: Colors.white, // Background color
-                              //   ),
-                              //   child: Row(
-                              //     children: [
-                              //       SizedBox(
-                              //         width: 10,
-                              //       ),
-                              //       Expanded(
-                              //         child: Text(
-                              //           "Upload Self Pan", // This acts as the hint text
-                              //           style: TextStyle(
-                              //             fontSize: 14,
-                              //             color: Color(0xffAFAFAF),
-                              //             fontWeight: FontWeight.w400,
-                              //             fontFamily: 'Inter',
-                              //             letterSpacing: 0,
-                              //             height: 19.36 / 14,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       GestureDetector(
-                              //         onTap:(){
-                              //           pickDocument("municipal_certificate");
-                              //         } ,
-                              //         child: Container(
-                              //           padding: EdgeInsets.symmetric(
-                              //               horizontal: 10, vertical: 4),
-                              //           margin: EdgeInsets.all(8),
-                              //           decoration: BoxDecoration(
-                              //             color:
-                              //                 color1, // The color for the upload button
-                              //             borderRadius:
-                              //                 BorderRadius.circular(8),
-                              //           ),
-                              //           child: Text(
-                              //             'Upload', // Button text
-                              //             style: TextStyle(
-                              //               color:
-                              //                   color4, // The color for the button text
-                              //               fontSize: 15,
-                              //               fontWeight: FontWeight.w400,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // if (validatepandoc.isNotEmpty) ...[
-                              //   Container(
-                              //     alignment: Alignment.topLeft,
-                              //     margin: EdgeInsets.only(
-                              //         left: 8, bottom: 10, top: 5),
-                              //     width:
-                              //         MediaQuery.of(context).size.width * 0.6,
-                              //     child: ShakeWidget(
-                              //       key: Key("value"),
-                              //       duration: Duration(milliseconds: 700),
-                              //       child: Text(
-                              //         validatepandoc,
-                              //         style: TextStyle(
-                              //           fontFamily: "Poppins",
-                              //           fontSize: 12,
-                              //           color: Colors.red,
-                              //           fontWeight: FontWeight.w500,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ] else ...[
-                              //   SizedBox(height: 15),
-                              // ],
+
+                              SizedBox(
+                                height: h * 0.01,
+                              ),
+                              text(context, "PAN", 16,
+                                  color: color18,
+                                  fontWeight: FontWeight.w400,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: Color(0xffd0cbdb),
+                                    width: 1,
+                                  ),
+                                  color: Colors.white, // Background color
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        pan_doc_filename!=null?
+                                        pan_doc_filename??"":
+                                        "Upload PAN", // This acts as the hint text
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffAFAFAF),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0,
+                                          height: 19.36 / 14,
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap:(){
+                                        pickDocument("pan");
+                                      } ,
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        margin: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color:
+                                          color1, // The color for the upload button
+                                          borderRadius:
+                                          BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          'Upload', // Button text
+                                          style: TextStyle(
+                                            color:
+                                            color4, // The color for the button text
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (validatepandoc.isNotEmpty) ...[
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(
+                                      left: 8, bottom: 10, top: 5),
+                                  width:
+                                  MediaQuery.of(context).size.width * 0.8,
+                                  child: ShakeWidget(
+                                    key: Key("value"),
+                                    duration: Duration(milliseconds: 700),
+                                    child: Text(
+                                      validatepandoc,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ] else ...[
+                                SizedBox(height: 15),
+                              ],
+
                               SizedBox(
                                 height: h * 0.01,
                               ),
@@ -777,6 +879,8 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                     ),
                                     Expanded(
                                       child: Text(
+                                        aadhar_doc_fileName!=null?
+                                        aadhar_doc_fileName??"":
                                         "Upload Aadhar", // This acts as the hint text
                                         style: TextStyle(
                                           fontSize: 14,
@@ -822,7 +926,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                   margin: EdgeInsets.only(
                                       left: 8, bottom: 10, top: 5),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                  MediaQuery.of(context).size.width * 0.8,
                                   child: ShakeWidget(
                                     key: Key("value"),
                                     duration: Duration(milliseconds: 700),
@@ -844,11 +948,7 @@ class _VerificationDetailsState extends State<VerificationDetails> {
                                 height: h * 0.01,
                               ),
                               containertext1(context, 'CONTINUE', onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SignInWithEmail()));
+                                _validateDocuments();
                               })
                             ]),
                       ))

@@ -372,6 +372,53 @@ class Userapi {
     }
   }
 
+  static Future<RegisterModel?> AddBasicDetails(
+      land_line_number,
+      mobile,
+      alternate_mobile,
+      full_name,
+      business_name,
+      email,
+      password
+      ) async {
+    final url = Uri.parse('${host}/api/basic-info');
+
+    // Get headers (Authorization token)
+    final headers = await getheader();
+
+    // Create a MultipartRequest
+    var request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = headers
+      ..fields['land_line_number'] = land_line_number
+      ..fields['mobile'] = mobile
+      ..fields['alternate_mobile'] = alternate_mobile
+      ..fields['full_name'] = full_name
+      ..fields['business_name'] = business_name
+      ..fields['password'] = password
+      ..fields['email'] = email;
+    try {
+      // Send the request
+      var response = await request.send();
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        // Collect response body from stream
+        var responseBody = await response.stream.bytesToString();
+        // Print the response (optional)
+        print("AddBasicDetails response: $responseBody");
+        // Parse the JSON response into a RegisterModel object
+        final jsonResponse = jsonDecode(responseBody);
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Handle any error that occurs during the request
+      print('Error: $e');
+      return null;
+    }
+  }
+
 
   static Future<RegisterModel?> AddBusinessDetailsApi(outlet,
       registration_number,
@@ -1027,6 +1074,55 @@ class Userapi {
     } catch (e) {
       print("Error occurred: $e");
       return null;
+    }
+  }
+
+
+static Future<RegisterModel?> uploadFiles(List<Map<String, File>> selectedFiles) async {
+    // API endpoint
+    final uri = Uri.parse('${host}/api/kyc');
+
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', uri);
+    // Get headers (Authorization token)
+    final headers = await getheader();
+
+    // Add cookie headers (similar to curl's --header)
+    request.headers['Authorization'] = headers;
+
+    // Add each file to the request from the selectedFiles list
+    for (var fileEntry in selectedFiles) {
+      // Assuming each map entry has a key-value pair where key is the document type and value is the file
+      fileEntry.forEach((key, file) async {
+        String fieldName = key;  // The key is the document type (e.g., 'registration', 'drug_license', etc.)
+        // Add the file to the request
+        request.files.add(await http.MultipartFile.fromPath(
+            fieldName,
+            file.path,
+            contentType: MediaType('application', 'octet-stream') // Adjust MIME type if necessary
+        ));
+      });
+    }
+
+    // Send the request
+    try {
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        // Collect response body from stream
+        var responseBody = await response.stream.bytesToString();
+
+        // Print the response (optional)
+        print("uploadFiles response: $responseBody");
+
+        // Parse the JSON response into a RegisterModel object
+        final jsonResponse = jsonDecode(responseBody);
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
     }
   }
 
