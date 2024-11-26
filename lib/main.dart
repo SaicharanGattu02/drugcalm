@@ -254,8 +254,7 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return ChangeNotifierProvider(
       create: (_) => LanguageProvider(),
-      child:
-          Consumer<LanguageProvider>(builder: (context, languageProvider, _) {
+      child: Consumer<LanguageProvider>(builder: (context, languageProvider, _) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Drug Calm',
