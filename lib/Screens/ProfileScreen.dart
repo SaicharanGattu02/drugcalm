@@ -49,6 +49,7 @@ class _ProfilescreenState extends State<Profilescreen> {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     var connectiVityStatus =Provider.of<ConnectivityProviders>(context);
+
     return
       (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
           connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
