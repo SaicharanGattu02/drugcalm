@@ -53,7 +53,6 @@ class _ProfilescreenState extends State<Profilescreen> {
       (connectiVityStatus.isDeviceConnected == "ConnectivityResult.wifi" ||
           connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
           ?
-
       Scaffold(
       appBar: CustomAppBar1(
         title: 'PROFILE',
