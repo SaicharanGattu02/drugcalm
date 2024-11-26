@@ -267,7 +267,6 @@ class MyApp extends StatelessWidget {
               Locale('hi'),
               Locale('te')
             ],
-
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
