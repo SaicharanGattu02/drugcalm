@@ -16,6 +16,7 @@ import '../Registration/BusinessDetails.dart';
 import '../Registration/Registration.dart';
 import '../Registration/VerificationDetails.dart';
 import '../Services/UserApi.dart';
+import '../providers/LanguageProvider.dart';
 import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
 import '../utils/ThemeProvider.dart';
@@ -35,7 +36,11 @@ class _SignInState extends State<SignIn> {
   bool _loading = false;
   final spinkits = Spinkits();
 
-  final List<String> _languages = ['English', 'Hindi', 'Spanish', 'French'];
+  // List of language names (displayed in the dropdown)
+  final List<String> _languages = ['English', 'Hindi', 'Telugu', 'French'];
+
+  // Corresponding language codes
+  final List<String> _languageCodes = ['en', 'hi', 'te', 'fr'];
 
   String validatemobile = "";
 
@@ -127,11 +132,11 @@ class _SignInState extends State<SignIn> {
                                       .watch<LanguageProvider>()
                                       .selectedLanguage,
                               hint: text(context, "Select language", 16),
-                              items: _languages.map((String language) {
+                              items: _languages.asMap().entries.map((entry) {
                                 return DropdownMenuItem<String>(
-                                  value: language,
+                                  value: _languageCodes[entry.key],  // Get the corresponding language code
                                   child: Text(
-                                    language,
+                                    entry.value,  // Display the language name
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Inter",

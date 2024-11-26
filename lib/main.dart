@@ -6,6 +6,7 @@ import 'package:drugcalm/providers/AddressProvider.dart';
 import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
+import 'package:drugcalm/providers/LanguageProvider.dart';
 import 'package:drugcalm/providers/ProductDetailsProvider.dart';
 import 'package:drugcalm/providers/ShippingDetailsProvider.dart';
 import 'package:drugcalm/providers/UserDetailsProvider.dart';
@@ -20,8 +21,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'Screens/Spalsh.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -258,6 +261,18 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Drug Calm',
             theme: themeProvider.themeData,
+            locale: context.watch<LanguageProvider>().locale,  // Use the locale from the LanguageProvider
+            supportedLocales: [
+              Locale('en'),
+              Locale('hi'),
+              Locale('te')
+            ],
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
             home: Splash());
       }),
     );

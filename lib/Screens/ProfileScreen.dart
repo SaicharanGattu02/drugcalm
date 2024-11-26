@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:drugcalm/Authentication/SignIn.dart';
 import 'package:drugcalm/Screens/My%20Profile.dart';
 import 'package:drugcalm/Screens/SavingsScreen.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
+import '../providers/LanguageProvider.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/Preferances.dart';
 import 'AddressList.dart';
@@ -35,6 +37,12 @@ class _ProfilescreenState extends State<Profilescreen> {
     Provider.of<ConnectivityProviders>(context,listen: false).dispose();
     super.dispose();
   }
+
+  // List of language names (displayed in the dropdown)
+  final List<String> _languages = ['English', 'Hindi', 'Telugu', 'French'];
+
+  // Corresponding language codes
+  final List<String> _languageCodes = ['en', 'hi', 'te', 'fr'];
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +140,79 @@ class _ProfilescreenState extends State<Profilescreen> {
             child: container(context,colors: color4,
               child:Column(
                 children: [
+                  Container(
+                      width: w * 0.72,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          // Ensure selectedLanguage is null or empty initially so that the hint appears
+                          value: context
+                              .watch<LanguageProvider>()
+                              .selectedLanguage
+                              .isEmpty
+                              ? null // Show the hint if the value is null or empty
+                              : context
+                              .watch<LanguageProvider>()
+                              .selectedLanguage,
+                          hint: text(context, "Select language", 16),
+                          items: _languages.asMap().entries.map((entry) {
+                            return DropdownMenuItem<String>(
+                              value: _languageCodes[entry.key],  // Get the corresponding language code
+                              child: Text(
+                                entry.value,  // Display the language name
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "Inter",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              context
+                                  .read<LanguageProvider>()
+                                  .setLanguage(newValue);
+                            }
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 45,
+                            width: double.infinity,
+                            padding:
+                            const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: Color(0xffE9F7FF),
+                                border: Border.all(color: color7)),
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 25,
+                            ),
+                            iconSize: 14,
+                            iconEnabledColor: Colors.black,
+                            iconDisabledColor: Colors.black,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.white,
+                            ),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility:
+                              MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                        ),
+                      )),
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(

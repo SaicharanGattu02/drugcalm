@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drugcalm/Screens/Brands.dart';
 import 'package:drugcalm/Screens/CartScreen.dart';
 import 'package:drugcalm/Screens/CategoriesScreen.dart';
-import 'package:drugcalm/Screens/Lab%20And%20Diagnosticlist.dart';
 import 'package:drugcalm/Screens/Notifications.dart';
 import 'package:drugcalm/Screens/ProductListScreen.dart';
 import 'package:drugcalm/Screens/ProfileScreen.dart';
@@ -11,10 +10,10 @@ import 'package:drugcalm/providers/UserDetailsProvider.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/CategoriesProvider.dart';
 import '../utils/CustomSnackBar.dart';
-import 'ProductDetails.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -304,8 +303,8 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Row(
                   children: [
-                    Text(
-                      "Search by molicule",
+                    Text(AppLocalizations.of(context)!.search_by_molecule,
+                      // "Search by molicule",
                       style: TextStyle(
                           color: color,
                           fontWeight: FontWeight.w400,
