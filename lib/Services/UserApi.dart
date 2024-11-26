@@ -113,6 +113,7 @@ class Userapi {
       return null;
     }
   }
+
   static Future<VerifyOtpModel?> VerifyOtp(String phone, String otp) async {
     try {
       Map<String, String> data = {

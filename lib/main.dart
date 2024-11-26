@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
@@ -24,22 +23,18 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'Screens/Spalsh.dart';
 
-
-
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
     description:
-    'This channel is used for important notifications.', // description
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
     playSound: true);
 
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,13 +44,13 @@ Future<void> main() async {
 
   Platform.isAndroid
       ? await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyDShmgh6N_1u5M7gKpi6Vz7KdltNN2Tsy4",
-      appId: "1:90500457023:android:07d5f4d9c3d045d60dce8a",
-      messagingSenderId: "90500457023",
-      projectId: "drugcalm-b58c5",
-    ),
-  )
+          options: FirebaseOptions(
+            apiKey: "AIzaSyDShmgh6N_1u5M7gKpi6Vz7KdltNN2Tsy4",
+            appId: "1:90500457023:android:07d5f4d9c3d045d60dce8a",
+            messagingSenderId: "90500457023",
+            projectId: "drugcalm-b58c5",
+          ),
+        )
       : await Firebase.initializeApp();
 
   FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
@@ -122,7 +117,7 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   const InitializationSettings initializationSettings = InitializationSettings(
@@ -187,27 +182,26 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => AddressListProvider(
-            // shippingDetailsProvider: Provider.of<ShippingDetailsProvider>(context, listen: false),
-          ),
+              // shippingDetailsProvider: Provider.of<ShippingDetailsProvider>(context, listen: false),
+              ),
         ),
         ChangeNotifierProvider(
           create: (context) => ProductListProvider(),
         ),
         ChangeNotifierProxyProvider<ProductListProvider, WishlistProvider>(
-          create: (context) => WishlistProvider(context.read<ProductListProvider>()),
+          create: (context) =>
+              WishlistProvider(context.read<ProductListProvider>()),
           update: (context, productListProvider, wishlistProvider) =>
-          wishlistProvider!..updateProductListProvider(productListProvider),
+              wishlistProvider!..updateProductListProvider(productListProvider),
         ),
         ChangeNotifierProvider(
-          create: (context) => CartProvider(
-          ),
+          create: (context) => CartProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => ShippingDetailsProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ProductDetailsProvider(
-          ),
+          create: (context) => ProductDetailsProvider(),
         ),
       ],
       child: const MyApp(),
@@ -230,7 +224,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void showNotification(RemoteNotification notification,
     AndroidNotification android, Map<String, dynamic> data) async {
   AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails(
+      AndroidNotificationDetails(
     'skil_channel_id',
     'skil_channel_name',
     importance: Importance.max,
@@ -239,7 +233,7 @@ void showNotification(RemoteNotification notification,
     icon: '@mipmap/drugclam',
   );
   NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics);
+      NotificationDetails(android: androidPlatformChannelSpecifics);
 
   await flutterLocalNotificationsPlugin.show(
     notification.hashCode,
@@ -250,20 +244,22 @@ void showNotification(RemoteNotification notification,
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Drug Calm',
-      theme: themeProvider.themeData,
-        home:Splash()
+    return ChangeNotifierProvider(
+      create: (_) => LanguageProvider(),
+      child:
+          Consumer<LanguageProvider>(builder: (context, languageProvider, _) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Drug Calm',
+            theme: themeProvider.themeData,
+            home: Splash());
+      }),
     );
   }
 }
-
-
