@@ -19,17 +19,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       leading: Container(),
       leadingWidth: 10,
-      title:Row(
+      title:
+      Row(
         children: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              // color: Color(0xffffffff),
-            ),
-          ),
+          // InkWell(
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          //   child: const Icon(
+          //     Icons.arrow_back,
+          //     // color: Color(0xffffffff),
+          //   ),
+          // ),
           SizedBox(width: 15,),
           text(context,title, 18,fontWeight: FontWeight.w700),
         ],

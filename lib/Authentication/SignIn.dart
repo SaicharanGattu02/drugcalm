@@ -5,6 +5,7 @@ import 'package:drugcalm/Authentication/SignInWithEmail.dart';
 import 'package:drugcalm/Registration/BasicInformation.dart';
 import 'package:drugcalm/utils/ColorConstrants.dart';
 import 'package:drugcalm/utils/CustomAppBar.dart';
+import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../Model/LanguageModel.dart';
 import '../Registration/BusinessDetails.dart';
 import '../Registration/Registration.dart';
 import '../Registration/VerificationDetails.dart';
@@ -94,6 +96,30 @@ class _SignInState extends State<SignIn> {
   }
 
   @override
+  void initState() {
+    getLanguageList();
+    super.initState();
+  }
+
+  List<Data> data=[];
+
+Future<void> getLanguageList() async {
+    var res = await Userapi.getLanguage();
+    if(res != null){
+      setState(() {
+        if(res.settings?.success==1){
+          data=res.data??[];
+        }else
+          {
+
+          }
+      });
+
+    }
+}
+
+
+  @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
@@ -119,7 +145,8 @@ class _SignInState extends State<SignIn> {
                     children: [
                       Container(
                           width: w * 0.72,
-                          child: DropdownButtonHideUnderline(
+                          child:
+                          DropdownButtonHideUnderline(
                             child: DropdownButton2<String>(
                               isExpanded: true,
                               // Ensure selectedLanguage is null or empty initially so that the hint appears
@@ -132,7 +159,7 @@ class _SignInState extends State<SignIn> {
                                       .watch<LanguageProvider>()
                                       .selectedLanguage,
                               hint: text(context, "Select language", 16),
-                              items: _languages.asMap().entries.map((entry) {
+                              items:_languages.asMap().entries.map((entry) {
                                 return DropdownMenuItem<String>(
                                   value: _languageCodes[entry.key],  // Get the corresponding language code
                                   child: Text(

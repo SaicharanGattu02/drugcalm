@@ -10,6 +10,7 @@ import '../Model/BrandsModel.dart';
 import '../Model/BusinessTypesModel.dart';
 import '../Model/CategoriesModel.dart';
 import '../Model/GetCartListModel.dart';
+import '../Model/LanguageModel.dart';
 import '../Model/OrderDetailsModel.dart';
 import '../Model/OrdersListModel.dart';
 import '../Model/OutletModel.dart';
@@ -1154,6 +1155,30 @@ static Future<RegisterModel?> uploadFiles(List<Map<String, File>> selectedFiles)
       print("Error occurred: $e");
     }
   }
+
+
+
+  static Future<LanguageModel?> getLanguage() async {
+    try {
+      final url = Uri.parse("${host}/api/language-codes");
+
+      final response = await http.get(url,);
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("getLanguage response: ${response.body}");
+        return LanguageModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Catch any exceptions (e.g., network failure, JSON parsing error)
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
+
 
 }
 
