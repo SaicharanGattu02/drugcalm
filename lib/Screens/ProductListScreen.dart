@@ -19,7 +19,8 @@ import '../utils/CustomSnackBar.dart';
 import '../utils/constants.dart';
 
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key});
+  String productid;
+   ProductListScreen({super.key,required this.productid});
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();

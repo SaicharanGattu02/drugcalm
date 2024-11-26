@@ -16,6 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       leading: Container(),
       leadingWidth: 10,
       title:Row(
@@ -34,33 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       )
 
-      // Text(
-      //   title,
-      //   textAlign: TextAlign.left,
-      //   style: const TextStyle(
-      //     fontfamily: 'Inter',
-      //     fontSize: 22,
-      //     color: Color(0xffffffff),
-      //     fontWeight: FontWeight.w500,
-      //     height: 26.05 / 22.0,
-      //   ),
-      // ),
-      // actions: actions.isNotEmpty
-      //     ? actions
-      //     : [
-      //   Padding(
-      //     padding: const EdgeInsets.only(right: 20),
-      //     child: InkWell(
-      //       onTap: onPlusTap ?? () {},
-      //       child: Image.asset(
-      //         "assets/Plus square.png",
-      //         width: 20,
-      //         height: 20,
-      //         fit: BoxFit.contain,
-      //       ),
-      //     ),
-      //   )
-      // ],
+
     );
   }
 

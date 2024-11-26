@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:drugcalm/providers/AddressProvider.dart';
+import 'package:drugcalm/providers/BlockedProvider.dart';
 import 'package:drugcalm/providers/CartProvider.dart';
 import 'package:drugcalm/providers/CategoriesProvider.dart';
 import 'package:drugcalm/providers/ConnectivityProviders.dart';
@@ -205,6 +206,11 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => ProductDetailsProvider(),
+        ),
+        ChangeNotifierProxyProvider<ProductDetailsProvider, BlockListProvider>(
+          create: (context) => BlockListProvider(context.read<ProductDetailsProvider>()),
+          update: (context, productDetailsprovider, blockListProvider) =>
+          blockListProvider!..updateProductDetailsProvider(productDetailsprovider),
         ),
       ],
       child: const MyApp(),

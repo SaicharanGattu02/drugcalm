@@ -1055,7 +1055,7 @@ class Userapi {
     }
   }
 
-  static Future<RegisterModel?> updateBlockListapi(String id) async {
+  static Future<RegisterModel?> removeBlockListapi(String id) async {
     try {
       final url = Uri.parse("${host}/api/update-block-list/${id}");
 
@@ -1063,7 +1063,7 @@ class Userapi {
       final response = await http.put(url, headers: headers);
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        print("updateBlockList response: ${response.body}");
+        print("removeBlockListapi response: ${response.body}");
         return RegisterModel.fromJson(jsonResponse);
       } else {
         print("Request failed with status: ${response.statusCode}");
@@ -1094,7 +1094,7 @@ class Userapi {
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        print("Response parsed successfully: $jsonResponse");
+        print("Added Item In Block List: $jsonResponse");
         return RegisterModel.fromJson(jsonResponse);
       } else {
         print("Request failed with status: ${response.statusCode}");

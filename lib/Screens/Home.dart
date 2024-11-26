@@ -603,7 +603,7 @@ class _HomeState extends State<Home> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ProductListScreen()));
+                                                      ProductListScreen(productid: "",)));
                                         },
                                         child: Column(
                                           children: [
@@ -703,7 +703,9 @@ class _HomeState extends State<Home> {
                                 height: h * 0.02,
                               ),
                               InkResponse(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductListScreen(productid: data.id ?? "",)));
+                                },
                                 child: Container(
                                     width: w * 0.3,
                                     padding: EdgeInsets.all(2),

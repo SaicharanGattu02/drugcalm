@@ -55,7 +55,7 @@ class _RegistraionTypesState extends State<RegistraionTypes> {
   int? _groupValue = 1;
   void _onChanged(int? value) {
     setState(() {
-      _groupValue = value; // Update selected value
+      _groupValue = value;
     });
   }
 

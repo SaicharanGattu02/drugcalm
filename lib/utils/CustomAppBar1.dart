@@ -19,7 +19,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
     var h = MediaQuery.of(context).size.height;
 
     return AppBar(
-      automaticallyImplyLeading: false, // Disable default back button
+      automaticallyImplyLeading: false,
       backgroundColor: color1,
       leading:Container(),
       leadingWidth: 0,
@@ -28,7 +28,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: Row(children: [ InkResponse(
           onTap: () {
-            Navigator.pop(context, true); // Custom back button behavior
+            Navigator.pop(context, true);
           },
           child: Row(
             children: [

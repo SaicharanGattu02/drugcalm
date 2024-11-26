@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:drugcalm/utils/CustomAppBar1.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../providers/UserDetailsProvider.dart';
+import '../utils/CustomAppBar.dart';
 import '../utils/ShakeWidget.dart';
 
 class MyProfile extends StatefulWidget {
@@ -130,14 +132,12 @@ class _MyProfileState extends State<MyProfile> {
     });
   }
 
-
   Future<void> userHealthInfo() async {
-
     final profile_provider =
+        Provider.of<UserDetailsProvider>(context, listen: false);
 
-    Provider.of<UserDetailsProvider>(context, listen: false);
-
-    var res= await profile_provider.updateHealthDetails(ageController.text, bloodGroup.text, heightController.text, WeightController.text);
+    var res = await profile_provider.updateHealthDetails(ageController.text,
+        bloodGroup.text, heightController.text, WeightController.text);
     setState(() {
       if (res == 1) {
         _loading = false;
@@ -148,13 +148,10 @@ class _MyProfileState extends State<MyProfile> {
       } else {
         _loading = false;
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Failed to update profile")
-        )
-        );
+            .showSnackBar(SnackBar(content: Text("Failed to update profile")));
       }
     });
   }
-
 
   Future<void> _fetchUserProfile() async {
     try {
@@ -170,13 +167,13 @@ class _MyProfileState extends State<MyProfile> {
           selectedGender = res.gender ?? "";
           // dateOfBirthController.text = res.dob ?? "";
           dateOfBirthController.text = res.dob != null
-              ? DateFormat('dd/MM/yyyy').format(DateTime.parse(res.dob??""))
+              ? DateFormat('dd/MM/yyyy').format(DateTime.parse(res.dob ?? ""))
               : "";
 
-          ageController.text=res.personal?.age.toString()??"" ;
-          bloodGroup.text=res.personal?.bloodGroup??"";
-          heightController.text=res.personal?.hight.toString()??"";
-          WeightController.text=res.personal?.weight??"";
+          ageController.text = res.personal?.age.toString() ?? "";
+          bloodGroup.text = res.personal?.bloodGroup ?? "";
+          heightController.text = res.personal?.hight.toString() ?? "";
+          WeightController.text = res.personal?.weight ?? "";
         }
       });
     } catch (e) {
@@ -195,7 +192,6 @@ class _MyProfileState extends State<MyProfile> {
             connectiVityStatus.isDeviceConnected == "ConnectivityResult.mobile")
         ? Scaffold(
             appBar: AppBar(
-
               backgroundColor: color1,
               leading: Container(),
               leadingWidth: 0,
@@ -204,31 +200,9 @@ class _MyProfileState extends State<MyProfile> {
                   builder: (context, data, child) {
                 return Column(
                   children: [
-                    // Title Row
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: color4,
-                          ),
-                        ),
-                        SizedBox(
-                            width: w * 0.02),
-                        Text(
-                          "MY PROFILE",
-                          style: TextStyle(
-                            color: color4,
-                            fontSize: w *
-                                0.05, // Responsive font size based on screen width
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                  CustomAppBar1(
+                  title: 'MY PROFILE',
+                  actions: [Container()],),
                     SizedBox(
                         height:
                             h * 0.015), // Adjusts spacing for smaller screens
@@ -292,7 +266,7 @@ class _MyProfileState extends State<MyProfile> {
                                   height: h *
                                       0.01), // Vertical space between text fields
                               Text(
-                                data.userDetails?.email??"",
+                                data.userDetails?.email ?? "",
                                 style: TextStyle(
                                   color: color4,
                                   fontWeight: FontWeight.w400,
@@ -789,7 +763,6 @@ class _MyProfileState extends State<MyProfile> {
                                     child: TextField(
                                       controller: bloodGroup,
                                       keyboardType: TextInputType.text,
-
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 7),
@@ -860,7 +833,7 @@ class _MyProfileState extends State<MyProfile> {
                                       inputFormatters: [
                                         FilteringTextInputFormatter
                                             .digitsOnly, // Only allow digits
-                                         // Limit input to 10 digits
+                                        // Limit input to 10 digits
                                       ],
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
@@ -1051,7 +1024,6 @@ class _MyProfileState extends State<MyProfile> {
   static Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
     DateTime? pickedDate = await showDatePicker(
-
       context: context,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),

@@ -7,6 +7,7 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:provider/provider.dart';
 import '../Services/UserApi.dart';
 import '../Services/otherservices.dart';
+import '../providers/BlockedProvider.dart';
 import '../providers/ConnectivityProviders.dart';
 import '../providers/ProductDetailsProvider.dart';
 import '../providers/WishlistProvider.dart';
@@ -58,20 +59,7 @@ class _ProductdetailsState extends State<Productdetails> {
     }
   }
 
-  Future<void> BlockList( String id) async{
-    var res = await Userapi.postBlockListapi(id);
-    if(res != null){
-      setState(() {
-        if(res.settings?.success==1){
-          CustomSnackBar.show(context, res.settings?.message ?? "");
 
-        }else{
-          CustomSnackBar.show(context, res.settings?.message ?? "");
-        }
-      });
-
-    }
-  }
 
 
   @override
@@ -87,6 +75,7 @@ class _ProductdetailsState extends State<Productdetails> {
             body: Consumer<ProductDetailsProvider>(
                 builder: (context, product_details, child) {
               final wishlist_status = product_details.isInWishlist;
+              final blocklist_status = product_details.isInBlocklist;
               return SingleChildScrollView(
                 child: Container(
                   decoration: BoxDecoration(
@@ -174,10 +163,10 @@ class _ProductdetailsState extends State<Productdetails> {
                               child: wishlist_status == true
                                   ? Icon(
                                       Icons
-                                          .favorite, // Filled heart icon when item is in wishlist
+                                          .favorite,
                                       size: 18,
                                       color: Colors
-                                          .red, // Red color for filled icon
+                                          .red, // Red c
                                     )
                                   : Icon(
                                       Icons
@@ -214,8 +203,14 @@ class _ProductdetailsState extends State<Productdetails> {
                             top: h * 0.13,
                           child: InkResponse(
                             onTap: () {
-                              BlockList(product_details.productData?.id??"");
-                              
+                              if(product_details.productData?.isBlocked ?? false){
+                                context.read<BlockListProvider>().removeBlockList(product_details.productData?.id??"");
+
+                              }else{
+                                context.read<BlockListProvider>().AddBlockList(product_details.productData?.id??"");
+                              }
+
+
 
                             },
                             child: Container(
@@ -224,17 +219,19 @@ class _ProductdetailsState extends State<Productdetails> {
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(100),
                               ),
-                              child: wishlist_status == true
+
+                              child:
+                              blocklist_status == true
                                   ? Icon(
                                 Icons
                                     .block,
                                 size: 18,
                                 color: Colors
-                                    .red, // Red color for filled icon
+                                    .red,
                               )
                                   : Icon(
                                 Icons
-                                    .block, // Outline heart icon when item is NOT in wishlist
+                                    .block,
                                 size: 18,
                                 color: Colors
                                     .black, // Black color for outline icon

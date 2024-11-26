@@ -67,7 +67,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProductListScreen()));
+                                  builder: (context) => ProductListScreen(productid: "",)));
                         },
                         child: Container(
                           decoration: BoxDecoration(

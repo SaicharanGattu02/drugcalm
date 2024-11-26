@@ -8,11 +8,13 @@ import 'ProductsDetailsModel.dart';
 class ProductDetailsProvider with ChangeNotifier {
   ProductDetails? _productData;
   bool? _isInWishlist;
+  bool? _isInBlocklist;
   bool _isLoading = false;
 
   // Getters
   ProductDetails? get productData => _productData;
   bool? get isInWishlist => _isInWishlist;
+  bool? get isInBlocklist => _isInBlocklist;
   bool get isLoading => _isLoading;
 
   // Fetch product details from the repository using the productId
@@ -24,6 +26,8 @@ class ProductDetailsProvider with ChangeNotifier {
       var response = await Userapi.getProductDetails(productId);
       _productData = response?.data;
       _isInWishlist = _productData?.isInWishlist ?? false;
+      _isInBlocklist = _productData?.isBlocked ?? false;
+
     } catch (e) {
       throw Exception('Failed to fetch product details: $e');
     } finally {

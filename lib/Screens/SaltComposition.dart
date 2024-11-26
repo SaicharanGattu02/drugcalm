@@ -257,7 +257,7 @@ class _SaltCompositionState extends State<SaltComposition> {
                 InkResponse(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProductListScreen()));
+                        MaterialPageRoute(builder: (context) => ProductListScreen(productid: "",)));
                   },
                   child: container(context,
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),

@@ -3,9 +3,10 @@ import 'package:drugcalm/Registration/BasicInformation.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../Services/UserApi.dart';
-import '../utils/CustomSnackBar.dart';
+
 import '../utils/ShakeWidget.dart';
 
 class BusinessDetails extends StatefulWidget {
@@ -74,12 +75,12 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               : "";
 
       // Validation for GSTIN
-      validategstin = gstinController.text.isEmpty
+      validategstin = !RegExp(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[0-9]{1}$').hasMatch(gstinController.text)
           ? "Please enter a valid GSTIN"
           : "";
 
-      // Validation for PAN
-      validatepan = panController.text.isEmpty
+      validatepan =
+          !RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$').hasMatch(panController.text)
               ? "Please enter a valid PAN"
               : "";
 
@@ -514,6 +515,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           controller: gstinController,
                           keyboardType: TextInputType.text,
                           cursorColor: color11,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9]')), // Only allow alphanumeric characters
+                          ],
                           onTap: () {
                             // closeDropdown();
                             setState(() {
@@ -523,6 +527,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           onChanged: (v) {
                             setState(() {
                               validategstin = "";
+                              if (!RegExp(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[0-9]{1}$').hasMatch(v)) {
+                                validategstin = "Invalid GST Number format";
+                              }
                             });
                           },
                           decoration: InputDecoration(
@@ -590,6 +597,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           controller: panController,
                           keyboardType: TextInputType.text,
                           cursorColor: color11,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9]')),
+                          ],
                           onTap: () {
                             // closeDropdown();
                             setState(() {
@@ -599,6 +609,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                           onChanged: (v) {
                             setState(() {
                               validatepan = "";
+                              if (!RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$').hasMatch(v)) {
+                                validatepan = "Invalid PAN format";  // Display error message
+                              }
                             });
                           },
                           decoration: InputDecoration(
@@ -892,8 +905,14 @@ class _BusinessDetailsState extends State<BusinessDetails> {
                         ],
                         TextFormField(
                           controller: pincodeController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           cursorColor: color11,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                           LengthLimitingTextInputFormatter(6)
+
+
+                          ],
                           onTap: () {
                             setState(() {
                               validatepincode = "";
