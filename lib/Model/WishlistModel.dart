@@ -54,7 +54,7 @@ class Product {
   String? image;
   double? margin;
   String? productType;
-  String? rating;
+  double? rating;
   bool? isBlocked;
   bool? bestSeller;
   String? medicineCategory;

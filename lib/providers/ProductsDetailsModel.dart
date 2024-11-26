@@ -33,7 +33,7 @@ class ProductDetails {
   String? image;
   double? margin;
   String? productForm;
-  Null? rating;
+  double? rating;
   bool? isBlocked;
   bool? bestSeller;
   int? quantity;

@@ -1,4 +1,3 @@
-
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -52,10 +51,9 @@ class _WishlistscreenState extends State<Wishlistscreen> {
 
   Future<void> GetWishlistList() async {
     final products_list_provider =
-    Provider.of<WishlistProvider>(context, listen: false);
+        Provider.of<WishlistProvider>(context, listen: false);
     products_list_provider.fetchWishList();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +62,14 @@ class _WishlistscreenState extends State<Wishlistscreen> {
 
     return Scaffold(
       appBar: CustomAppBar1(title: 'MY WISHLIST', actions: [Container()]),
-      body:  Container(
+      body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                'assets/Drug Clam Background.png',
-              ),
-              fit: BoxFit.cover,
-            )),
+          image: AssetImage(
+            'assets/Drug Clam Background.png',
+          ),
+          fit: BoxFit.cover,
+        )),
         child: CustomScrollView(
           slivers: [
             // SliverToBoxAdapter(
@@ -133,7 +131,7 @@ class _WishlistscreenState extends State<Wishlistscreen> {
               builder: (context, wishlistListProvider, child) {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (context, index) {
+                    (context, index) {
                       final product_list =
                           wishlistListProvider.wishlistProducts;
 
@@ -150,7 +148,6 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                       //     ),
                       //   );
                       // }
-
 
                       if (product_list.isEmpty) {
                         return Center(
@@ -191,15 +188,15 @@ class _WishlistscreenState extends State<Wishlistscreen> {
 
                       // Get the product at the current index
                       var data = product_list[index];
-                      final cart_provider = Provider.of<CartProvider>(context, listen: false);
+                      final cart_provider =
+                          Provider.of<CartProvider>(context, listen: false);
 
                       // Return the InkResponse for each product item
                       return Container(
                         width: w,
                         padding: EdgeInsets.only(
                             left: 8, right: 8, top: 16, bottom: 16),
-                        margin:
-                        EdgeInsets.only(left: 16, right: 16, top: 16),
+                        margin: EdgeInsets.only(left: 16, right: 16, top: 16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: color12, // Add your color
@@ -210,8 +207,7 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                             IntrinsicHeight(
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     flex: 2,
@@ -221,12 +217,14 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  Productdetails(productid: data.product?.id??""),
+                                                  Productdetails(
+                                                      productid:
+                                                          data.product?.id ??
+                                                              ""),
                                             ));
                                       },
                                       child: Container(
-                                        constraints:
-                                        BoxConstraints.expand(),
+                                        constraints: BoxConstraints.expand(),
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
@@ -238,18 +236,15 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                         child: CachedNetworkImage(
                                           imageUrl: data.product?.image ?? "",
                                           fit: BoxFit.cover,
-                                          placeholder:
-                                              (BuildContext context,
+                                          placeholder: (BuildContext context,
                                               String url) {
                                             return Center(
                                               child: spinkits
                                                   .getSpinningLinespinkit(),
                                             );
                                           },
-                                          errorWidget:
-                                              (BuildContext context,
-                                              String url,
-                                              dynamic error) {
+                                          errorWidget: (BuildContext context,
+                                              String url, dynamic error) {
                                             return Icon(Icons.error);
                                           },
                                         ),
@@ -262,11 +257,10 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                   Expanded(
                                     flex: 4,
                                     child: Container(
-                                      constraints:
-                                      BoxConstraints.expand(),
+                                      constraints: BoxConstraints.expand(),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           InkResponse(
                                             onTap: () {
@@ -274,41 +268,41 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Productdetails(productid: data.product?.id??""),
+                                                        Productdetails(
+                                                            productid: data
+                                                                    .product
+                                                                    ?.id ??
+                                                                ""),
                                                   ));
                                             },
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 if (data.product?.bestSeller ??
                                                     false) ...[
                                                   Container(
-                                                    padding: EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 4,
-                                                        vertical: 2),
-                                                    decoration:
-                                                    BoxDecoration(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 4,
+                                                            vertical: 2),
+                                                    decoration: BoxDecoration(
                                                       color:
-                                                      color13, // Your color
+                                                          color13, // Your color
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          100),
+                                                          BorderRadius.circular(
+                                                              100),
                                                     ),
                                                     child: Text(
                                                       'Best Seller',
                                                       style: TextStyle(
                                                         fontSize: 6,
                                                         fontWeight:
-                                                        FontWeight
-                                                            .w500,
+                                                            FontWeight.w500,
                                                         color:
-                                                        color4, // Your color
+                                                            color4, // Your color
                                                       ),
                                                     ),
                                                   ),
@@ -317,27 +311,38 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                   data.product?.name ?? "",
                                                   style: TextStyle(
                                                     fontSize: 13,
-                                                    fontWeight:
-                                                    FontWeight.w500,
+                                                    fontWeight: FontWeight.w500,
                                                     color:
-                                                    color11, // Your color
+                                                        color11, // Your color
                                                   ),
                                                   maxLines: 2,
-                                                  overflow: TextOverflow
-                                                      .ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                                 Text(
                                                   data.product?.subName ?? "",
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    fontWeight:
-                                                    FontWeight.w400,
-                                                    color:
-                                                    color, // Your color
+                                                    fontWeight: FontWeight.w400,
+                                                    color: color, // Your color
                                                   ),
                                                 ),
-                                                RatingWidget(
-                                                    initialRating: 4),
+                                                if (data.product?.rating !=
+                                                        null &&
+                                                    ((data.product?.rating ??
+                                                            0.0) >
+                                                        0.0)) ...[
+                                                  RatingWidget(
+                                                    initialRating: (data
+                                                                .product?.rating
+                                                                ?.toString()
+                                                                .isNotEmpty ??
+                                                            false)
+                                                        ? data.product?.rating ??
+                                                            0.0
+                                                        : 0.0, // Default to 0.0 when rating is null or empty
+                                                  ),
+                                                ],
                                                 Row(
                                                   children: [
                                                     Text(
@@ -345,14 +350,12 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                       style: TextStyle(
                                                         fontSize: 10,
                                                         fontWeight:
-                                                        FontWeight
-                                                            .w400,
+                                                            FontWeight.w400,
                                                         color:
-                                                        color, // Your color
+                                                            color, // Your color
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                        width: w * 0.01),
+                                                    SizedBox(width: w * 0.01),
                                                     Text(
                                                       data.product?.net_price ??
                                                           "",
@@ -366,10 +369,9 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                       style: TextStyle(
                                                         fontSize: 10,
                                                         fontWeight:
-                                                        FontWeight
-                                                            .w400,
+                                                            FontWeight.w400,
                                                         color:
-                                                        color, // Your color
+                                                            color, // Your color
                                                       ),
                                                     ),
                                                     Text(
@@ -377,56 +379,46 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                       style: TextStyle(
                                                         fontSize: 12,
                                                         color:
-                                                        color1, // Your color
+                                                            color1, // Your color
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                        height: h * 0.01),
+                                                    SizedBox(height: h * 0.01),
                                                   ],
                                                 ),
-                                                SizedBox(
-                                                    height: h * 0.008),
+                                                SizedBox(height: h * 0.008),
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      padding: EdgeInsets
-                                                          .symmetric(
-                                                          horizontal:
-                                                          4),
-                                                      decoration:
-                                                      BoxDecoration(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4),
+                                                      decoration: BoxDecoration(
                                                         color: Color(
                                                             0xffFEF6F5), // Your color
                                                         borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            4),
+                                                            BorderRadius
+                                                                .circular(4),
                                                       ),
                                                       child: Row(
                                                         children: [
                                                           Text(
                                                             'MARGIN',
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize:
-                                                              10,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
                                                               color:
-                                                              color11, // Your color
+                                                                  color11, // Your color
                                                             ),
                                                           ),
                                                           SizedBox(
-                                                              width: w *
-                                                                  0.01),
+                                                              width: w * 0.01),
                                                           Text(
                                                             data.product?.margin
-                                                                .toString() ??
+                                                                    .toString() ??
                                                                 "",
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize:
-                                                              10,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
                                                               color:
-                                                              color1, // Your color
+                                                                  color1, // Your color
                                                             ),
                                                           ),
                                                         ],
@@ -438,25 +430,23 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                       style: TextStyle(
                                                         fontSize: 10,
                                                         color:
-                                                        color11, // Your color
+                                                            color11, // Your color
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                        width: w * 0.01),
+                                                    SizedBox(width: w * 0.01),
                                                     Image.asset(
                                                       'assets/about.png',
                                                       color:
-                                                      color1, // Your color
+                                                          color1, // Your color
                                                       width: w * 0.03,
                                                     ),
-                                                    SizedBox(
-                                                        width: w * 0.01),
+                                                    SizedBox(width: w * 0.01),
                                                     Text(
                                                       data.product?.ptr ?? "",
                                                       style: TextStyle(
                                                         fontSize: 10,
                                                         color:
-                                                        color11, // Your color
+                                                            color11, // Your color
                                                       ),
                                                     ),
                                                   ],
@@ -466,47 +456,77 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                           ),
                                           SizedBox(height: h * 0.01),
                                           Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
                                             children: [
                                               // Quantity Selector
-                                              if (data.product?.quantity == 0) ...[
+                                              if (data.product?.quantity ==
+                                                  0) ...[
                                                 InkResponse(
                                                   onTap: () async {
-                                                    var msg = await cart_provider.addToCartApi(data.product?.id ?? "", "1");
+                                                    var msg =
+                                                        await cart_provider
+                                                            .addToCartApi(
+                                                                data.product
+                                                                        ?.id ??
+                                                                    "",
+                                                                "1");
 
                                                     // After adding to the cart, update the product quantity in ProductListProvider
                                                     if (msg != null) {
-                                                      WishlistProvider wishlistListProvider = Provider.of<WishlistProvider>(context, listen: false);
+                                                      WishlistProvider
+                                                          wishlistListProvider =
+                                                          Provider.of<
+                                                                  WishlistProvider>(
+                                                              context,
+                                                              listen: false);
 
                                                       // Ensure you're using the correct 'product.id' here, not 'product' itself.
-                                                      String productId = data.product?.id ?? '';  // Store the product ID in a local variable
+                                                      String productId = data
+                                                              .product?.id ??
+                                                          ''; // Store the product ID in a local variable
 
-                                                      var product = wishlistListProvider.wishlistProducts.firstWhere(
-                                                              (p) => p.product?.id == productId,  // Use the local 'productId' variable
-                                                          orElse: () => Wishlist(product: Product(id: '-1'))  // Return a default product if not found
-                                                      );
+                                                      var product = wishlistListProvider
+                                                          .wishlistProducts
+                                                          .firstWhere(
+                                                              (p) =>
+                                                                  p.product
+                                                                      ?.id ==
+                                                                  productId, // Use the local 'productId' variable
+                                                              orElse: () => Wishlist(
+                                                                  product: Product(
+                                                                      id: '-1')) // Return a default product if not found
+                                                              );
                                                       // Ensure the product is found before updating
-                                                      if (data.product?.id != '-1') {
-                                                        data.product?.quantity = (data.product?.quantity ?? 0) + 1;  // Safe addition
-                                                        wishlistListProvider.notifyListeners();  // Notify listeners to update the UI
+                                                      if (data.product?.id !=
+                                                          '-1') {
+                                                        data.product
+                                                            ?.quantity = (data
+                                                                    .product
+                                                                    ?.quantity ??
+                                                                0) +
+                                                            1; // Safe addition
+                                                        wishlistListProvider
+                                                            .notifyListeners(); // Notify listeners to update the UI
                                                       }
                                                     }
                                                   },
                                                   child: Container(
-                                                    padding: EdgeInsets.symmetric(vertical: 5),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
                                                     width: w * 0.3,
                                                     decoration: BoxDecoration(
                                                       color: color1,
-                                                      borderRadius: BorderRadius.circular(4),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
                                                     ),
                                                     child: Center(
                                                       child: Text(
                                                         'ADD',
                                                         style: TextStyle(
                                                           fontSize: 12,
-                                                          fontWeight: FontWeight.w400,
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           color: color4,
                                                         ),
                                                       ),
@@ -518,46 +538,81 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     color: color1,
-                                                    borderRadius: BorderRadius.circular(4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
                                                   ),
                                                   child: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       // Decrease quantity button
                                                       GestureDetector(
                                                         child: Container(
-                                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                          child: Icon(Icons.remove, color: color4, size: 20),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 5),
+                                                          child: Icon(
+                                                              Icons.remove,
+                                                              color: color4,
+                                                              size: 20),
                                                         ),
                                                         onTap: () async {
-                                                          if ((data.product?.quantity ?? 0) > 0) {
+                                                          if ((data.product
+                                                                      ?.quantity ??
+                                                                  0) >
+                                                              0) {
                                                             // Decrease the quantity
-                                                            int newQuantity = (data.product?.quantity ?? 0) - 1;
+                                                            int newQuantity = (data
+                                                                        .product
+                                                                        ?.quantity ??
+                                                                    0) -
+                                                                1;
 
                                                             // Optimistically update the quantity in the cart provider
-                                                            cart_provider.optimisticUpdateCartQuantity(
-                                                              data.product?.id ?? "",
+                                                            cart_provider
+                                                                .optimisticUpdateCartQuantity(
+                                                              data.product
+                                                                      ?.id ??
+                                                                  "",
                                                               newQuantity,
                                                             );
 
                                                             // Update the quantity in the server (API call)
-                                                            var res = await cart_provider.updateCartApi(
-                                                              data.product?.id ?? "",
-                                                              newQuantity.toString(),
+                                                            var res =
+                                                                await cart_provider
+                                                                    .updateCartApi(
+                                                              data.product
+                                                                      ?.id ??
+                                                                  "",
+                                                              newQuantity
+                                                                  .toString(),
                                                             );
 
                                                             // Optionally update the product list immediately
                                                             // Notify listeners to update the UI
-                                                            if(res!=0){
-                                                              wishlistListProvider.wishlistProducts.forEach((p) {
-                                                                if (p.product?.id == data.product?.id) {
-                                                                  p.product?.quantity = newQuantity; // Directly update the product's quantity
+                                                            if (res != 0) {
+                                                              wishlistListProvider
+                                                                  .wishlistProducts
+                                                                  .forEach((p) {
+                                                                if (p.product
+                                                                        ?.id ==
+                                                                    data.product
+                                                                        ?.id) {
+                                                                  p.product
+                                                                          ?.quantity =
+                                                                      newQuantity; // Directly update the product's quantity
                                                                 }
                                                               });
 
                                                               // Notify the listeners of the product list provider to refresh the UI
-                                                              wishlistListProvider.notifyListeners();
+                                                              wishlistListProvider
+                                                                  .notifyListeners();
                                                             }
                                                           }
                                                         },
@@ -565,88 +620,130 @@ class _WishlistscreenState extends State<Wishlistscreen> {
 
                                                       // Animated counter to display the updated quantity
                                                       AnimatedFlipCounter(
-                                                        value: data.product?.quantity ?? 0,
-                                                        textStyle: TextStyle(fontSize: 15, color: color4, fontWeight: FontWeight.bold),
+                                                        value: data.product
+                                                                ?.quantity ??
+                                                            0,
+                                                        textStyle: TextStyle(
+                                                            fontSize: 15,
+                                                            color: color4,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
 
                                                       // Increase quantity button
                                                       GestureDetector(
                                                         child: Container(
-                                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                          child: Icon(Icons.add, color: color4, size: 20),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 5),
+                                                          child: Icon(Icons.add,
+                                                              color: color4,
+                                                              size: 20),
                                                         ),
                                                         onTap: () async {
-                                                          int newQuantity = (data.product?.quantity ?? 0) + 1;
+                                                          int newQuantity = (data
+                                                                      .product
+                                                                      ?.quantity ??
+                                                                  0) +
+                                                              1;
 
                                                           // Optimistically update the quantity in the cart provider
-                                                          cart_provider.optimisticUpdateCartQuantity(
-                                                            data.product?.id ?? "",
+                                                          cart_provider
+                                                              .optimisticUpdateCartQuantity(
+                                                            data.product?.id ??
+                                                                "",
                                                             newQuantity,
                                                           );
 
                                                           // Update the quantity in the server (API call)
-                                                          var res = await cart_provider.updateCartApi(
-                                                            data.product?.id ?? "",
-                                                            newQuantity.toString(),
+                                                          var res =
+                                                              await cart_provider
+                                                                  .updateCartApi(
+                                                            data.product?.id ??
+                                                                "",
+                                                            newQuantity
+                                                                .toString(),
                                                           );
 
                                                           // Optionally update the product list immediately
                                                           // Notify listeners to update the UI
-                                                          wishlistListProvider.wishlistProducts.forEach((p) {
-                                                            if (p.product?.id == data.product?.id) {
-                                                              p.product?.quantity = newQuantity; // Directly update the product's quantity
+                                                          wishlistListProvider
+                                                              .wishlistProducts
+                                                              .forEach((p) {
+                                                            if (p.product?.id ==
+                                                                data.product
+                                                                    ?.id) {
+                                                              p.product
+                                                                      ?.quantity =
+                                                                  newQuantity; // Directly update the product's quantity
                                                             }
                                                           });
 
                                                           // Notify the listeners of the product list provider to refresh the UI
-                                                          wishlistListProvider.notifyListeners();
+                                                          wishlistListProvider
+                                                              .notifyListeners();
                                                         },
                                                       ),
                                                     ],
                                                   ),
                                                 )
                                               ],
+                                              SizedBox(
+                                                width: w * 0.05,
+                                              ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  if (data.product?.isInWishlist ??
+                                                  if (data.product
+                                                          ?.isInWishlist ??
                                                       false) {
                                                     context
                                                         .read<
-                                                        WishlistProvider>()
+                                                            WishlistProvider>()
                                                         .removeFromWishlist(
-                                                        data.product?.id ??
-                                                            "");
+                                                            data.product?.id ??
+                                                                "");
                                                   } else {
                                                     context
                                                         .read<
-                                                        WishlistProvider>()
+                                                            WishlistProvider>()
                                                         .addToWishlist(
-                                                        data.product?.id ??
-                                                            "");
+                                                            data.product?.id ??
+                                                                "");
                                                   }
                                                 },
-                                                child: data.product?.isInWishlist ??
-                                                    false
+                                                child: data.product
+                                                            ?.isInWishlist ??
+                                                        false
                                                     ? Icon(Icons.favorite,
-                                                    size: 22,
-                                                    color: Colors.red)
+                                                        size: 22,
+                                                        color: Colors.red)
                                                     : Icon(
-                                                    Icons
-                                                        .favorite_border,
-                                                    size: 22,
-                                                    color:
-                                                    Colors.black),
+                                                        Icons.favorite_border,
+                                                        size: 22,
+                                                        color: Colors.black),
                                               ),
-                                              Image.asset(
-                                                'assets/block.png',
-                                                width: w * 0.06,
-                                                fit: BoxFit.contain,
+                                              SizedBox(
+                                                width: w * 0.05,
                                               ),
-                                              Image.asset(
-                                                'assets/youtube.png',
-                                                width: w * 0.06,
-                                                fit: BoxFit.contain,
+                                              if (data.product?.isBlocked ==
+                                                  true) ...[
+                                                Image.asset(
+                                                  'assets/block.png',
+                                                  width: w * 0.06,
+                                                  fit: BoxFit.contain,
+                                                )
+                                              ],
+                                              SizedBox(
+                                                width: w * 0.05,
                                               ),
+                                              // Image.asset(
+                                              //   'assets/youtube.png',
+                                              //   width: w * 0.06,
+                                              //   fit: BoxFit.contain,
+                                              // ),
                                             ],
                                           ),
                                         ],
@@ -685,5 +782,4 @@ class _WishlistscreenState extends State<Wishlistscreen> {
       ),
     );
   }
-
 }

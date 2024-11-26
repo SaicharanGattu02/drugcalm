@@ -55,12 +55,9 @@ class _ProductdetailsState extends State<Productdetails> {
     var res = await cart_provider.addToCartApi(productid, quantity);
 
     if (res != "" || res != null) {
-      CustomSnackBar.show(context,res.toString() );
+      CustomSnackBar.show(context, res.toString());
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,11 +159,9 @@ class _ProductdetailsState extends State<Productdetails> {
                               ),
                               child: wishlist_status == true
                                   ? Icon(
-                                      Icons
-                                          .favorite,
+                                      Icons.favorite,
                                       size: 18,
-                                      color: Colors
-                                          .red, // Red c
+                                      color: Colors.red, // Red c
                                     )
                                   : Icon(
                                       Icons
@@ -177,8 +172,6 @@ class _ProductdetailsState extends State<Productdetails> {
                                     ),
                             ),
                           ),
-
-
 
                           // child: Image.asset(
                           //   'assets/favrate.png',
@@ -197,49 +190,46 @@ class _ProductdetailsState extends State<Productdetails> {
                           //       height: h * 0.08,
                           //     ))
                         ),
-
                         Positioned(
-                            right: h * 0.02,
-                            top: h * 0.13,
+                          right: h * 0.02,
+                          top: h * 0.13,
                           child: InkResponse(
                             onTap: () {
-                              if(product_details.productData?.isBlocked ?? false){
-                                context.read<BlockListProvider>().removeBlockList(product_details.productData?.id??"");
-
-                              }else{
-                                context.read<BlockListProvider>().AddBlockList(product_details.productData?.id??"");
+                              if (product_details.productData?.isBlocked ??
+                                  false) {
+                                context
+                                    .read<BlockListProvider>()
+                                    .removeBlockList(
+                                    product_details.productData?.id ?? "");
+                              } else {
+                                context.read<BlockListProvider>().AddBlockList(
+                                    product_details.productData?.id ?? "");
                               }
-
-
-
                             },
-                            child: Container(
+                            child:
+                            Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(100),
                               ),
-
                               child:
                               blocklist_status == true
                                   ? Icon(
-                                Icons
-                                    .block,
+                                Icons.block,
                                 size: 18,
-                                color: Colors
-                                    .red,
+                                color: Colors.red,
                               )
                                   : Icon(
-                                Icons
-                                    .block,
+                                Icons.block,
                                 size: 18,
                                 color: Colors
                                     .black, // Black color for outline icon
                               ),
                             ),
                           ),
-                        )
-                      ]),
+                        )]
+                      ),
                       SizedBox(
                         height: h * 0.01,
                       ),
@@ -268,11 +258,9 @@ class _ProductdetailsState extends State<Productdetails> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text(
-                                context,
-                                product_details.productData?.name ?? "",
-                                18,
-                              ),
+                              text(context,
+                                  product_details.productData?.name ?? "", 18,
+                                  textAlign: TextAlign.left),
                               SizedBox(
                                 height: h * 0.01,
                               ),
@@ -283,13 +271,27 @@ class _ProductdetailsState extends State<Productdetails> {
                                       "",
                                   14,
                                   color: color2,
+                                  textAlign: TextAlign.left,
                                   fontWeight: FontWeight.w400),
                               SizedBox(
                                 height: h * 0.01,
                               ),
-                              RatingWidget(
-                                initialRating: 4.0,
-                              ),
+
+                              if (product_details.productData?.rating != null &&
+                                  (product_details.productData?.rating ?? 0.0) >
+                                      0.0) ...[
+                                RatingWidget(
+                                  initialRating: (product_details
+                                              .productData?.rating
+                                              ?.toString()
+                                              .isNotEmpty ??
+                                          false)
+                                      ? (product_details.productData?.rating ??
+                                          0.0)
+                                      : 0.0,
+                                )
+                              ],
+
                               SizedBox(
                                 height: h * 0.01,
                               ),

@@ -352,8 +352,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                               color, // Your color
                                                         ),
                                                       ),
-                                                      RatingWidget(
-                                                          initialRating: 4),
+                                                      if (product.rating != null && (product.rating??0.0) > 0.0)...[RatingWidget(
+                                                        initialRating: (product.rating?.toString().isNotEmpty ?? false)
+                                                            ? product.rating??0.0
+                                                            : 0.0,  // Default to 0.0 when rating is null or empty
+                                                      ),],
+
                                                       Row(
                                                         children: [
                                                           Text(
@@ -482,9 +486,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                 ),
                                                 SizedBox(height: h * 0.01),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
                                                   children: [
                                                     // Quantity Selector
                                                     if (product.quantity == 0) ...[
@@ -624,6 +625,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                         ),
                                                       )
                                                     ],
+                                                    SizedBox(width: w*0.05,),
                                                     GestureDetector(
                                                       onTap: () {
                                                         if (product
@@ -657,16 +659,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                               color:
                                                                   Colors.black),
                                                     ),
+                                                    SizedBox(width: w*0.05,),
                                                     // Image.asset(
                                                     //   'assets/block.png',
                                                     //   width: w * 0.06,
                                                     //   fit: BoxFit.contain,
                                                     // ),
-                                                    Image.asset(
-                                                      'assets/youtube.png',
-                                                      width: w * 0.06,
-                                                      fit: BoxFit.contain,
-                                                    ),
+                                                    //
+                                                    // Image.asset(
+                                                    //   'assets/youtube.png',
+                                                    //   width: w * 0.06,
+                                                    //   fit: BoxFit.contain,
+                                                    // ),
                                                   ],
                                                 ),
                                               ],
