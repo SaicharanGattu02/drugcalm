@@ -27,7 +27,6 @@ class ProductDetailsProvider with ChangeNotifier {
       _productData = response?.data;
       _isInWishlist = _productData?.isInWishlist ?? false;
       _isInBlocklist = _productData?.isBlocked ?? false;
-
     } catch (e) {
       throw Exception('Failed to fetch product details: $e');
     } finally {
@@ -42,6 +41,15 @@ class ProductDetailsProvider with ChangeNotifier {
     bool newStatus = !(isInWishlist ?? false);  // Toggle wishlist status
     // Update local state
     _isInWishlist = newStatus;
+    notifyListeners();
+  }
+
+  // Toggle wishlist status (to be called when user interacts with the UI)
+  void toggleBlockListStatus() {
+    if (_productData == null) return;
+    bool newStatus = !(isInBlocklist ?? false);  // Toggle wishlist status
+    // Update local state
+    _isInBlocklist = newStatus;
     notifyListeners();
   }
 }

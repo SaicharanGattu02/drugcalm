@@ -699,9 +699,9 @@ class Userapi {
     }
   }
 
-  static Future<ProductsListModel?> getProductsList() async {
+  static Future<ProductsListModel?> getProductsList(categoryID,brandID) async {
     try {
-      final url = Uri.parse("${host}/api/items");
+      final url = Uri.parse("${host}/api/items?category=${categoryID}&brand=${brandID}");
       final headers = await getheader1();
       final response = await http.get(
         url,

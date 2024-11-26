@@ -1,5 +1,13 @@
 {
+  "search_by_molecule": "मोलिक्यूल द्वारा खोजें",
   "appTitle": "मेरा ई-कॉमर्स ऐप",
   "greeting": "नमस्ते, स्वागत है!",
-  "search_by_molecule": "अणु द्वारा खोजें"
+  "shopping_by_brands": "ब्रांड्स द्वारा शॉपिंग",
+  "shopping_by_categories": "श्रेणियों द्वारा शॉपिंग",
+  "home": "होम",
+  "wishlist": "विशलिस्ट",
+  "pro": "प्रो",
+  "community": "कम्युनिटी",
+  "categories": "श्रेणियाँ"
 }
+

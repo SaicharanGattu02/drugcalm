@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageProvider with ChangeNotifier {
-  Locale _locale = Locale('en', 'US');  // Default language
-  String selectedLanguage = 'en'; // To store the selected language code (e.g., 'en', 'hi', 'es', 'fr')
+  Locale _locale = Locale('en', 'US');
+  String selectedLanguage = 'en';
 
   Locale get locale => _locale;
 

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drugcalm/Screens/ProductListScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/CategoriesProvider.dart';
 import '../utils/CustomAppBar1.dart';
 import '../utils/CustomSnackBar.dart';
@@ -23,7 +23,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     return Scaffold(
       appBar: CustomAppBar1(
-        title: 'CATEGORIES',
+        title:AppLocalizations.of(context)!.categories,
         actions: [Container()],
       ),
       body: Consumer<CategoriesProvider>(
@@ -67,7 +67,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProductListScreen(productid: "",)));
+                                  builder: (context) => ProductListScreen(brandID: "",categoryID: data.id??"")));
                         },
                         child: Container(
                           decoration: BoxDecoration(

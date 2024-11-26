@@ -33,7 +33,7 @@ class BlockListProvider with ChangeNotifier {
     }
   }
 
-  Future<void> AddBlockList(String id) async {
+  Future<int?> AddBlockList(String id) async {
     print("Calling API to add product to blockList...");
     var res = await Userapi.postBlockListapi(id);
     print("API Response: $res");
@@ -43,9 +43,9 @@ class BlockListProvider with ChangeNotifier {
         BlockList blockList = BlockList(product: product);
         _blockListProducts.add(blockList);
         notifyListeners();
-
+        return res.settings?.success;
       } else {
-        throw Exception('Failed to add product to blockList');
+        return res?.settings?.success;
       }
     } catch (e) {
       print("Error adding to wishlist: $e");
@@ -53,21 +53,23 @@ class BlockListProvider with ChangeNotifier {
     }
   }
 
-  Future<void> removeBlockList(String id) async {
+  Future<int?> removeBlockList(String id) async {
     var res = await Userapi.removeBlockListapi(id);
     try {
       if (res != null && res.settings?.success == 1) {
-        fetchBlockList();
-        Product product = Product(id: id);
-        BlockList blockList = BlockList(product: product);
-        _blockListProducts.add(blockList);
+        // Find the block list product with the given ID and remove it
+        _blockListProducts.removeWhere((blockList) => blockList.product?.id == id);
         notifyListeners();
+        return res.settings?.success;
       } else {
-        throw Exception('Failed to add product to remove blockList');
+        return res?.settings?.success;
       }
     } catch (e) {
-      print("Error  remove to  blockList: $e");
-      throw Exception('Failed to remove blockList: $e');
+      print("Error removing from blockList: $e");
+      throw Exception('Failed to remove from blockList: $e');
     }
   }
+
+
+
 }

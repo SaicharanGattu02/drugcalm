@@ -17,12 +17,12 @@ class ProductListProvider with ChangeNotifier {
   bool get isLoading => _isLoading;  // Expose isLoading for UI updates
 
   // Fetch Products List
-  Future<void> fetchProductsList() async {
+  Future<void> fetchProductsList(categoryID,brandID) async {
     _isLoading = true;  // Set loading state to true before fetching data
     notifyListeners();  // Notify listeners that loading has started
 
     try {
-      var response = await Userapi.getProductsList();
+      var response = await Userapi.getProductsList(categoryID,brandID);
       _productlist = response?.data ?? [];
     } catch (e) {
       throw Exception('Failed to fetch product details: $e');

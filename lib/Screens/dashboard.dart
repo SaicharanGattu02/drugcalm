@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../Services/otherservices.dart';
 import '../providers/ConnectivityProviders.dart';
 import 'WishListScreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Dashbord extends StatefulWidget {
   const Dashbord({super.key});
@@ -108,35 +109,35 @@ class _DashbordState extends State<Dashbord> {
                   width: w * .08,
                   height: h * 0.03,
                   color: _selectedIndex == 0 ? color1 : color2),
-              label: 'HOME',
+              label: AppLocalizations.of(context)!.home,
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/fav.png',
                   width: w * .08,
                   height: h * 0.03,
                   color: _selectedIndex == 1 ? color1 : color2),
-              label: 'WHISHLIST',
+              label: AppLocalizations.of(context)!.wishlist,
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/pro.png',
                   width: w * .08,
                   height: h * 0.03,
                   color: _selectedIndex == 2 ? color1 : color2),
-              label: 'PRO',
+              label: AppLocalizations.of(context)!.pro,
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/community.png',
                   width: w * .08,
                   height: h * 0.03,
                   color: _selectedIndex == 3 ? color1 : color2),
-              label: 'COMMUNITY',
+              label: AppLocalizations.of(context)!.community,
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/categories.png',
                   width: 25,
                   height: 25,
                   color: _selectedIndex == 4 ? color1 : color2),
-              label: 'CATEGORIES',
+              label: AppLocalizations.of(context)!.categories,
             ),
           ],
           currentIndex: _selectedIndex,

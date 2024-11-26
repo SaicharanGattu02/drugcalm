@@ -19,8 +19,9 @@ import '../utils/CustomSnackBar.dart';
 import '../utils/constants.dart';
 
 class ProductListScreen extends StatefulWidget {
-  String productid;
-   ProductListScreen({super.key,required this.productid});
+  String brandID;
+  String categoryID;
+   ProductListScreen({super.key,required this.brandID,required this.categoryID});
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
@@ -28,8 +29,6 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   int currentindex = 0;
-  int _counter = 0;
-  bool _isChecked = false;
   final spinkits = Spinkits1();
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Future<void> GetProductList() async {
     final products_list_provider =
         Provider.of<ProductListProvider>(context, listen: false);
-    products_list_provider.fetchProductsList();
+    products_list_provider.fetchProductsList(widget.categoryID,widget.brandID);
   }
 
   @override

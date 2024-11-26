@@ -542,7 +542,7 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(
                           children: [
-                            text(context, 'Shopping By Categories', 16),
+                            text(context, AppLocalizations.of(context)!.shopping_by_categories, 16),
                             Spacer(),
                             InkResponse(
                               onTap: () {
@@ -603,7 +603,7 @@ class _HomeState extends State<Home> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ProductListScreen(productid: "",)));
+                                                      ProductListScreen(brandID: "",categoryID: data.id??"")));
                                         },
                                         child: Column(
                                           children: [
@@ -665,7 +665,7 @@ class _HomeState extends State<Home> {
                       ),
                       Row(
                         children: [
-                          text(context, 'Shopping By Brands', 16),
+                          text(context,AppLocalizations.of(context)!.shopping_by_brands, 16),
                           Spacer(),
                           InkResponse(
                             onTap: () {
@@ -704,7 +704,7 @@ class _HomeState extends State<Home> {
                               ),
                               InkResponse(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductListScreen(productid: data.id ?? "",)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductListScreen(brandID: data.id ?? "",categoryID: "",)));
                                 },
                                 child: Container(
                                     width: w * 0.3,
