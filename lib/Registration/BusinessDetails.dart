@@ -74,13 +74,12 @@ class _BusinessDetailsState extends State<BusinessDetails> {
               : "";
 
       // Validation for GSTIN
-      validategstin = !RegExp(r"^[0-9]{15}$").hasMatch(gstinController.text)
+      validategstin = gstinController.text.isEmpty
           ? "Please enter a valid GSTIN"
           : "";
 
       // Validation for PAN
-      validatepan =
-          !RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$').hasMatch(panController.text)
+      validatepan = panController.text.isEmpty
               ? "Please enter a valid PAN"
               : "";
 
@@ -107,9 +106,9 @@ class _BusinessDetailsState extends State<BusinessDetails> {
           : "";
 
       // Validation for Operating Hours
-      validateoperatinghours = operatinghoursController.text.isEmpty
-          ? "Please enter operating hours"
-          : "";
+      // validateoperatinghours = operatinghoursController.text.isEmpty
+      //     ? "Please enter operating hours"
+      //     : "";
 
       // Validation for Outlet Count
       validateoutletcount = outletcountController.text.isEmpty
@@ -128,7 +127,7 @@ class _BusinessDetailsState extends State<BusinessDetails> {
           validatestate.isEmpty &&
           validatepincode.isEmpty &&
           validategeolocation.isEmpty &&
-          validateoperatinghours.isEmpty &&
+          // validateoperatinghours.isEmpty &&
           validateoutletcount.isEmpty) {
         // Proceed with the form submission or API call
         AddBusinessDetails();

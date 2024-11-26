@@ -7,9 +7,11 @@ import 'package:drugcalm/utils/CustomAppBar.dart';
 import 'package:drugcalm/utils/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../Services/UserApi.dart';
 import '../utils/CustomSnackBar.dart';
 import '../utils/ShakeWidget.dart';
 import '../utils/ThemeProvider.dart';
@@ -23,21 +25,69 @@ class SignInWithEmail extends StatefulWidget {
 }
 
 class _SignInWithEmailState extends State<SignInWithEmail> {
-  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   final FocusNode _focusNodePassword = FocusNode();
 
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
-  String validatemobile = "";
-  bool _loading = false; // Set loading to false by default
+  String validateEmail = "";
+  String validatePassword = "";
+  bool _loading = false;
+
+  void _validateFields() {
+    setState(() {
+      _loading = true;
+      validateEmail = !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+          .hasMatch(_emailController.text)
+          ? "Please enter a valid email"
+          : "";
+      validatePassword = _passwordController.text.isEmpty
+          ? "Please enter a valid Email"
+          : "";
+
+      if (validateEmail.isEmpty && validatePassword.isEmpty) {
+        LoginWithEmail();
+      } else {
+        _loading = false;
+      }
+    });
+  }
+
+  Future<void> LoginWithEmail() async {
+    await Userapi.SignIn(_emailController.text, _passwordController.text)
+        .then((data) => {
+              if (data != null)
+                {
+                  setState(() {
+                    if (data.settings?.success == 1) {
+                      _loading = false;
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Dashbord()));
+                    } else {
+                      _loading = false;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          data.settings?.message ?? "",
+                          style: TextStyle(color: Color(0xff000000)),
+                        ),
+                        duration: Duration(seconds: 1),
+                        backgroundColor: color1,
+                      ));
+                    }
+                  })
+                } else {
+                  setState(() {
+                    _loading = false;
+                  })
+                }
+            });
+  }
 
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -49,66 +99,57 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
               width: w * 0.65,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [],
-                  ),
-                  SizedBox(height: h * 0.03),
-                  text(context, 'SIGN IN TO CONTINUE', 20,
-                      fontWeight: FontWeight.w700, color: color18),
                   SizedBox(height: h * 0.01),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.055,
-                    child: TextFormField(
-                      controller: _mobileController,
-                      keyboardType: TextInputType.phone,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                        hintText: 'User Name / Email ID',
-                        hintStyle: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 14,
-                          color: color,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        filled: true,
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: color,
-                        ),
-                        fillColor: const Color(0xffFCFAFF),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xffd0cbdb)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xffd0cbdb)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xffd0cbdb)),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xffd0cbdb)),
-                        ),
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                      hintText: 'Email ID',
+                      hintStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 14,
+                        color: color,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
                       ),
-                      textAlignVertical: TextAlignVertical.center,
+                      filled: true,
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: color,
+                      ),
+                      fillColor: const Color(0xffFCFAFF),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffd0cbdb)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffd0cbdb)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffd0cbdb)),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffd0cbdb)),
+                      ),
                     ),
+                    textAlignVertical: TextAlignVertical.center,
                   ),
-                  if (validatemobile.isNotEmpty) ...[
+                  if (validateEmail.isNotEmpty) ...[
                     Container(
                       alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
@@ -117,7 +158,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                         key: Key("value"),
                         duration: Duration(milliseconds: 700),
                         child: Text(
-                          validatemobile,
+                          validateEmail,
                           style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 12,
@@ -142,25 +183,52 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                       });
                     },
                   ),
+                  if (validatePassword.isNotEmpty) ...[
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(left: 8, bottom: 10, top: 5),
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: ShakeWidget(
+                        key: Key("value"),
+                        duration: Duration(milliseconds: 700),
+                        child: Text(
+                          validatePassword,
+                          style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 12,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    SizedBox(height: 15),
+                  ],
                   SizedBox(
                     height: h * 0.02,
                   ),
-                  containertext(context, 'CONTINUE', onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Dashbord(
+                  containertext(context, 'CONTINUE',isLoading: _loading, onTap: () {
+                    if(_loading){
 
-                                )));
+                    }else{
+                      _validateFields();
+                    }
                   }),
                   SizedBox(
                     height: h * 0.02,
                   ),
-                  Row(mainAxisAlignment: MainAxisAlignment.end,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      InkResponse(onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Forgotpasswordscreen()));
-                      },
+                      InkResponse(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Forgotpasswordscreen()));
+                        },
                         child: text(
                             context,
                             'Forgot password?',
@@ -228,58 +296,55 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
     required VoidCallback toggleObscure,
     TextInputType keyboardType = TextInputType.text,
   }) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.050,
-      child: TextFormField(
-        controller: controller,
-        focusNode: focusNode,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          hintText: hintText,
-          prefixIcon: Icon(
-            Icons.lock,
-            color: color,
-            size: 22,
-          ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              obscureText ? Icons.visibility : Icons.visibility_off,
-              color: Color(0xffAFAFAF),
-              size: 18,
-            ),
-            onPressed: toggleObscure,
-          ),
-          hintStyle: const TextStyle(
-            fontSize: 14,
-            letterSpacing: 0,
-            height: 19.36 / 14,
-            color: Color(0xffAFAFAF),
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w400,
-          ),
-          filled: true,
-          fillColor: const Color(0xffffffff),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(7),
-            borderSide: const BorderSide(width: 1, color: Color(0xffCDE2FB)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(7),
-            borderSide: const BorderSide(width: 1, color: Color(0xffCDE2FB)),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(7),
-            borderSide: const BorderSide(width: 1, color: Colors.red),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(7),
-            borderSide: const BorderSide(width: 1, color: Colors.red),
-          ),
+    return TextFormField(
+      controller: controller,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        hintText: hintText,
+        prefixIcon: Icon(
+          Icons.lock,
+          color: color,
+          size: 22,
         ),
-        textAlignVertical: TextAlignVertical.center,
+        suffixIcon: IconButton(
+          icon: Icon(
+            obscureText ? Icons.visibility : Icons.visibility_off,
+            color: Color(0xffAFAFAF),
+            size: 18,
+          ),
+          onPressed: toggleObscure,
+        ),
+        hintStyle: const TextStyle(
+          fontSize: 14,
+          letterSpacing: 0,
+          height: 19.36 / 14,
+          color: Color(0xffAFAFAF),
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w400,
+        ),
+        filled: true,
+        fillColor: const Color(0xffFCFAFF),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: const BorderSide(width: 1, color: Color(0xffd0cbdb)),
+        ),
       ),
+      textAlignVertical: TextAlignVertical.center,
     );
   }
 }

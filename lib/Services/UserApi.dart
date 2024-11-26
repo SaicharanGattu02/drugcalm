@@ -63,7 +63,7 @@ class Userapi {
       Map<String, String> data = {
         "mobile": phone,
       };
-      final url = Uri.parse("http://192.168.0.169:8000/auth/login-otp");
+      final url = Uri.parse("${host}/auth/login-otp");
       final response = await http.post(
         url,
         headers: {
@@ -85,13 +85,42 @@ class Userapi {
     }
   }
 
+
+  static Future<RegisterModel?> SignIn(String email,String password) async {
+    try {
+      Map<String, String> data = {
+        "email": email,
+        "password": password,
+      };
+      final url = Uri.parse("${host}/auth/login");
+      final response = await http.post(
+        url,
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        },
+        body: jsonEncode(data),
+      );
+      if (response != null) {
+        final jsonResponse = jsonDecode(response.body);
+        print("SignIn Status:${response.body}");
+        return RegisterModel.fromJson(jsonResponse);
+      } else {
+        print("Request failed with status: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occurred: $e");
+      return null;
+    }
+  }
+
   static Future<VerifyOtpModel?> VerifyOtp(String phone, String otp) async {
     try {
       Map<String, String> data = {
         "mobile": phone,
         "otp": otp,
       };
-      final url = Uri.parse("http://192.168.0.169:8000/auth/verify-otp");
+      final url = Uri.parse("${host}/auth/verify-otp");
       final response = await http.post(
         url,
         headers: {
