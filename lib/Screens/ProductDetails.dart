@@ -130,7 +130,6 @@ class _ProductdetailsState extends State<Productdetails> {
                         Positioned(
                           right: h * 0.02,
                           top: h * 0.06,
-
                           child: InkResponse(
                             onTap: () {
                               if (wishlist_status ?? false) {
