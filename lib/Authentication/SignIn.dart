@@ -101,23 +101,20 @@ class _SignInState extends State<SignIn> {
     super.initState();
   }
 
-  List<Data> data=[];
 
-Future<void> getLanguageList() async {
+  List<Data> data = [];
+
+
+  Future<void> getLanguageList() async {
     var res = await Userapi.getLanguage();
-    if(res != null){
+    if (res != null) {
       setState(() {
-        if(res.settings?.success==1){
-          data=res.data??[];
-        }else
-          {
-
-          }
+        if (res.settings?.success == 1) {
+          data = res.data ?? [];
+        } else {}
       });
-
     }
-}
-
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +142,7 @@ Future<void> getLanguageList() async {
                     children: [
                       Container(
                           width: w * 0.72,
-                          child:
-                          DropdownButtonHideUnderline(
+                          child: DropdownButtonHideUnderline(
                             child: DropdownButton2<String>(
                               isExpanded: true,
                               // Ensure selectedLanguage is null or empty initially so that the hint appears
@@ -159,11 +155,12 @@ Future<void> getLanguageList() async {
                                       .watch<LanguageProvider>()
                                       .selectedLanguage,
                               hint: text(context, "Select language", 16),
-                              items:_languages.asMap().entries.map((entry) {
+                              items: _languages.asMap().entries.map((entry) {
                                 return DropdownMenuItem<String>(
-                                  value: _languageCodes[entry.key],  // Get the corresponding language code
+                                  value: _languageCodes[entry
+                                      .key], // Get the corresponding language code
                                   child: Text(
-                                    entry.value,  // Display the language name
+                                    entry.value, // Display the language name
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Inter",
@@ -369,7 +366,11 @@ Future<void> getLanguageList() async {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistraionTypes()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegistraionTypes()));
                               },
                           ),
                         ],
