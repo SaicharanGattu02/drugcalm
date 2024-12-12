@@ -9,7 +9,6 @@ import '../Model/BLockListModel.dart';
 import '../Model/BrandsModel.dart';
 import '../Model/BusinessTypesModel.dart';
 import '../Model/CategoriesModel.dart';
-import '../Model/GetCartListModel.dart';
 import '../Model/LanguageModel.dart';
 import '../Model/OrderDetailsModel.dart';
 import '../Model/OrdersListModel.dart';
@@ -25,8 +24,7 @@ import 'otherservices.dart'; // Import this for MediaType
 import 'package:http_parser/http_parser.dart'; // Import this for MediaType
 
 class Userapi {
-  static String host = "http://192.168.0.169:8000";
-
+  static String host = "http://192.168.1.6:8080";
   static Future<RegisterModel?> PostRegister(String fullname, String mail,
       String phone, String password, String gender) async {
     try {
@@ -87,7 +85,7 @@ class Userapi {
   }
 
 
-  static Future<RegisterModel?> SignIn(String email,String password) async {
+  static Future<VerifyOtpModel?> SignIn(String email,String password) async {
     try {
       Map<String, String> data = {
         "email": email,
@@ -104,7 +102,7 @@ class Userapi {
       if (response != null) {
         final jsonResponse = jsonDecode(response.body);
         print("SignIn Status:${response.body}");
-        return RegisterModel.fromJson(jsonResponse);
+        return VerifyOtpModel.fromJson(jsonResponse);
       } else {
         print("Request failed with status: ${response.statusCode}");
         return null;
@@ -311,6 +309,8 @@ class Userapi {
         // Parse the JSON response into a BusinessTypesModel object
         return BusinessTypesModel.fromJson(jsonResponse);
       } else {
+        final jsonResponse = jsonDecode(response.body);
+        print("getBusinessTypes response: ${response.body}");
         print("Request failed with status: ${response.statusCode}");
         return null;
       }
@@ -386,7 +386,7 @@ class Userapi {
         var responseBody = await response.stream.bytesToString();
 
         // Print the response (optional)
-        print("getBusinessTypes response: $responseBody");
+        print("AddBusinessOutlet response: $responseBody");
 
         // Parse the JSON response into a RegisterModel object
         final jsonResponse = jsonDecode(responseBody);

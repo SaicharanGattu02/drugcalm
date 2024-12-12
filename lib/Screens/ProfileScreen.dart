@@ -140,79 +140,79 @@ class _ProfilescreenState extends State<Profilescreen> {
             child: container(context,colors: color4,
               child:Column(
                 children: [
-                  Container(
-                      width: w * 0.72,
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          // Ensure selectedLanguage is null or empty initially so that the hint appears
-                          value: context
-                              .watch<LanguageProvider>()
-                              .selectedLanguage
-                              .isEmpty
-                              ? null // Show the hint if the value is null or empty
-                              : context
-                              .watch<LanguageProvider>()
-                              .selectedLanguage,
-                          hint: text(context, "Select language", 16),
-                          items: _languages.asMap().entries.map((entry) {
-                            return DropdownMenuItem<String>(
-                              value: _languageCodes[entry.key],  // Get the corresponding language code
-                              child: Text(
-                                entry.value,  // Display the language name
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: "Inter",
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              context
-                                  .read<LanguageProvider>()
-                                  .setLanguage(newValue);
-                            }
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            height: 45,
-                            width: double.infinity,
-                            padding:
-                            const EdgeInsets.only(left: 14, right: 14),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                color: Color(0xffE9F7FF),
-                                border: Border.all(color: color7)),
-                          ),
-                          iconStyleData: const IconStyleData(
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 25,
-                            ),
-                            iconSize: 14,
-                            iconEnabledColor: Colors.black,
-                            iconDisabledColor: Colors.black,
-                          ),
-                          dropdownStyleData: DropdownStyleData(
-                            maxHeight: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.white,
-                            ),
-                            scrollbarTheme: ScrollbarThemeData(
-                              radius: const Radius.circular(40),
-                              thickness: MaterialStateProperty.all(6),
-                              thumbVisibility:
-                              MaterialStateProperty.all(true),
-                            ),
-                          ),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 14, right: 14),
-                          ),
-                        ),
-                      )),
+                  // Container(
+                  //     width: w * 0.72,
+                  //     child: DropdownButtonHideUnderline(
+                  //       child: DropdownButton2<String>(
+                  //         isExpanded: true,
+                  //         // Ensure selectedLanguage is null or empty initially so that the hint appears
+                  //         value: context
+                  //             .watch<LanguageProvider>()
+                  //             .selectedLanguage
+                  //             .isEmpty
+                  //             ? null // Show the hint if the value is null or empty
+                  //             : context
+                  //             .watch<LanguageProvider>()
+                  //             .selectedLanguage,
+                  //         hint: text(context, "Select language", 16),
+                  //         items: _languages.asMap().entries.map((entry) {
+                  //           return DropdownMenuItem<String>(
+                  //             value: _languageCodes[entry.key],  // Get the corresponding language code
+                  //             child: Text(
+                  //               entry.value,  // Display the language name
+                  //               style: TextStyle(
+                  //                 fontSize: 15,
+                  //                 fontFamily: "Inter",
+                  //                 fontWeight: FontWeight.w400,
+                  //               ),
+                  //             ),
+                  //           );
+                  //         }).toList(),
+                  //         onChanged: (String? newValue) {
+                  //           if (newValue != null) {
+                  //             context
+                  //                 .read<LanguageProvider>()
+                  //                 .setLanguage(newValue);
+                  //           }
+                  //         },
+                  //         buttonStyleData: ButtonStyleData(
+                  //           height: 45,
+                  //           width: double.infinity,
+                  //           padding:
+                  //           const EdgeInsets.only(left: 14, right: 14),
+                  //           decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(7),
+                  //               color: Color(0xffE9F7FF),
+                  //               border: Border.all(color: color7)),
+                  //         ),
+                  //         iconStyleData: const IconStyleData(
+                  //           icon: Icon(
+                  //             Icons.arrow_drop_down,
+                  //             size: 25,
+                  //           ),
+                  //           iconSize: 14,
+                  //           iconEnabledColor: Colors.black,
+                  //           iconDisabledColor: Colors.black,
+                  //         ),
+                  //         dropdownStyleData: DropdownStyleData(
+                  //           maxHeight: 200,
+                  //           decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(14),
+                  //             color: Colors.white,
+                  //           ),
+                  //           scrollbarTheme: ScrollbarThemeData(
+                  //             radius: const Radius.circular(40),
+                  //             thickness: MaterialStateProperty.all(6),
+                  //             thumbVisibility:
+                  //             MaterialStateProperty.all(true),
+                  //           ),
+                  //         ),
+                  //         menuItemStyleData: const MenuItemStyleData(
+                  //           height: 40,
+                  //           padding: EdgeInsets.only(left: 14, right: 14),
+                  //         ),
+                  //       ),
+                  //     )),
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(

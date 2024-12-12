@@ -69,6 +69,7 @@ class _RegistraionTypesState extends State<RegistraionTypes> {
   String? selectedType;
   String? selectedTypeID;
   String? selectedSubType;
+
   Future<void> getbusinesstypes() async{
     var res = await Userapi.getBusinessTypes();
     if (res != null ){
@@ -81,9 +82,7 @@ class _RegistraionTypesState extends State<RegistraionTypes> {
           CustomSnackBar.show(context, res.settings?.message ?? "");
         }
       });
-
     }
-
   }
 
   Future<void> AddBusinessOutletApi() async{

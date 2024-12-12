@@ -327,22 +327,13 @@ class _WishlistscreenState extends State<Wishlistscreen> {
                                                     color: color, // Your color
                                                   ),
                                                 ),
-                                                if (data.product?.rating !=
-                                                        null &&
-                                                    ((data.product?.rating ??
-                                                            0.0) >
-                                                        0.0)) ...[
+                                                if (data.product?.rating != null && double.tryParse(data.product?.rating.toString()??"") != null && double.parse(data.product?.rating.toString()??"") > 0.0) ...[
                                                   RatingWidget(
-                                                    initialRating: (data
-                                                                .product?.rating
-                                                                ?.toString()
-                                                                .isNotEmpty ??
-                                                            false)
-                                                        ? data.product?.rating ??
-                                                            0.0
-                                                        : 0.0, // Default to 0.0 when rating is null or empty
+                                                    initialRating: double.tryParse(data.product?.rating.toString()??"") ?? 0.0, // Safely parse the rating
                                                   ),
                                                 ],
+
+
                                                 Row(
                                                   children: [
                                                     Text(

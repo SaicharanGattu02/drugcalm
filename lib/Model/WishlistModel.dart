@@ -54,7 +54,7 @@ class Product {
   String? image;
   double? margin;
   String? productType;
-  double? rating;
+  String? rating;
   bool? isBlocked;
   bool? bestSeller;
   String? medicineCategory;
@@ -94,7 +94,7 @@ class Product {
     image = json['image'];
     margin = json['margin'];
     productType = json['product_type'];
-    rating = json['rating'];
+    rating = json['rating'].toString();
     isBlocked = json['is_blocked'];
     bestSeller = json['best_seller'];
     medicineCategory = json['medicine_category'];

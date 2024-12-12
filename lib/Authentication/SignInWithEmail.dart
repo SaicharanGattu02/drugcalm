@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../Services/UserApi.dart';
 import '../utils/CustomSnackBar.dart';
+import '../utils/Preferances.dart';
 import '../utils/ShakeWidget.dart';
 import '../utils/ThemeProvider.dart';
 import 'ForgotPasswordScreen.dart';
@@ -62,6 +63,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                   setState(() {
                     if (data.settings?.success == 1) {
                       _loading = false;
+                      PreferenceService().saveString('token',data.data?.access ?? "");
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Dashbord()));
                     } else {

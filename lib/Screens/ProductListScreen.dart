@@ -351,11 +351,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                               color, // Your color
                                                         ),
                                                       ),
-                                                      if (product.rating != null && (product.rating??0.0) > 0.0)...[RatingWidget(
-                                                        initialRating: (product.rating?.toString().isNotEmpty ?? false)
-                                                            ? product.rating??0.0
-                                                            : 0.0,  // Default to 0.0 when rating is null or empty
-                                                      ),],
+                                                      if (product.rating != null && double.tryParse(product.rating.toString()) != null && double.parse(product.rating.toString()) > 0.0) ...[
+                                                        RatingWidget(
+                                                          initialRating: double.tryParse(product.rating.toString()) ?? 0.0, // Safely parse the rating
+                                                        ),
+                                                      ],
 
                                                       Row(
                                                         children: [
