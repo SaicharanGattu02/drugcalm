@@ -59,7 +59,7 @@ class Product {
   double? margin;
   int? quantity;
   String? productForm;
-  Null? rating;
+  String? rating;
   bool? bestSeller;
   String? medicineCategory;
   String? usagePurpose;
@@ -97,7 +97,7 @@ class Product {
     margin = json['margin'];
     quantity = json['quantity'];
     productForm = json['product_form'];
-    rating = json['rating'];
+    rating = json['rating'].toString();
     bestSeller = json['best_seller'];
     medicineCategory = json['medicine_category'];
     usagePurpose = json['usage_purpose'];

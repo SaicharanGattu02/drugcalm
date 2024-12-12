@@ -7,7 +7,7 @@ class Product {
   final double margin;
   final String quantity;
   final String productForm;
-  final double? rating;
+  final String? rating;
   final bool? isBlocked; // make this nullable
   final bool bestSeller;
   final String medicineCategory;
@@ -49,7 +49,7 @@ class Product {
       margin: json['margin'].toDouble(),
       quantity: json['quantity'].toString(),  // Convert quantity to string
       productForm: json['product_form'],
-      rating: json['rating'] != null ? json['rating'].toDouble() : null,
+      rating: json['rating'].toString(),
       isBlocked: json['is_blocked'], // Nullable
       bestSeller: json['best_seller'],
       medicineCategory: json['medicine_category'],

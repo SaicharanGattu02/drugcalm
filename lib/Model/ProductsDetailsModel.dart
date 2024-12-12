@@ -33,7 +33,7 @@ class ProductDetails {
   String? image;
   double? margin;
   String? productForm;
-  double? rating;
+  String? rating;
   bool? isBlocked;
   bool? bestSeller;
   int? quantity;
@@ -82,7 +82,7 @@ class ProductDetails {
     image = json['image'];
     margin = json['margin'];
     productForm = json['product_form'];
-    rating = json['rating'];
+    rating = json['rating'].toString();
     isBlocked = json['is_blocked'];
     bestSeller = json['best_seller'];
     quantity = json['quantity'];

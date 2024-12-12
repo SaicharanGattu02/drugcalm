@@ -19,7 +19,7 @@ import '../Model/ShippingDetailsModel.dart';
 import '../Model/UserDetailsModel.dart';
 import '../Model/VerifyOtpModel.dart';
 import '../Model/WishlistModel.dart';
-import '../providers/ProductsDetailsModel.dart';
+import '../Model/ProductsDetailsModel.dart';
 import 'otherservices.dart'; // Import this for MediaType
 import 'package:http_parser/http_parser.dart'; // Import this for MediaType
 

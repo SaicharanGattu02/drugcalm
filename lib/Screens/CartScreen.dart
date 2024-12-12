@@ -235,14 +235,14 @@ class _CartscreenState extends State<Cartscreen> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: Color(0xff110B0F),
+                                      color:color1,
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: Center(
                                       child: Text(
                                         "Shop Now",
                                         style: TextStyle(
-                                          color: Color(0xffCAA16C),
+                                          color:Colors.white,
                                           fontFamily: 'RozhaOne',
                                           fontSize: 16,
                                           height: 21.06 / 16,
@@ -875,7 +875,7 @@ class _CartscreenState extends State<Cartscreen> {
                         }
                         // Handle null or invalid shipping_data cases
                         order_value =
-                            shipping_data?.totalAmount.toString() ?? "";
+                            shipping_data?.totalAmount.toString() ?? "0";
                         if(order_value!="0"){
                           return Column(
                             children: [
@@ -1004,151 +1004,154 @@ class _CartscreenState extends State<Cartscreen> {
                               SizedBox(
                                 height: h * 0.01,
                               ),
-                              container(context,
-                                  colors: color4,
-                                  borderRadius: BorderRadius.circular(8),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 16, horizontal: 16),
-                                  w: w,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      text(context, 'Payment Details', 13,
-                                          color: color23,
-                                          fontWeight: FontWeight.w400),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Total Cost:', 12,
-                                              color: color,
-                                              fontWeight: FontWeight.w400,
-                                              fontfamily: 'Inter'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              '₹${shipping_data?.totalAmount.toString()}',
-                                              15,
-                                              fontWeight: FontWeight.w400,
-                                              color: color18)
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Shipping Fee', 12,
-                                              color: color,
-                                              fontWeight: FontWeight.w400,
-                                              fontfamily: 'SFPD'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              "₹${shipping_data?.shippingFee.toString()}",
-                                              15,
-                                              fontWeight: FontWeight.w400,
-                                              color: color18)
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Delivery Charges', 12,
-                                              color: color,
-                                              fontWeight: FontWeight.w400,
-                                              fontfamily: 'Inter'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              "₹${shipping_data?.deliveryCharges.toString()}",
-                                              15,
-                                              fontWeight: FontWeight.w400,
-                                              color: color18)
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Handling Charges', 12,
-                                              color: color,
-                                              fontWeight: FontWeight.w400,
-                                              fontfamily: 'Inter'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              "₹${shipping_data?.handlingCharges.toString()}",
-                                              15,
-                                              fontWeight: FontWeight.w400,
-                                              color: color18)
-                                        ],
-                                      ),
-                                      // SizedBox(
-                                      //   height: h * 0.01,
-                                      // ),
-                                      // Row(
-                                      //   children: [
-                                      //     text(context, 'GST', 12,
-                                      //         color: color,
-                                      //         fontWeight: FontWeight.w400,
-                                      //         fontfamily: 'Inter'),
-                                      //     Spacer(),
-                                      //     text(context, '₹12', 15,
-                                      //         fontWeight: FontWeight.w400,
-                                      //         color: color18)
-                                      //   ],
-                                      // ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Additional Discount', 12,
-                                              color: color,
-                                              fontWeight: FontWeight.w400,
-                                              fontfamily: 'Inter'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              "₹${shipping_data?.discount.toString()}",
-                                              15,
-                                              fontWeight: FontWeight.w400,
-                                              color: color6)
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Divider(
-                                        height: 1,
-                                        color: color,
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          text(context, 'Total Amount', 12,
-                                              color: color11,
-                                              fontWeight: FontWeight.w500,
-                                              fontfamily: 'Inter'),
-                                          Spacer(),
-                                          text(
-                                              context,
-                                              "₹${shipping_data?.totalAmount.toString()}",
-                                              15,
-                                              fontWeight: FontWeight.w500,
-                                              color: color11)
-                                        ],
-                                      ),
-                                    ],
-                                  )),
+                              if(shipping_data?.totalAmount!=null)...[
+                                container(context,
+                                    colors: color4,
+                                    borderRadius: BorderRadius.circular(8),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 16, horizontal: 16),
+                                    w: w,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        text(context, 'Payment Details', 13,
+                                            color: color23,
+                                            fontWeight: FontWeight.w400),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Total Cost:', 12,
+                                                color: color,
+                                                fontWeight: FontWeight.w400,
+                                                fontfamily: 'Inter'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                '₹${shipping_data?.totalAmount.toString()}',
+                                                15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color18)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Shipping Fee', 12,
+                                                color: color,
+                                                fontWeight: FontWeight.w400,
+                                                fontfamily: 'SFPD'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                "₹${shipping_data?.shippingFee.toString()}",
+                                                15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color18)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Delivery Charges', 12,
+                                                color: color,
+                                                fontWeight: FontWeight.w400,
+                                                fontfamily: 'Inter'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                "₹${shipping_data?.deliveryCharges.toString()}",
+                                                15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color18)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Handling Charges', 12,
+                                                color: color,
+                                                fontWeight: FontWeight.w400,
+                                                fontfamily: 'Inter'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                "₹${shipping_data?.handlingCharges.toString()}",
+                                                15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color18)
+                                          ],
+                                        ),
+                                        // SizedBox(
+                                        //   height: h * 0.01,
+                                        // ),
+                                        // Row(
+                                        //   children: [
+                                        //     text(context, 'GST', 12,
+                                        //         color: color,
+                                        //         fontWeight: FontWeight.w400,
+                                        //         fontfamily: 'Inter'),
+                                        //     Spacer(),
+                                        //     text(context, '₹12', 15,
+                                        //         fontWeight: FontWeight.w400,
+                                        //         color: color18)
+                                        //   ],
+                                        // ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Additional Discount', 12,
+                                                color: color,
+                                                fontWeight: FontWeight.w400,
+                                                fontfamily: 'Inter'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                "₹${shipping_data?.discount.toString()}",
+                                                15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color6)
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Divider(
+                                          height: 1,
+                                          color: color,
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            text(context, 'Total Amount', 12,
+                                                color: color11,
+                                                fontWeight: FontWeight.w500,
+                                                fontfamily: 'Inter'),
+                                            Spacer(),
+                                            text(
+                                                context,
+                                                "₹${shipping_data?.totalAmount.toString()}",
+                                                15,
+                                                fontWeight: FontWeight.w500,
+                                                color: color11)
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                              ]
+
                             ],
                           );
                         }else{
@@ -1360,80 +1363,85 @@ class _CartscreenState extends State<Cartscreen> {
             bottomNavigationBar: Consumer<ShippingDetailsProvider>(
                 builder: (context, shippingProvider, child) {
               final shipping_data = shippingProvider.shippingData;
-              return SafeArea(
-                child: Container(
-                  color: Colors.white,
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, bottom: 15, top: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Total: ",
-                            style: TextStyle(
-                              color: Color(0xff000000),
-                              fontFamily: 'RozhaOne',
-                              fontSize: 18,
-                              height: 24 / 20,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            "₹${shipping_data?.totalAmount.toString() ?? ""}",
-                            style: TextStyle(
-                              color: Color(0xff617C9D),
-                              fontFamily: 'RozhaOne',
-                              fontSize: 20,
-                              height: 24 / 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () {
-                          if (address.isNotEmpty &&
-                              address != "No address found") {
-                            PlacerOrderApi();
-                          } else {
-                            CustomSnackBar.show(
-                                context, "Please Select address!");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddressListScreen(),
-                                ));
-                          }
-                        },
-                        child: Container(
-                          width: w * 0.45,
-                          height: h * 0.05,
-                          // padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: color1,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "PLACE ORDER",
+              if (shipping_data?.totalAmount != null) {
+                return SafeArea(
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 15, top: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Total: ",
                               style: TextStyle(
-                                color: color4,
+                                color: Color(0xff000000),
                                 fontFamily: 'RozhaOne',
-                                fontSize: 16,
-                                height: 21.06 / 16,
+                                fontSize: 18,
+                                height: 24 / 20,
                                 fontWeight: FontWeight.w400,
                               ),
-                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "₹${shipping_data?.totalAmount.toString() ?? ""}",
+                              style: TextStyle(
+                                color: Color(0xff617C9D),
+                                fontFamily: 'RozhaOne',
+                                fontSize: 20,
+                                height: 24 / 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (address.isNotEmpty &&
+                                address != "No address found") {
+                              PlacerOrderApi();
+                            } else {
+                              CustomSnackBar.show(
+                                  context, "Please Select address!");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddressListScreen(),
+                                  ));
+                            }
+                          },
+                          child: Container(
+                            width: w * 0.45,
+                            height: h * 0.05,
+                            // padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: color1,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "PLACE ORDER",
+                                style: TextStyle(
+                                  color: color4,
+                                  fontFamily: 'RozhaOne',
+                                  fontSize: 16,
+                                  height: 21.06 / 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              } else{
+               return Container();
+              }
+
             }),
             // Column(
             //   mainAxisSize: MainAxisSize.min,

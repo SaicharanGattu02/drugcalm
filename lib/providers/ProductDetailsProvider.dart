@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import '../Services/UserApi.dart';
-import 'ProductsDetailsModel.dart';
+import '../Model/ProductsDetailsModel.dart';
 
 
 class ProductDetailsProvider with ChangeNotifier {

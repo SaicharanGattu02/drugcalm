@@ -55,7 +55,7 @@ class _ProductdetailsState extends State<Productdetails> {
     var res = await cart_provider.addToCartApi(productid, quantity);
 
     if (res != "" || res != null) {
-      CustomSnackBar.show(context, res.toString());
+      // CustomSnackBar.show(context, res.toString());
     }
   }
 
@@ -276,21 +276,12 @@ class _ProductdetailsState extends State<Productdetails> {
                                 height: h * 0.01,
                               ),
 
-                              if (product_details.productData?.rating != null &&
-                                  (product_details.productData?.rating ?? 0.0) >
-                                      0.0) ...[
+                              if (double.tryParse(product_details.productData?.rating?.toString() ?? "") != null &&
+                                  double.tryParse(product_details.productData?.rating?.toString() ?? "")! > 0.0) ...[
                                 RatingWidget(
-                                  initialRating: (product_details
-                                              .productData?.rating
-                                              ?.toString()
-                                              .isNotEmpty ??
-                                          false)
-                                      ? (product_details.productData?.rating ??
-                                          0.0)
-                                      : 0.0,
-                                )
+                                  initialRating: double.tryParse(product_details.productData?.rating?.toString() ?? "") ?? 0.0, // Safely use the rating or fallback to 0.0
+                                ),
                               ],
-
                               SizedBox(
                                 height: h * 0.01,
                               ),
